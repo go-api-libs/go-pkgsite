@@ -10,12 +10,18 @@ tool (
 )
 
 require (
-	cloud.google.com/go v0.123.0 // indirect
+	cloud.google.com/go v0.123.0
+	github.com/go-api-libs/api v0.0.0-20260522164500-7a3dc60f8b36
+	github.com/go-api-libs/types v0.0.0-20251210072721-82754f56609d
+	github.com/google/uuid v1.6.0
+)
+
+require (
 	github.com/MarkRosemaker/errpath v0.0.0-20260425165607-bbd4959d04d9 // indirect
 	github.com/MarkRosemaker/json2yaml v0.0.0-20260507220148-d6cc0d01bff0 // indirect
 	github.com/MarkRosemaker/jsonutil v0.0.0-20260504210623-75122b64cb24 // indirect
 	github.com/MarkRosemaker/openapi v0.0.0-20260514204240-0ae557fd3c62 // indirect
-	github.com/MarkRosemaker/openapi-codegen v0.0.0-20260522001251-e599656cbb48 // indirect
+	github.com/MarkRosemaker/openapi-codegen v0.0.0-20260526210957-8acedd224259 // indirect
 	github.com/MarkRosemaker/openapi-compress v0.0.0-20260515155544-a63def4b6867 // indirect
 	github.com/MarkRosemaker/openapi-enrich v0.0.0-20260520145050-35e6955371ac // indirect
 	github.com/MarkRosemaker/openapi-flatten v0.0.0-20260519220611-c7c89435affb // indirect
@@ -24,8 +30,6 @@ require (
 	github.com/MarkRosemaker/yaml v0.0.0-20260508005758-fe21a538b084 // indirect
 	github.com/MarkRosemaker/yaml2json v0.0.0-20260507220136-7748efc522b2 // indirect
 	github.com/ettle/strcase v0.2.0 // indirect
-	github.com/go-api-libs/types v0.0.0-20251210072721-82754f56609d // indirect
-	github.com/google/uuid v1.6.0 // indirect
 	github.com/spf13/afero v1.15.0 // indirect
 	golang.org/x/exp v0.0.0-20260508232706-74f9aab9d74a // indirect
 	golang.org/x/mod v0.36.0 // indirect
