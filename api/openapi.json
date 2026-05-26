@@ -12,6 +12,15 @@
   ],
   "paths": {
     "/imported-by/{path}": {
+         "parameters": [
+          {
+            "in": "path",
+            "name": "path",
+            "schema": {
+              "type": "string"
+            },"required":true
+          }
+        ],
       "get": {
         "operationId": "getImported-by",
         "parameters": [
@@ -72,6 +81,15 @@
       }
     },
     "/module/{path}": {
+      "parameters": [
+          {
+            "in": "path",
+            "name": "path",
+            "schema": {
+              "type": "string"
+            },"required":true
+          }
+        ],
       "get": {
         "operationId": "getModule",
         "parameters": [
@@ -116,6 +134,15 @@
       }
     },
     "/package/{path}": {
+      "parameters": [
+          {
+            "in": "path",
+            "name": "path",
+            "schema": {
+              "type": "string"
+            },"required":true
+          }
+        ],
       "get": {
         "operationId": "getPackage",
         "parameters": [
@@ -200,6 +227,15 @@
       }
     },
     "/packages/{path}": {
+      "parameters": [
+          {
+            "in": "path",
+            "name": "path",
+            "schema": {
+              "type": "string"
+            },"required":true
+          }
+        ],
       "get": {
         "operationId": "getPackages",
         "parameters": [
@@ -312,6 +348,15 @@
       }
     },
     "/symbols/{path}": {
+      "parameters": [
+          {
+            "in": "path",
+            "name": "path",
+            "schema": {
+              "type": "string"
+            },"required":true
+          }
+        ],
       "get": {
         "operationId": "getSymbols",
         "parameters": [
@@ -388,6 +433,15 @@
       }
     },
     "/versions/{path}": {
+      "parameters": [
+          {
+            "in": "path",
+            "name": "path",
+            "schema": {
+              "type": "string"
+            },"required":true
+          }
+        ],
       "get": {
         "operationId": "getVersions",
         "parameters": [
@@ -432,6 +486,15 @@
       }
     },
     "/vulns/{path}": {
+      "parameters": [
+          {
+            "in": "path",
+            "name": "path",
+            "schema": {
+              "type": "string"
+            },"required":true
+          }
+        ],
       "get": {
         "operationId": "getVulns",
         "parameters": [
@@ -518,7 +581,7 @@
             "type": "integer"
           },
           "err": {
-            "$ref": "#/components/schemas/error",
+            "$ref": "#/components/schemas/Error",
             "description": "Unexported field for internal tracking"
           },
           "fixes": {
