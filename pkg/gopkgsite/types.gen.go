@@ -209,6 +209,10 @@ type Package struct {
 	Licenses          ModuleLicenses `json:"licenses,omitempty"`
 	ModulePath        string         `json:"modulePath,omitzero"`
 	Version           string         `json:"version,omitzero"`
+	Path              string         `json:"path,omitzero"`
+	Name              string         `json:"name,omitzero"`
+	Synopsis          string         `json:"synopsis,omitzero"`
+	IsRedistributable bool           `json:"isRedistributable,omitempty"`
 }
 
 // PackageImportedBy defines a model

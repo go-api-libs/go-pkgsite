@@ -1,0 +1,26 @@
+[
+	{
+		"request": {
+			"method": "GET",
+			"url": "https://pkg.go.dev/v1beta/package/github.com/google/go-cmp/cmp"
+		},
+		"response": {
+			"statusCode": 200,
+			"header": {
+				"Content-Type": "application/json"
+			},
+			"body": {
+				"modulePath": "github.com/google/go-cmp",
+				"version": "v0.7.0",
+				"isLatest": true,
+				"isStandardLibrary": false,
+				"goos": "all",
+				"goarch": "all",
+				"path": "github.com/google/go-cmp/cmp",
+				"name": "cmp",
+				"synopsis": "Package cmp determines equality of values.",
+				"isRedistributable": true
+			}
+		}
+	}
+]
