@@ -163,7 +163,8 @@
             "in": "query",
             "description": "Module version: semantic version, 'latest', or default branches 'master' or 'main'.\n(Latest if empty).",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "example": "master"
             }
           },
           {

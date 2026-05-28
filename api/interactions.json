@@ -22,5 +22,29 @@
 				"isRedistributable": true
 			}
 		}
+	},
+	{
+		"request": {
+			"method": "GET",
+			"url": "https://pkg.go.dev/v1beta/package/github.com/google/go-cmp/cmp?version=master"
+		},
+		"response": {
+			"statusCode": 200,
+			"header": {
+				"Content-Type": "application/json"
+			},
+			"body": {
+				"modulePath": "github.com/google/go-cmp",
+				"version": "v0.7.1-0.20260310220054-34c9473539b8",
+				"isLatest": false,
+				"isStandardLibrary": false,
+				"goos": "all",
+				"goarch": "all",
+				"path": "github.com/google/go-cmp/cmp",
+				"name": "cmp",
+				"synopsis": "Package cmp determines equality of values.",
+				"isRedistributable": true
+			}
+		}
 	}
 ]
