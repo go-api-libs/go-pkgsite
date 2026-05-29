@@ -161,25 +161,25 @@ type License struct {
 	Types    []string `json:"types,omitempty"`
 }
 
+// Licenses defines a model
+type Licenses []License
+
 // Module defines a model
 type Module struct {
 	// CommitTime is the timestamp returned by the module proxy's .info endpoint,
 	// representing the time the version was created.
-	CommitTime        time.Time      `json:"commitTime,omitempty"`
-	GoModContents     string         `json:"goModContents,omitzero"`
-	HasGoMod          bool           `json:"hasGoMod,omitempty"`
-	IsLatest          bool           `json:"isLatest,omitempty"`
-	IsRedistributable bool           `json:"isRedistributable,omitempty"`
-	IsStandardLibrary bool           `json:"isStandardLibrary,omitempty"`
-	Licenses          ModuleLicenses `json:"licenses,omitempty"`
-	Path              string         `json:"path,omitzero"`
-	Readme            *Readme        `json:"readme,omitempty"`
-	RepoURL           string         `json:"repoUrl,omitzero"`
-	Version           string         `json:"version,omitzero"`
+	CommitTime        time.Time `json:"commitTime,omitempty"`
+	GoModContents     string    `json:"goModContents,omitzero"`
+	HasGoMod          bool      `json:"hasGoMod,omitempty"`
+	IsLatest          bool      `json:"isLatest,omitempty"`
+	IsRedistributable bool      `json:"isRedistributable,omitempty"`
+	IsStandardLibrary bool      `json:"isStandardLibrary,omitempty"`
+	Licenses          Licenses  `json:"licenses,omitempty"`
+	Path              string    `json:"path,omitzero"`
+	Readme            *Readme   `json:"readme,omitempty"`
+	RepoURL           string    `json:"repoUrl,omitzero"`
+	Version           string    `json:"version,omitzero"`
 }
-
-// ModuleLicenses defines a model
-type ModuleLicenses []License
 
 // ModuleVersion defines a model
 type ModuleVersion struct {
@@ -203,19 +203,19 @@ type ModuleVersions []ModuleVersion
 
 // Package defines a model
 type Package struct {
-	Docs              string         `json:"docs,omitzero"`
-	Goarch            string         `json:"goarch,omitzero"`
-	Goos              string         `json:"goos,omitzero"`
-	Imports           []string       `json:"imports,omitempty"`
-	IsLatest          bool           `json:"isLatest,omitempty"`
-	IsStandardLibrary bool           `json:"isStandardLibrary,omitempty"`
-	Licenses          ModuleLicenses `json:"licenses,omitempty"`
-	ModulePath        string         `json:"modulePath,omitzero"`
-	Version           string         `json:"version,omitzero"`
-	Path              string         `json:"path,omitzero"`
-	Name              string         `json:"name,omitzero"`
-	Synopsis          string         `json:"synopsis,omitzero"`
-	IsRedistributable bool           `json:"isRedistributable,omitempty"`
+	Docs              string   `json:"docs,omitzero"`
+	Goarch            string   `json:"goarch,omitzero"`
+	Goos              string   `json:"goos,omitzero"`
+	Imports           []string `json:"imports,omitempty"`
+	IsLatest          bool     `json:"isLatest,omitempty"`
+	IsStandardLibrary bool     `json:"isStandardLibrary,omitempty"`
+	Licenses          Licenses `json:"licenses,omitempty"`
+	ModulePath        string   `json:"modulePath,omitzero"`
+	Version           string   `json:"version,omitzero"`
+	Path              string   `json:"path,omitzero"`
+	Name              string   `json:"name,omitzero"`
+	Synopsis          string   `json:"synopsis,omitzero"`
+	IsRedistributable bool     `json:"isRedistributable,omitempty"`
 }
 
 // PackageImportedBy defines a model

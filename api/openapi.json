@@ -319,6 +319,12 @@
           }
         }
       },
+      "Licenses": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/License"
+        }
+      },
       "Module": {
         "type": "object",
         "properties": {
@@ -348,7 +354,7 @@
             "example": false
           },
           "licenses": {
-            "$ref": "#/components/schemas/ModuleLicenses"
+            "$ref": "#/components/schemas/Licenses"
           },
           "path": {
             "type": "string",
@@ -365,12 +371,6 @@
             "type": "string",
             "example": "v0.15.0"
           }
-        }
-      },
-      "ModuleLicenses": {
-        "type": "array",
-        "items": {
-          "$ref": "#/components/schemas/License"
         }
       },
       "ModuleVersion": {
@@ -457,7 +457,7 @@
             "example": false
           },
           "licenses": {
-            "$ref": "#/components/schemas/PackageLicenses"
+            "$ref": "#/components/schemas/Licenses"
           },
           "modulePath": {
             "type": "string",
@@ -515,12 +515,6 @@
           "synopsis": {
             "type": "string"
           }
-        }
-      },
-      "PackageLicenses": {
-        "type": "array",
-        "items": {
-          "$ref": "#/components/schemas/License"
         }
       },
       "PackageSymbols": {
