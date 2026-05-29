@@ -5,14 +5,19 @@
 package gopkgsite
 
 import (
+	"bytes"
 	"encoding/json/jsontext"
 	"errors"
+	"fmt"
 	"io"
+	"maps"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
+	"slices"
 	"testing"
 
+	"github.com/MarkRosemaker/openapi-enrich/cassette"
 	"github.com/go-api-libs/api"
 )
 
@@ -768,4 +773,85 @@ func TestClient_Error(t *testing.T) {
 			}
 		})
 	})
+}
+
+func replay(t *testing.T) http.RoundTripper {
+	t.Helper()
+
+	interactions, err := cassette.InteractionsReadFile("../../api/interactions.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	var idx int
+	return roundTripFunc(func(req *http.Request) (*http.Response, error) {
+		if idx >= len(interactions) {
+			return nil, fmt.Errorf("unexpected request: %s %s", req.Method, req.URL)
+		}
+
+		ia := interactions[idx]
+
+		r, err := cassette.NewRequest(req)
+		if err != nil {
+			return nil, err
+		}
+
+		if r.URL != ia.Request.URL {
+			return nil, fmt.Errorf("interaction #%d: got URL %s, want %s", idx, r.URL, ia.Request.URL)
+		}
+
+		if r.Method != ia.Request.Method {
+			return nil, fmt.Errorf("interaction #%d: got method %s, want %s", idx, r.Method, ia.Request.Method)
+		}
+
+		if !bytes.Equal(r.Body, ia.Request.Body) {
+			return nil, fmt.Errorf("interaction #%d: got body %s, want %s", idx, string(r.Body), string(ia.Request.Method))
+		}
+
+		if ia.Request.Headers == nil {
+			ia.Request.Headers = http.Header{}
+		}
+
+		if ia.Request.Headers.Get("User-Agent") == "" {
+			ia.Request.Headers.Set("User-Agent", defaultUserAgent)
+		}
+
+		if !maps.EqualFunc(r.Headers, ia.Request.Headers, slices.Equal) {
+			return nil, fmt.Errorf("interaction #%d: got headers %s, want %s", idx, r.Headers, ia.Request.Headers)
+		}
+
+		idx++
+		return &http.Response{
+			StatusCode: ia.Response.StatusCode,
+			Header:     ia.Response.Headers.Clone(),
+			Body:       io.NopCloser(bytes.NewReader(ia.Response.Body)),
+		}, nil
+	})
+}
+
+func TestClient_Interactions(t *testing.T) {
+	ctx := t.Context()
+
+	c, err := NewClient(WithHTTPClient(&http.Client{Transport: replay(t)}))
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if _, err := c.GetPackage(ctx, "github.com/google/go-cmp/cmp", &GetPackageParams{}); err != nil {
+		t.Fatal(err)
+	}
+
+	if _, err := c.GetPackage(ctx, "github.com/google/go-cmp/cmp", &GetPackageParams{
+		Version: "master",
+	}); err != nil {
+		t.Fatal(err)
+	}
+
+	if _, err := c.GetPackage(ctx, "golang.org/x/time/rate", &GetPackageParams{}); err != nil {
+		t.Fatal(err)
+	}
+
+	if _, err := c.GetModule(ctx, "golang.org/x/time", &GetModuleParams{}); err != nil {
+		t.Fatal(err)
+	}
 }
