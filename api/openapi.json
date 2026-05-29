@@ -59,10 +59,10 @@
       ],
       "get": {
         "summary": "Information about the module at {path}.",
-        "operationId": "getModule",
+        "operationId": "GetModule",
         "responses": {
           "200": {
-            "$ref": "#/components/responses/GetModuleOkResponse"
+            "$ref": "#/components/responses/Module"
           }
         }
       }
@@ -654,16 +654,6 @@
           }
         }
       },
-      "GetModuleOkResponse": {
-        "description": "Successful response",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Module"
-            }
-          }
-        }
-      },
       "GetPackagesOkResponse": {
         "description": "Successful response",
         "content": {
@@ -710,6 +700,16 @@
           "application/json": {
             "schema": {
               "$ref": "#/components/schemas/PaginatedResponse"
+            }
+          }
+        }
+      },
+      "Module": {
+        "description": "Successful response",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Module"
             }
           }
         }
