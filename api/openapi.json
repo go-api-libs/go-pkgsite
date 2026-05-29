@@ -48,7 +48,7 @@
           "$ref": "#/components/parameters/path"
         },
         {
-          "$ref": "#/components/parameters/version2"
+          "$ref": "#/components/parameters/version"
         },
         {
           "$ref": "#/components/parameters/licenses"
@@ -76,7 +76,7 @@
           "$ref": "#/components/parameters/module"
         },
         {
-          "$ref": "#/components/parameters/version3"
+          "$ref": "#/components/parameters/version"
         },
         {
           "$ref": "#/components/parameters/goos"
@@ -113,7 +113,7 @@
           "$ref": "#/components/parameters/path"
         },
         {
-          "$ref": "#/components/parameters/version4"
+          "$ref": "#/components/parameters/version"
         },
         {
           "$ref": "#/components/parameters/limit2"
@@ -172,7 +172,7 @@
           "$ref": "#/components/parameters/module"
         },
         {
-          "$ref": "#/components/parameters/version5"
+          "$ref": "#/components/parameters/version"
         },
         {
           "$ref": "#/components/parameters/goos2"
@@ -234,7 +234,7 @@
           "$ref": "#/components/parameters/module"
         },
         {
-          "$ref": "#/components/parameters/version6"
+          "$ref": "#/components/parameters/version"
         },
         {
           "$ref": "#/components/parameters/limit6"
@@ -993,48 +993,8 @@
         "in": "query",
         "description": "Module version: semantic version, 'latest', or default branches 'master' or 'main'.\n(Latest if empty).",
         "schema": {
-          "type": "string"
-        }
-      },
-      "version2": {
-        "name": "version",
-        "in": "query",
-        "description": "Module version: semantic version, 'latest', or default branches 'master' or 'main'.\n(Latest if empty).",
-        "schema": {
-          "type": "string"
-        }
-      },
-      "version3": {
-        "name": "version",
-        "in": "query",
-        "description": "Module version: semantic version, 'latest', or default branches 'master' or 'main'.\n(Latest if empty).",
-        "schema": {
           "type": "string",
           "example": "master"
-        }
-      },
-      "version4": {
-        "name": "version",
-        "in": "query",
-        "description": "Module version: semantic version, 'latest', or default branches 'master' or 'main'.\n(Latest if empty).",
-        "schema": {
-          "type": "string"
-        }
-      },
-      "version5": {
-        "name": "version",
-        "in": "query",
-        "description": "Module version: semantic version, 'latest', or default branches 'master' or 'main'.\n(Latest if empty).",
-        "schema": {
-          "type": "string"
-        }
-      },
-      "version6": {
-        "name": "version",
-        "in": "query",
-        "description": "Module version: semantic version, 'latest', or default branches 'master' or 'main'.\n(Latest if empty).",
-        "schema": {
-          "type": "string"
         }
       }
     }
