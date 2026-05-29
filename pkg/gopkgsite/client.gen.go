@@ -638,8 +638,8 @@ func GetVersions[R any](ctx context.Context, c *Client, path string, params *Get
 // Only results that match the filter query parameter are returned.
 //
 //	GET /vulns/{path}
-func (c *Client) GetVulns(ctx context.Context, path string, params *GetVulnsParams) (*PaginatedResponse, error) {
-	return GetVulns[PaginatedResponse](ctx, c, path, params)
+func (c *Client) GetVulns(ctx context.Context, path string, params *GetVulnsParams) (*PaginatedVulnerabilities, error) {
+	return GetVulns[PaginatedVulnerabilities](ctx, c, path, params)
 }
 
 // Vulnerabilities of the module or package at {path}, from

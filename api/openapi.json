@@ -254,7 +254,7 @@
         "operationId": "GetVulns",
         "responses": {
           "200": {
-            "$ref": "#/components/responses/GetVulnsOkResponse"
+            "$ref": "#/components/responses/PaginatedVulnerabilities"
           }
         }
       }
@@ -679,6 +679,21 @@
           }
         ]
       },
+      "PaginatedVulnerabilities": {
+        "allOf": [
+          {
+            "type": "object",
+            "properties": {
+              "items": {
+                "$ref": "#/components/schemas/Vulnerabilities"
+              }
+            }
+          },
+          {
+            "$ref": "#/components/schemas/PaginatedResponse"
+          }
+        ]
+      },
       "Readme": {
         "type": "object",
         "properties": {
@@ -744,6 +759,12 @@
           "$ref": "#/components/schemas/Symbol"
         }
       },
+      "Vulnerabilities": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Vulnerability"
+        }
+      },
       "Vulnerability": {
         "type": "object",
         "properties": {
@@ -763,16 +784,6 @@
       }
     },
     "responses": {
-      "GetVulnsOkResponse": {
-        "description": "Successful response",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/PaginatedResponse"
-            }
-          }
-        }
-      },
       "Module": {
         "description": "Successful response",
         "content": {
@@ -849,6 +860,16 @@
           "application/json": {
             "schema": {
               "$ref": "#/components/schemas/PaginatedSearchResults"
+            }
+          }
+        }
+      },
+      "PaginatedVulnerabilities": {
+        "description": "Successful response",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/PaginatedVulnerabilities"
             }
           }
         }

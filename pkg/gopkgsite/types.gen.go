@@ -295,6 +295,12 @@ type PaginatedSymbols struct {
 	PaginatedResponse
 }
 
+// PaginatedVulnerabilities defines a model
+type PaginatedVulnerabilities struct {
+	Items Vulnerabilities `json:"items,omitempty"`
+	PaginatedResponse
+}
+
 // Readme defines a model
 type Readme struct {
 	Contents string `json:"contents,omitzero"`
@@ -322,6 +328,9 @@ type Symbol struct {
 
 // Symbols defines a model
 type Symbols []Symbol
+
+// Vulnerabilities defines a model
+type Vulnerabilities []Vulnerability
 
 // Vulnerability defines a model
 type Vulnerability struct {
