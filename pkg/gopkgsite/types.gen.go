@@ -198,6 +198,9 @@ type ModuleVersion struct {
 	Version          string `json:"version,omitzero"`
 }
 
+// ModuleVersions defines a model
+type ModuleVersions []ModuleVersion
+
 // Package defines a model
 type Package struct {
 	Docs              string         `json:"docs,omitzero"`
@@ -246,11 +249,16 @@ type PackagesResponse struct {
 	Version           string             `json:"version,omitzero"`
 }
 
+// PaginatedModuleVersions defines a model
+type PaginatedModuleVersions struct {
+	Items ModuleVersions `json:"items,omitempty"`
+	PaginatedResponse
+}
+
 // PaginatedResponse defines a model
 type PaginatedResponse struct {
-	Items         []struct{} `json:"items,omitempty"`
-	NextPageToken string     `json:"nextPageToken,omitzero"`
-	Total         *int       `json:"total,omitempty"`
+	Total         int    `json:"total,omitzero"`
+	NextPageToken string `json:"nextPageToken,omitzero"`
 }
 
 // Readme defines a model

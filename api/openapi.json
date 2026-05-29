@@ -378,38 +378,54 @@
         "properties": {
           "commitTime": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "example": "2026-02-11T19:14:29Z"
           },
           "deprecated": {
-            "type": "boolean"
+            "type": "boolean",
+            "example": false
           },
           "deprecationReason": {
-            "type": "string"
+            "type": "string",
+            "example": ""
           },
           "hasGoMod": {
             "description": "Whether the module has a go.mod file.",
-            "type": "boolean"
+            "type": "boolean",
+            "example": true
           },
           "isRedistributable": {
             "description": "Whether the license allows distribution.",
-            "type": "boolean"
+            "type": "boolean",
+            "example": true
           },
           "latestVersion": {
             "description": "latest unretracted version",
-            "type": "string"
+            "type": "string",
+            "example": "v0.15.0"
           },
           "modulePath": {
-            "type": "string"
+            "type": "string",
+            "example": "golang.org/x/time"
           },
           "retracted": {
-            "type": "boolean"
+            "type": "boolean",
+            "example": false
           },
           "retractionReason": {
-            "type": "string"
+            "type": "string",
+            "example": ""
           },
           "version": {
-            "type": "string"
+            "type": "string",
+            "example": "v0.15.0"
           }
+        }
+      },
+      "ModuleVersions": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/ModuleVersion"
         }
       },
       "Package": {
@@ -538,24 +554,37 @@
           }
         }
       },
+      "PaginatedModuleVersions": {
+        "allOf": [
+          {
+            "type": "object",
+            "properties": {
+              "items": {
+                "$ref": "#/components/schemas/ModuleVersions"
+              }
+            }
+          },
+          {
+            "$ref": "#/components/schemas/PaginatedResponse"
+          }
+        ]
+      },
       "PaginatedResponse": {
         "type": "object",
         "properties": {
-          "items": {
-            "type": "array",
-            "items": {
-              "type": "object"
-            }
+          "total": {
+            "type": "integer",
+            "example": 15
           },
           "nextPageToken": {
             "type": "string",
             "example": "c5806e999a87f632c2e6016f77dbf204"
-          },
-          "total": {
-            "type": "integer",
-            "example": 15
           }
-        }
+        },
+        "required": [
+          "nextPageToken",
+          "total"
+        ]
       },
       "Readme": {
         "type": "object",
@@ -686,7 +715,7 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/PaginatedResponse"
+              "$ref": "#/components/schemas/PaginatedModuleVersions"
             }
           }
         }

@@ -559,8 +559,8 @@ func GetSymbols[R any](ctx context.Context, c *Client, path string, params *GetS
 // Only results that match the filter query parameter are returned.
 //
 //	GET /versions/{path}
-func (c *Client) GetVersions(ctx context.Context, path string, params *GetVersionsParams) (*PaginatedResponse, error) {
-	return GetVersions[PaginatedResponse](ctx, c, path, params)
+func (c *Client) GetVersions(ctx context.Context, path string, params *GetVersionsParams) (*PaginatedModuleVersions, error) {
+	return GetVersions[PaginatedModuleVersions](ctx, c, path, params)
 }
 
 // Versions of the module at {path}.

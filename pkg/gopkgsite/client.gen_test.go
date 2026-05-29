@@ -854,4 +854,10 @@ func TestClient_Interactions(t *testing.T) {
 	if _, err := c.GetModule(ctx, "golang.org/x/time", &GetModuleParams{}); err != nil {
 		t.Fatal(err)
 	}
+
+	if _, err := c.GetVersions(ctx, "golang.org/x/time", &GetVersionsParams{
+		Limit: 3,
+	}); err != nil {
+		t.Fatal(err)
+	}
 }
