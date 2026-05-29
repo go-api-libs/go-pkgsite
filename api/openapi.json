@@ -628,22 +628,27 @@
           "commitTime": {
             "description": "CommitTime is the timestamp returned by the module proxy's .info endpoint,\nrepresenting the time the version was created.",
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "example": "2026-02-11T19:14:29Z"
           },
           "goModContents": {
             "type": "string"
           },
           "hasGoMod": {
-            "type": "boolean"
+            "type": "boolean",
+            "example": true
           },
           "isLatest": {
-            "type": "boolean"
+            "type": "boolean",
+            "example": true
           },
           "isRedistributable": {
-            "type": "boolean"
+            "type": "boolean",
+            "example": true
           },
           "isStandardLibrary": {
-            "type": "boolean"
+            "type": "boolean",
+            "example": false
           },
           "licenses": {
             "type": "array",
@@ -652,16 +657,19 @@
             }
           },
           "path": {
-            "type": "string"
+            "type": "string",
+            "example": "golang.org/x/time"
           },
           "readme": {
             "$ref": "#/components/schemas/Readme"
           },
           "repoUrl": {
-            "type": "string"
+            "type": "string",
+            "example": "https://cs.opensource.google/go/x/time"
           },
           "version": {
-            "type": "string"
+            "type": "string",
+            "example": "v0.15.0"
           }
         }
       },
