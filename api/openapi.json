@@ -99,10 +99,10 @@
       ],
       "get": {
         "summary": "Information about the package at {path}.",
-        "operationId": "getPackage",
+        "operationId": "GetPackage",
         "responses": {
           "200": {
-            "$ref": "#/components/responses/GetPackageOkResponse"
+            "$ref": "#/components/responses/Package"
           }
         }
       }
@@ -670,16 +670,6 @@
           }
         }
       },
-      "GetPackageOkResponse": {
-        "description": "Successful response",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Package"
-            }
-          }
-        }
-      },
       "GetPackagesOkResponse": {
         "description": "Successful response",
         "content": {
@@ -726,6 +716,16 @@
           "application/json": {
             "schema": {
               "$ref": "#/components/schemas/PaginatedResponse"
+            }
+          }
+        }
+      },
+      "Package": {
+        "description": "Successful response",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Package"
             }
           }
         }
