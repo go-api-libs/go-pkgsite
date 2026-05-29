@@ -37,7 +37,7 @@
         "operationId": "GetImportedBy",
         "responses": {
           "200": {
-            "$ref": "#/components/responses/GetImportedByOkResponse"
+            "$ref": "#/components/responses/PackageImportedBy"
           }
         }
       }
@@ -492,7 +492,7 @@
         "type": "object",
         "properties": {
           "importedBy": {
-            "$ref": "#/components/schemas/PaginatedResponse"
+            "$ref": "#/components/schemas/PaginatedStrings"
           },
           "modulePath": {
             "type": "string"
@@ -646,6 +646,24 @@
           }
         ]
       },
+      "PaginatedStrings": {
+        "allOf": [
+          {
+            "type": "object",
+            "properties": {
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          {
+            "$ref": "#/components/schemas/PaginatedResponse"
+          }
+        ]
+      },
       "PaginatedSymbols": {
         "allOf": [
           {
@@ -745,16 +763,6 @@
       }
     },
     "responses": {
-      "GetImportedByOkResponse": {
-        "description": "Successful response",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/PackageImportedBy"
-            }
-          }
-        }
-      },
       "GetVulnsOkResponse": {
         "description": "Successful response",
         "content": {
@@ -781,6 +789,16 @@
           "application/json": {
             "schema": {
               "$ref": "#/components/schemas/Package"
+            }
+          }
+        }
+      },
+      "PackageImportedBy": {
+        "description": "Successful response",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/PackageImportedBy"
             }
           }
         }

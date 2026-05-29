@@ -220,9 +220,9 @@ type Package struct {
 
 // PackageImportedBy defines a model
 type PackageImportedBy struct {
-	ImportedBy *PaginatedResponse `json:"importedBy,omitempty"`
-	ModulePath string             `json:"modulePath,omitzero"`
-	Version    string             `json:"version,omitzero"`
+	ImportedBy *PaginatedStrings `json:"importedBy,omitempty"`
+	ModulePath string            `json:"modulePath,omitzero"`
+	Version    string            `json:"version,omitzero"`
 }
 
 // PackageInfo defines a model
@@ -280,6 +280,12 @@ type PaginatedResponse struct {
 // PaginatedSearchResults defines a model
 type PaginatedSearchResults struct {
 	Items SearchResults `json:"items,omitempty"`
+	PaginatedResponse
+}
+
+// PaginatedStrings defines a model
+type PaginatedStrings struct {
+	Items []string `json:"items,omitempty"`
 	PaginatedResponse
 }
 
