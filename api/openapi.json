@@ -217,10 +217,10 @@
       ],
       "get": {
         "summary": "Versions of the module at {path}.\nIf there are tagged versions, they are returned.\nOtherwise, the 10 most recent pseudo-versions are returned.\nThe versions are in descending order.\nOnly results that match the filter query parameter are returned.",
-        "operationId": "getVersions",
+        "operationId": "GetVersions",
         "responses": {
           "200": {
-            "$ref": "#/components/responses/GetVersionsOkResponse"
+            "$ref": "#/components/responses/PaginatedModuleVersions"
           }
         }
       }
@@ -684,16 +684,6 @@
           }
         }
       },
-      "GetVersionsOkResponse": {
-        "description": "Successful response",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/PaginatedModuleVersions"
-            }
-          }
-        }
-      },
       "GetVulnsOkResponse": {
         "description": "Successful response",
         "content": {
@@ -720,6 +710,16 @@
           "application/json": {
             "schema": {
               "$ref": "#/components/schemas/Package"
+            }
+          }
+        }
+      },
+      "PaginatedModuleVersions": {
+        "description": "Successful response",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/PaginatedModuleVersions"
             }
           }
         }
