@@ -244,6 +244,13 @@ type PackageSymbols struct {
 	Version    string             `json:"version,omitzero"`
 }
 
+// PackagesBadRequestResponse defines a model
+type PackagesBadRequestResponse struct {
+	Code    int      `json:"code,omitzero"`
+	Message string   `json:"message,omitzero"`
+	Fixes   []string `json:"fixes,omitempty"`
+}
+
 // PackagesResponse defines a model
 type PackagesResponse struct {
 	IsStandardLibrary bool                   `json:"isStandardLibrary,omitempty"`

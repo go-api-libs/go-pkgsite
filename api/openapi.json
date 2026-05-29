@@ -131,6 +131,9 @@
         "responses": {
           "200": {
             "$ref": "#/components/responses/PackagesResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/PackagesBadRequestResponse"
           }
         }
       }
@@ -537,6 +540,31 @@
           }
         }
       },
+      "PackagesBadRequestResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "example": 400
+          },
+          "message": {
+            "type": "string",
+            "example": "golang.org/x/time/rate is a package, not a module"
+          },
+          "fixes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "retry the call with the containing module: \"golang.org/x/time\""
+            }
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "fixes"
+        ]
+      },
       "PackagesResponse": {
         "type": "object",
         "properties": {
@@ -721,6 +749,16 @@
           "application/json": {
             "schema": {
               "$ref": "#/components/schemas/Package"
+            }
+          }
+        }
+      },
+      "PackagesBadRequestResponse": {
+        "description": "Bad Request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/PackagesBadRequestResponse"
             }
           }
         }
