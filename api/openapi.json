@@ -73,7 +73,7 @@
           "$ref": "#/components/parameters/path"
         },
         {
-          "$ref": "#/components/parameters/module2"
+          "$ref": "#/components/parameters/module"
         },
         {
           "$ref": "#/components/parameters/version3"
@@ -169,7 +169,7 @@
           "$ref": "#/components/parameters/path"
         },
         {
-          "$ref": "#/components/parameters/module3"
+          "$ref": "#/components/parameters/module"
         },
         {
           "$ref": "#/components/parameters/version5"
@@ -231,7 +231,7 @@
           "$ref": "#/components/parameters/path"
         },
         {
-          "$ref": "#/components/parameters/module4"
+          "$ref": "#/components/parameters/module"
         },
         {
           "$ref": "#/components/parameters/version6"
@@ -901,30 +901,6 @@
         }
       },
       "module": {
-        "name": "module",
-        "in": "query",
-        "description": "Module path.",
-        "schema": {
-          "type": "string"
-        }
-      },
-      "module2": {
-        "name": "module",
-        "in": "query",
-        "description": "Module path.",
-        "schema": {
-          "type": "string"
-        }
-      },
-      "module3": {
-        "name": "module",
-        "in": "query",
-        "description": "Module path.",
-        "schema": {
-          "type": "string"
-        }
-      },
-      "module4": {
         "name": "module",
         "in": "query",
         "description": "Module path.",
