@@ -198,7 +198,7 @@
         "operationId": "GetSymbols",
         "responses": {
           "200": {
-            "$ref": "#/components/responses/GetSymbolsOkResponse"
+            "$ref": "#/components/responses/PackageSymbols"
           }
         }
       }
@@ -728,16 +728,6 @@
           }
         }
       },
-      "GetSymbolsOkResponse": {
-        "description": "Successful response",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/PackageSymbols"
-            }
-          }
-        }
-      },
       "GetVulnsOkResponse": {
         "description": "Successful response",
         "content": {
@@ -764,6 +754,16 @@
           "application/json": {
             "schema": {
               "$ref": "#/components/schemas/Package"
+            }
+          }
+        }
+      },
+      "PackageSymbols": {
+        "description": "Successful response",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/PackageSymbols"
             }
           }
         }
