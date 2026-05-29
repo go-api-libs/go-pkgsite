@@ -283,10 +283,6 @@
             "description": "HTTP status code",
             "type": "integer"
           },
-          "err": {
-            "$ref": "#/components/schemas/Error",
-            "description": "Unexported field for internal tracking"
-          },
           "fixes": {
             "description": "suggestions for how to fix",
             "type": "array",

@@ -144,8 +144,6 @@ type Error struct {
 	Candidates ErrorCandidates `json:"candidates,omitempty"`
 	// HTTP status code
 	Code *int `json:"code,omitempty"`
-	// Unexported field for internal tracking
-	Err *Error `json:"err,omitempty"`
 	// suggestions for how to fix
 	Fixes   []string `json:"fixes,omitempty"`
 	Message string   `json:"message,omitzero"`
