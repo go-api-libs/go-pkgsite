@@ -845,10 +845,12 @@
             }
           },
           "nextPageToken": {
-            "type": "string"
+            "type": "string",
+            "example": "c5806e999a87f632c2e6016f77dbf204"
           },
           "total": {
-            "type": "integer"
+            "type": "integer",
+            "example": 15
           }
         }
       },
