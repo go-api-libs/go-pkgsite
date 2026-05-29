@@ -141,7 +141,8 @@ func Schema(a, b *openapi.Schema, isParam bool) error {
 	// if one doesn't conform to the format,
 	// we cannot guarantee the format
 	if a.Format == "" || b.Format == "" {
-		if a.Type == openapi.TypeInteger {
+		switch a.Type {
+		case openapi.TypeInteger:
 			// Except if one is a date or datetime, then we can transform the integer
 			if a.Format == openapi.FormatDate || a.Format == openapi.FormatDateTime {
 				b.Format = a.Format
@@ -151,7 +152,7 @@ func Schema(a, b *openapi.Schema, isParam bool) error {
 				a.Format = ""
 				b.Format = ""
 			}
-		} else if a.Type == openapi.TypeNumber {
+		case openapi.TypeNumber:
 			if a.Format != "" {
 				b.Format = a.Format
 			} else if b.Format != "" {
@@ -161,7 +162,7 @@ func Schema(a, b *openapi.Schema, isParam bool) error {
 				a.Format = openapi.FormatDouble
 				b.Format = openapi.FormatDouble
 			}
-		} else {
+		default:
 			a.Format = ""
 			b.Format = ""
 		}
@@ -248,6 +249,14 @@ func Schema(a, b *openapi.Schema, isParam bool) error {
 	case openapi.TypeInteger: // nothing to do
 	case openapi.TypeNumber: // nothing to do
 	case openapi.TypeArray:
+		// guard against nil pointer if a schema is invalid
+		if a.Items == nil {
+			a.Items = &openapi.SchemaRef{Value: &openapi.Schema{Type: openapi.TypeObject}}
+		}
+		if b.Items == nil {
+			b.Items = &openapi.SchemaRef{Value: &openapi.Schema{Type: openapi.TypeObject}}
+		}
+
 		if err := Schema(a.Items.Value, b.Items.Value, false); err != nil {
 			return err
 		}

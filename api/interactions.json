@@ -394,5 +394,21 @@
 				}
 			}
 		}
+	},
+	{
+		"request": {
+			"method": "GET",
+			"url": "https://pkg.go.dev/v1beta/vulns/golang.org/x/image"
+		},
+		"response": {
+			"statusCode": 200,
+			"header": {
+				"Content-Type": "application/json"
+			},
+			"body": {
+				"items": null,
+				"total": 0
+			}
+		}
 	}
 ]

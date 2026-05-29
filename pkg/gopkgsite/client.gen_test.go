@@ -870,4 +870,8 @@ func TestClient_Interactions(t *testing.T) {
 	if _, err := c.GetSymbols(ctx, "golang.org/x/time/rate", &GetSymbolsParams{}); err != nil {
 		t.Fatal(err)
 	}
+
+	if _, err := c.GetVulns(ctx, "golang.org/x/image", &GetVulnsParams{}); err != nil {
+		t.Fatal(err)
+	}
 }

@@ -763,7 +763,8 @@
         "type": "array",
         "items": {
           "$ref": "#/components/schemas/Vulnerability"
-        }
+        },
+        "example": null
       },
       "Vulnerability": {
         "type": "object",
