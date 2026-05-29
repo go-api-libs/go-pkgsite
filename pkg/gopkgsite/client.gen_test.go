@@ -860,4 +860,10 @@ func TestClient_Interactions(t *testing.T) {
 	}); err != nil {
 		t.Fatal(err)
 	}
+
+	if _, err := c.GetSearch(ctx, &GetSearchParams{
+		Q: "xyzzy",
+	}); err != nil {
+		t.Fatal(err)
+	}
 }

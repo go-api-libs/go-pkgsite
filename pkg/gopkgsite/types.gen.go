@@ -277,6 +277,12 @@ type PaginatedResponse struct {
 	NextPageToken string `json:"nextPageToken,omitzero"`
 }
 
+// PaginatedSearchResults defines a model
+type PaginatedSearchResults struct {
+	Items SearchResults `json:"items,omitempty"`
+	PaginatedResponse
+}
+
 // Readme defines a model
 type Readme struct {
 	Contents string `json:"contents,omitzero"`
@@ -290,6 +296,9 @@ type SearchResult struct {
 	Synopsis    string `json:"synopsis,omitzero"`
 	Version     string `json:"version,omitzero"`
 }
+
+// SearchResults defines a model
+type SearchResults []SearchResult
 
 // Symbol defines a model
 type Symbol struct {

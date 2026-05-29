@@ -393,8 +393,8 @@ func GetPackages[R any](ctx context.Context, c *Client, path string, params *Get
 // Search results. Only results that match the filter query parameter are returned.
 //
 //	GET /search
-func (c *Client) GetSearch(ctx context.Context, params *GetSearchParams) (*PaginatedResponse, error) {
-	return GetSearch[PaginatedResponse](ctx, c, params)
+func (c *Client) GetSearch(ctx context.Context, params *GetSearchParams) (*PaginatedSearchResults, error) {
+	return GetSearch[PaginatedSearchResults](ctx, c, params)
 }
 
 // Search results. Only results that match the filter query parameter are returned.

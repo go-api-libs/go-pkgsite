@@ -146,5 +146,46 @@
 				"nextPageToken": "c5806e999a87f632c2e6016f77dbf204"
 			}
 		}
+	},
+	{
+		"request": {
+			"method": "GET",
+			"url": "https://pkg.go.dev/v1beta/search?q=xyzzy"
+		},
+		"response": {
+			"statusCode": 200,
+			"header": {
+				"Content-Type": "application/json"
+			},
+			"body": {
+				"items": [
+					{
+						"packagePath": "github.com/docktermj/go-xyzzy-helpers/logger",
+						"modulePath": "github.com/docktermj/go-xyzzy-helpers",
+						"version": "v0.2.2",
+						"synopsis": "Package helper ..."
+					},
+					{
+						"packagePath": "github.com/docktermj/go-xyzzy-grpc/g2diagnostic",
+						"modulePath": "github.com/docktermj/go-xyzzy-grpc",
+						"version": "v0.0.0-20221028160434-9c34bd3a1481",
+						"synopsis": ""
+					},
+					{
+						"packagePath": "github.com/wade-rees-me/striker-go/cmd/striker/xyzzy",
+						"modulePath": "github.com/wade-rees-me/striker-go",
+						"version": "v1.0.3",
+						"synopsis": ""
+					},
+					{
+						"packagePath": "github.com/blasphemy/xyzzy2/lib/xyzzy",
+						"modulePath": "github.com/blasphemy/xyzzy2",
+						"version": "v0.0.0-20141223201256-7f5f89b3fd2e",
+						"synopsis": ""
+					}
+				],
+				"total": 13
+			}
+		}
 	}
 ]

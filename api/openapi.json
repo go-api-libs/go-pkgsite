@@ -34,7 +34,7 @@
       ],
       "get": {
         "summary": "Paths of packages importing the package at {path},\nnot including packages in the same module.\nFiltering is applied to the list of paths in the response.\nOnly paths that match the filter query parameter are returned.\nWithin a filter, the variable `path` is set to the import path.",
-        "operationId": "getImported-by",
+        "operationId": "GetImportedBy",
         "responses": {
           "200": {
             "$ref": "#/components/responses/GetImportedByOkResponse"
@@ -158,10 +158,10 @@
       ],
       "get": {
         "summary": "Search results. Only results that match the filter query parameter are returned.",
-        "operationId": "getSearch",
+        "operationId": "GetSearch",
         "responses": {
           "200": {
-            "$ref": "#/components/responses/GetSearchOkResponse"
+            "$ref": "#/components/responses/PaginatedSearchResults"
           }
         }
       }
@@ -195,7 +195,7 @@
       ],
       "get": {
         "summary": "List of symbols for the package at {path}.\nFiltering is applied to the list of symbols in the response.\nOnly symbols that match the filter query parameter are returned.",
-        "operationId": "getSymbols",
+        "operationId": "GetSymbols",
         "responses": {
           "200": {
             "$ref": "#/components/responses/GetSymbolsOkResponse"
@@ -251,7 +251,7 @@
       ],
       "get": {
         "summary": "Vulnerabilities of the module or package at {path}, from\nthe Go vulnerability database (https://vuln.go.dev).\nOnly results that match the filter query parameter are returned.",
-        "operationId": "getVulns",
+        "operationId": "GetVulns",
         "responses": {
           "200": {
             "$ref": "#/components/responses/GetVulnsOkResponse"
@@ -629,6 +629,21 @@
           "total"
         ]
       },
+      "PaginatedSearchResults": {
+        "allOf": [
+          {
+            "type": "object",
+            "properties": {
+              "items": {
+                "$ref": "#/components/schemas/SearchResults"
+              }
+            }
+          },
+          {
+            "$ref": "#/components/schemas/PaginatedResponse"
+          }
+        ]
+      },
       "Readme": {
         "type": "object",
         "properties": {
@@ -644,17 +659,27 @@
         "type": "object",
         "properties": {
           "modulePath": {
-            "type": "string"
+            "type": "string",
+            "example": "github.com/docktermj/go-xyzzy-helpers"
           },
           "packagePath": {
-            "type": "string"
+            "type": "string",
+            "example": "github.com/docktermj/go-xyzzy-helpers/logger"
           },
           "synopsis": {
-            "type": "string"
+            "type": "string",
+            "example": "Package helper ..."
           },
           "version": {
-            "type": "string"
+            "type": "string",
+            "example": "v0.2.2"
           }
+        }
+      },
+      "SearchResults": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/SearchResult"
         }
       },
       "Symbol": {
@@ -699,16 +724,6 @@
           "application/json": {
             "schema": {
               "$ref": "#/components/schemas/PackageImportedBy"
-            }
-          }
-        }
-      },
-      "GetSearchOkResponse": {
-        "description": "Successful response",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/PaginatedResponse"
             }
           }
         }
@@ -779,6 +794,16 @@
           "application/json": {
             "schema": {
               "$ref": "#/components/schemas/PaginatedModuleVersions"
+            }
+          }
+        }
+      },
+      "PaginatedSearchResults": {
+        "description": "Successful response",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/PaginatedSearchResults"
             }
           }
         }
@@ -870,7 +895,8 @@
         "in": "query",
         "description": "Find packages matching this query.",
         "schema": {
-          "type": "string"
+          "type": "string",
+          "example": "xyzzy"
         }
       },
       "readme": {
