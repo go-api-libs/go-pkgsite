@@ -530,13 +530,15 @@
         "type": "object",
         "properties": {
           "modulePath": {
-            "type": "string"
+            "type": "string",
+            "example": "golang.org/x/time"
           },
           "symbols": {
-            "$ref": "#/components/schemas/PaginatedResponse"
+            "$ref": "#/components/schemas/PaginatedSymbols"
           },
           "version": {
-            "type": "string"
+            "type": "string",
+            "example": "v0.15.0"
           }
         }
       },
@@ -644,6 +646,21 @@
           }
         ]
       },
+      "PaginatedSymbols": {
+        "allOf": [
+          {
+            "type": "object",
+            "properties": {
+              "items": {
+                "$ref": "#/components/schemas/Symbols"
+              }
+            }
+          },
+          {
+            "$ref": "#/components/schemas/PaginatedResponse"
+          }
+        ]
+      },
       "Readme": {
         "type": "object",
         "properties": {
@@ -686,17 +703,27 @@
         "type": "object",
         "properties": {
           "kind": {
-            "type": "string"
+            "type": "string",
+            "example": "Type"
           },
           "name": {
-            "type": "string"
+            "type": "string",
+            "example": "Limit"
           },
           "parent": {
-            "type": "string"
+            "type": "string",
+            "example": "Limit"
           },
           "synopsis": {
-            "type": "string"
+            "type": "string",
+            "example": "type Limit float64"
           }
+        }
+      },
+      "Symbols": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Symbol"
         }
       },
       "Vulnerability": {

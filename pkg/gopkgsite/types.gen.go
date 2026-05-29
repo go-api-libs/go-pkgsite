@@ -239,9 +239,9 @@ type PackageInfos []PackageInfo
 
 // PackageSymbols defines a model
 type PackageSymbols struct {
-	ModulePath string             `json:"modulePath,omitzero"`
-	Symbols    *PaginatedResponse `json:"symbols,omitempty"`
-	Version    string             `json:"version,omitzero"`
+	ModulePath string            `json:"modulePath,omitzero"`
+	Symbols    *PaginatedSymbols `json:"symbols,omitempty"`
+	Version    string            `json:"version,omitzero"`
 }
 
 // PackagesBadRequestResponse defines a model
@@ -283,6 +283,12 @@ type PaginatedSearchResults struct {
 	PaginatedResponse
 }
 
+// PaginatedSymbols defines a model
+type PaginatedSymbols struct {
+	Items Symbols `json:"items,omitempty"`
+	PaginatedResponse
+}
+
 // Readme defines a model
 type Readme struct {
 	Contents string `json:"contents,omitzero"`
@@ -307,6 +313,9 @@ type Symbol struct {
 	Parent   string `json:"parent,omitzero"`
 	Synopsis string `json:"synopsis,omitzero"`
 }
+
+// Symbols defines a model
+type Symbols []Symbol
 
 // Vulnerability defines a model
 type Vulnerability struct {

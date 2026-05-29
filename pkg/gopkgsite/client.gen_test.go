@@ -866,4 +866,8 @@ func TestClient_Interactions(t *testing.T) {
 	}); err != nil {
 		t.Fatal(err)
 	}
+
+	if _, err := c.GetSymbols(ctx, "golang.org/x/time/rate", &GetSymbolsParams{}); err != nil {
+		t.Fatal(err)
+	}
 }
