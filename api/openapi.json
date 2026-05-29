@@ -14,69 +14,30 @@
     "/imported-by/{path}": {
       "parameters": [
         {
-          "name": "path",
-          "in": "path",
-          "required": true,
-          "schema": {
-            "type": "string"
-          }
+          "$ref": "#/components/parameters/path"
+        },
+        {
+          "$ref": "#/components/parameters/module"
+        },
+        {
+          "$ref": "#/components/parameters/version"
+        },
+        {
+          "$ref": "#/components/parameters/limit"
+        },
+        {
+          "$ref": "#/components/parameters/token"
+        },
+        {
+          "$ref": "#/components/parameters/filter"
         }
       ],
       "get": {
         "summary": "Paths of packages importing the package at {path},\nnot including packages in the same module.\nFiltering is applied to the list of paths in the response.\nOnly paths that match the filter query parameter are returned.\nWithin a filter, the variable `path` is set to the import path.",
         "operationId": "getImported-by",
-        "parameters": [
-          {
-            "name": "module",
-            "in": "query",
-            "description": "Module path.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "version",
-            "in": "query",
-            "description": "Module version: semantic version, 'latest', or default branches 'master' or 'main'.\n(Latest if empty).",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "Max number of items to return.",
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "name": "token",
-            "in": "query",
-            "description": "Where to resume listing.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "filter",
-            "in": "query",
-            "description": "Include only items matching the regular expression filter.",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
         "responses": {
           "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PackageImportedBy"
-                }
-              }
-            }
+            "$ref": "#/components/responses/GetImportedByOkResponse"
           }
         }
       }
@@ -84,53 +45,24 @@
     "/module/{path}": {
       "parameters": [
         {
-          "name": "path",
-          "in": "path",
-          "required": true,
-          "schema": {
-            "type": "string"
-          }
+          "$ref": "#/components/parameters/path2"
+        },
+        {
+          "$ref": "#/components/parameters/version2"
+        },
+        {
+          "$ref": "#/components/parameters/licenses"
+        },
+        {
+          "$ref": "#/components/parameters/readme"
         }
       ],
       "get": {
         "summary": "Information about the module at {path}.",
         "operationId": "getModule",
-        "parameters": [
-          {
-            "name": "version",
-            "in": "query",
-            "description": "Module version: semantic version, 'latest', or default branches 'master' or 'main'.\n(Latest if empty).",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "licenses",
-            "in": "query",
-            "description": "Whether to include licenses in the result.",
-            "schema": {
-              "type": "boolean"
-            }
-          },
-          {
-            "name": "readme",
-            "in": "query",
-            "description": "Whether to include the README in the result.",
-            "schema": {
-              "type": "boolean"
-            }
-          }
-        ],
         "responses": {
           "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Module"
-                }
-              }
-            }
+            "$ref": "#/components/responses/GetModuleOkResponse"
           }
         }
       }
@@ -138,94 +70,39 @@
     "/package/{path}": {
       "parameters": [
         {
-          "name": "path",
-          "in": "path",
-          "required": true,
-          "schema": {
-            "type": "string"
-          }
+          "$ref": "#/components/parameters/path3"
+        },
+        {
+          "$ref": "#/components/parameters/module2"
+        },
+        {
+          "$ref": "#/components/parameters/version3"
+        },
+        {
+          "$ref": "#/components/parameters/goos"
+        },
+        {
+          "$ref": "#/components/parameters/goarch"
+        },
+        {
+          "$ref": "#/components/parameters/doc"
+        },
+        {
+          "$ref": "#/components/parameters/examples"
+        },
+        {
+          "$ref": "#/components/parameters/imports"
+        },
+        {
+          "$ref": "#/components/parameters/licenses2"
         }
       ],
       "get": {
         "summary": "Information about the package at {path}.",
         "operationId": "getPackage",
-        "parameters": [
-          {
-            "name": "module",
-            "in": "query",
-            "description": "Module path.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "version",
-            "in": "query",
-            "description": "Module version: semantic version, 'latest', or default branches 'master' or 'main'.\n(Latest if empty).",
-            "schema": {
-              "type": "string",
-              "example": "master"
-            }
-          },
-          {
-            "name": "goos",
-            "in": "query",
-            "description": "GOOS of documentation build context.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "goarch",
-            "in": "query",
-            "description": "GOARCH of documentation build context.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "doc",
-            "in": "query",
-            "description": "Documentation format: text, html, md or markdown.\nIf omitted, documentation is not returned.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "examples",
-            "in": "query",
-            "description": "Whether to include examples with the returned documentation.",
-            "schema": {
-              "type": "boolean"
-            }
-          },
-          {
-            "name": "imports",
-            "in": "query",
-            "description": "Whether to include the packages that this one imports.",
-            "schema": {
-              "type": "boolean"
-            }
-          },
-          {
-            "name": "licenses",
-            "in": "query",
-            "description": "Whether to include licenses in the result.",
-            "schema": {
-              "type": "boolean"
-            }
-          }
-        ],
         "responses": {
           "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Package"
-                }
-              }
-            }
+            "$ref": "#/components/responses/GetPackageOkResponse"
           }
         }
       }
@@ -233,121 +110,55 @@
     "/packages/{path}": {
       "parameters": [
         {
-          "name": "path",
-          "in": "path",
-          "required": true,
-          "schema": {
-            "type": "string"
-          }
+          "$ref": "#/components/parameters/path4"
+        },
+        {
+          "$ref": "#/components/parameters/version4"
+        },
+        {
+          "$ref": "#/components/parameters/limit2"
+        },
+        {
+          "$ref": "#/components/parameters/token2"
+        },
+        {
+          "$ref": "#/components/parameters/filter2"
         }
       ],
       "get": {
         "summary": "Information about packages of the module at {path}.\nFiltering is applied to the list of packages in the response.\nOnly packages that match the filter query parameter are returned.",
         "operationId": "getPackages",
-        "parameters": [
-          {
-            "name": "version",
-            "in": "query",
-            "description": "Module version: semantic version, 'latest', or default branches 'master' or 'main'.\n(Latest if empty).",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "Max number of items to return.",
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "name": "token",
-            "in": "query",
-            "description": "Where to resume listing.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "filter",
-            "in": "query",
-            "description": "Include only items matching the regular expression filter.",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
         "responses": {
           "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PackagesResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/GetPackagesOkResponse"
           }
         }
       }
     },
     "/search": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/q"
+        },
+        {
+          "$ref": "#/components/parameters/symbol"
+        },
+        {
+          "$ref": "#/components/parameters/limit3"
+        },
+        {
+          "$ref": "#/components/parameters/token3"
+        },
+        {
+          "$ref": "#/components/parameters/filter3"
+        }
+      ],
       "get": {
         "summary": "Search results. Only results that match the filter query parameter are returned.",
         "operationId": "getSearch",
-        "parameters": [
-          {
-            "name": "q",
-            "in": "query",
-            "description": "Find packages matching this query.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "symbol",
-            "in": "query",
-            "description": "If non-empty, find symbols matching this string.\nThe query further restricts the search to matching packages.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "Max number of items to return.",
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "name": "token",
-            "in": "query",
-            "description": "Where to resume listing.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "filter",
-            "in": "query",
-            "description": "Include only items matching the regular expression filter.",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
         "responses": {
           "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PaginatedResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/GetSearchOkResponse"
           }
         }
       }
@@ -355,85 +166,36 @@
     "/symbols/{path}": {
       "parameters": [
         {
-          "name": "path",
-          "in": "path",
-          "required": true,
-          "schema": {
-            "type": "string"
-          }
+          "$ref": "#/components/parameters/path5"
+        },
+        {
+          "$ref": "#/components/parameters/module3"
+        },
+        {
+          "$ref": "#/components/parameters/version5"
+        },
+        {
+          "$ref": "#/components/parameters/goos2"
+        },
+        {
+          "$ref": "#/components/parameters/goarch2"
+        },
+        {
+          "$ref": "#/components/parameters/limit4"
+        },
+        {
+          "$ref": "#/components/parameters/token4"
+        },
+        {
+          "$ref": "#/components/parameters/filter4"
         }
       ],
       "get": {
         "summary": "List of symbols for the package at {path}.\nFiltering is applied to the list of symbols in the response.\nOnly symbols that match the filter query parameter are returned.",
         "operationId": "getSymbols",
-        "parameters": [
-          {
-            "name": "module",
-            "in": "query",
-            "description": "Module path.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "version",
-            "in": "query",
-            "description": "Module version: semantic version, 'latest', or default branches 'master' or 'main'.\n(Latest if empty).",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "goos",
-            "in": "query",
-            "description": "GOOS of documentation build context.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "goarch",
-            "in": "query",
-            "description": "GOARCH of documentation build context.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "Max number of items to return.",
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "name": "token",
-            "in": "query",
-            "description": "Where to resume listing.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "filter",
-            "in": "query",
-            "description": "Include only items matching the regular expression filter.",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
         "responses": {
           "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PackageSymbols"
-                }
-              }
-            }
+            "$ref": "#/components/responses/GetSymbolsOkResponse"
           }
         }
       }
@@ -441,53 +203,24 @@
     "/versions/{path}": {
       "parameters": [
         {
-          "name": "path",
-          "in": "path",
-          "required": true,
-          "schema": {
-            "type": "string"
-          }
+          "$ref": "#/components/parameters/path6"
+        },
+        {
+          "$ref": "#/components/parameters/limit5"
+        },
+        {
+          "$ref": "#/components/parameters/token5"
+        },
+        {
+          "$ref": "#/components/parameters/filter5"
         }
       ],
       "get": {
         "summary": "Versions of the module at {path}.\nIf there are tagged versions, they are returned.\nOtherwise, the 10 most recent pseudo-versions are returned.\nThe versions are in descending order.\nOnly results that match the filter query parameter are returned.",
         "operationId": "getVersions",
-        "parameters": [
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "Max number of items to return.",
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "name": "token",
-            "in": "query",
-            "description": "Where to resume listing.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "filter",
-            "in": "query",
-            "description": "Include only items matching the regular expression filter.",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
         "responses": {
           "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PaginatedResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/GetVersionsOkResponse"
           }
         }
       }
@@ -495,69 +228,30 @@
     "/vulns/{path}": {
       "parameters": [
         {
-          "name": "path",
-          "in": "path",
-          "required": true,
-          "schema": {
-            "type": "string"
-          }
+          "$ref": "#/components/parameters/path7"
+        },
+        {
+          "$ref": "#/components/parameters/module4"
+        },
+        {
+          "$ref": "#/components/parameters/version6"
+        },
+        {
+          "$ref": "#/components/parameters/limit6"
+        },
+        {
+          "$ref": "#/components/parameters/token6"
+        },
+        {
+          "$ref": "#/components/parameters/filter6"
         }
       ],
       "get": {
         "summary": "Vulnerabilities of the module or package at {path}, from\nthe Go vulnerability database (https://vuln.go.dev).\nOnly results that match the filter query parameter are returned.",
         "operationId": "getVulns",
-        "parameters": [
-          {
-            "name": "module",
-            "in": "query",
-            "description": "Module path.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "version",
-            "in": "query",
-            "description": "Module version: semantic version, 'latest', or default branches 'master' or 'main'.\n(Latest if empty).",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "Max number of items to return.",
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "name": "token",
-            "in": "query",
-            "description": "Where to resume listing.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "filter",
-            "in": "query",
-            "description": "Include only items matching the regular expression filter.",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
         "responses": {
           "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PaginatedResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/GetVulnsOkResponse"
           }
         }
       }
@@ -580,10 +274,7 @@
         "type": "object",
         "properties": {
           "candidates": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Candidate"
-            }
+            "$ref": "#/components/schemas/ErrorCandidates"
           },
           "code": {
             "description": "HTTP status code",
@@ -603,6 +294,12 @@
           "message": {
             "type": "string"
           }
+        }
+      },
+      "ErrorCandidates": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Candidate"
         }
       },
       "License": {
@@ -651,10 +348,7 @@
             "example": false
           },
           "licenses": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/License"
-            }
+            "$ref": "#/components/schemas/ModuleLicenses"
           },
           "path": {
             "type": "string",
@@ -671,6 +365,12 @@
             "type": "string",
             "example": "v0.15.0"
           }
+        }
+      },
+      "ModuleLicenses": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/License"
         }
       },
       "ModuleVersion": {
@@ -741,10 +441,7 @@
             "example": false
           },
           "licenses": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/License"
-            }
+            "$ref": "#/components/schemas/PackageLicenses"
           },
           "modulePath": {
             "type": "string",
@@ -802,6 +499,12 @@
           "synopsis": {
             "type": "string"
           }
+        }
+      },
+      "PackageLicenses": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/License"
         }
       },
       "PackageSymbols": {
@@ -914,6 +617,467 @@
           "summary": {
             "type": "string"
           }
+        }
+      }
+    },
+    "responses": {
+      "GetImportedByOkResponse": {
+        "description": "Successful response",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/PackageImportedBy"
+            }
+          }
+        }
+      },
+      "GetModuleOkResponse": {
+        "description": "Successful response",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Module"
+            }
+          }
+        }
+      },
+      "GetPackageOkResponse": {
+        "description": "Successful response",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Package"
+            }
+          }
+        }
+      },
+      "GetPackagesOkResponse": {
+        "description": "Successful response",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/PackagesResponse"
+            }
+          }
+        }
+      },
+      "GetSearchOkResponse": {
+        "description": "Successful response",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/PaginatedResponse"
+            }
+          }
+        }
+      },
+      "GetSymbolsOkResponse": {
+        "description": "Successful response",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/PackageSymbols"
+            }
+          }
+        }
+      },
+      "GetVersionsOkResponse": {
+        "description": "Successful response",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/PaginatedResponse"
+            }
+          }
+        }
+      },
+      "GetVulnsOkResponse": {
+        "description": "Successful response",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/PaginatedResponse"
+            }
+          }
+        }
+      }
+    },
+    "parameters": {
+      "doc": {
+        "name": "doc",
+        "in": "query",
+        "description": "Documentation format: text, html, md or markdown.\nIf omitted, documentation is not returned.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "examples": {
+        "name": "examples",
+        "in": "query",
+        "description": "Whether to include examples with the returned documentation.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      "filter": {
+        "name": "filter",
+        "in": "query",
+        "description": "Include only items matching the regular expression filter.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "filter2": {
+        "name": "filter",
+        "in": "query",
+        "description": "Include only items matching the regular expression filter.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "filter3": {
+        "name": "filter",
+        "in": "query",
+        "description": "Include only items matching the regular expression filter.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "filter4": {
+        "name": "filter",
+        "in": "query",
+        "description": "Include only items matching the regular expression filter.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "filter5": {
+        "name": "filter",
+        "in": "query",
+        "description": "Include only items matching the regular expression filter.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "filter6": {
+        "name": "filter",
+        "in": "query",
+        "description": "Include only items matching the regular expression filter.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "goarch": {
+        "name": "goarch",
+        "in": "query",
+        "description": "GOARCH of documentation build context.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "goarch2": {
+        "name": "goarch",
+        "in": "query",
+        "description": "GOARCH of documentation build context.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "goos": {
+        "name": "goos",
+        "in": "query",
+        "description": "GOOS of documentation build context.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "goos2": {
+        "name": "goos",
+        "in": "query",
+        "description": "GOOS of documentation build context.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "imports": {
+        "name": "imports",
+        "in": "query",
+        "description": "Whether to include the packages that this one imports.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      "licenses": {
+        "name": "licenses",
+        "in": "query",
+        "description": "Whether to include licenses in the result.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      "licenses2": {
+        "name": "licenses",
+        "in": "query",
+        "description": "Whether to include licenses in the result.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      "limit": {
+        "name": "limit",
+        "in": "query",
+        "description": "Max number of items to return.",
+        "schema": {
+          "type": "integer"
+        }
+      },
+      "limit2": {
+        "name": "limit",
+        "in": "query",
+        "description": "Max number of items to return.",
+        "schema": {
+          "type": "integer"
+        }
+      },
+      "limit3": {
+        "name": "limit",
+        "in": "query",
+        "description": "Max number of items to return.",
+        "schema": {
+          "type": "integer"
+        }
+      },
+      "limit4": {
+        "name": "limit",
+        "in": "query",
+        "description": "Max number of items to return.",
+        "schema": {
+          "type": "integer"
+        }
+      },
+      "limit5": {
+        "name": "limit",
+        "in": "query",
+        "description": "Max number of items to return.",
+        "schema": {
+          "type": "integer"
+        }
+      },
+      "limit6": {
+        "name": "limit",
+        "in": "query",
+        "description": "Max number of items to return.",
+        "schema": {
+          "type": "integer"
+        }
+      },
+      "module": {
+        "name": "module",
+        "in": "query",
+        "description": "Module path.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "module2": {
+        "name": "module",
+        "in": "query",
+        "description": "Module path.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "module3": {
+        "name": "module",
+        "in": "query",
+        "description": "Module path.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "module4": {
+        "name": "module",
+        "in": "query",
+        "description": "Module path.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "path": {
+        "name": "path",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "path2": {
+        "name": "path",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "path3": {
+        "name": "path",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "path4": {
+        "name": "path",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "path5": {
+        "name": "path",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "path6": {
+        "name": "path",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "path7": {
+        "name": "path",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "q": {
+        "name": "q",
+        "in": "query",
+        "description": "Find packages matching this query.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "readme": {
+        "name": "readme",
+        "in": "query",
+        "description": "Whether to include the README in the result.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      "symbol": {
+        "name": "symbol",
+        "in": "query",
+        "description": "If non-empty, find symbols matching this string.\nThe query further restricts the search to matching packages.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "token": {
+        "name": "token",
+        "in": "query",
+        "description": "Where to resume listing.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "token2": {
+        "name": "token",
+        "in": "query",
+        "description": "Where to resume listing.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "token3": {
+        "name": "token",
+        "in": "query",
+        "description": "Where to resume listing.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "token4": {
+        "name": "token",
+        "in": "query",
+        "description": "Where to resume listing.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "token5": {
+        "name": "token",
+        "in": "query",
+        "description": "Where to resume listing.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "token6": {
+        "name": "token",
+        "in": "query",
+        "description": "Where to resume listing.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "version": {
+        "name": "version",
+        "in": "query",
+        "description": "Module version: semantic version, 'latest', or default branches 'master' or 'main'.\n(Latest if empty).",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "version2": {
+        "name": "version",
+        "in": "query",
+        "description": "Module version: semantic version, 'latest', or default branches 'master' or 'main'.\n(Latest if empty).",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "version3": {
+        "name": "version",
+        "in": "query",
+        "description": "Module version: semantic version, 'latest', or default branches 'master' or 'main'.\n(Latest if empty).",
+        "schema": {
+          "type": "string",
+          "example": "master"
+        }
+      },
+      "version4": {
+        "name": "version",
+        "in": "query",
+        "description": "Module version: semantic version, 'latest', or default branches 'master' or 'main'.\n(Latest if empty).",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "version5": {
+        "name": "version",
+        "in": "query",
+        "description": "Module version: semantic version, 'latest', or default branches 'master' or 'main'.\n(Latest if empty).",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "version6": {
+        "name": "version",
+        "in": "query",
+        "description": "Module version: semantic version, 'latest', or default branches 'master' or 'main'.\n(Latest if empty).",
+        "schema": {
+          "type": "string"
         }
       }
     }
