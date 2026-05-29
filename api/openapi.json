@@ -45,7 +45,7 @@
     "/module/{path}": {
       "parameters": [
         {
-          "$ref": "#/components/parameters/path2"
+          "$ref": "#/components/parameters/path"
         },
         {
           "$ref": "#/components/parameters/version2"
@@ -70,7 +70,7 @@
     "/package/{path}": {
       "parameters": [
         {
-          "$ref": "#/components/parameters/path3"
+          "$ref": "#/components/parameters/path"
         },
         {
           "$ref": "#/components/parameters/module2"
@@ -110,7 +110,7 @@
     "/packages/{path}": {
       "parameters": [
         {
-          "$ref": "#/components/parameters/path4"
+          "$ref": "#/components/parameters/path"
         },
         {
           "$ref": "#/components/parameters/version4"
@@ -166,7 +166,7 @@
     "/symbols/{path}": {
       "parameters": [
         {
-          "$ref": "#/components/parameters/path5"
+          "$ref": "#/components/parameters/path"
         },
         {
           "$ref": "#/components/parameters/module3"
@@ -203,7 +203,7 @@
     "/versions/{path}": {
       "parameters": [
         {
-          "$ref": "#/components/parameters/path6"
+          "$ref": "#/components/parameters/path"
         },
         {
           "$ref": "#/components/parameters/limit5"
@@ -228,7 +228,7 @@
     "/vulns/{path}": {
       "parameters": [
         {
-          "$ref": "#/components/parameters/path7"
+          "$ref": "#/components/parameters/path"
         },
         {
           "$ref": "#/components/parameters/module4"
@@ -904,54 +904,6 @@
         }
       },
       "path": {
-        "name": "path",
-        "in": "path",
-        "required": true,
-        "schema": {
-          "type": "string"
-        }
-      },
-      "path2": {
-        "name": "path",
-        "in": "path",
-        "required": true,
-        "schema": {
-          "type": "string"
-        }
-      },
-      "path3": {
-        "name": "path",
-        "in": "path",
-        "required": true,
-        "schema": {
-          "type": "string"
-        }
-      },
-      "path4": {
-        "name": "path",
-        "in": "path",
-        "required": true,
-        "schema": {
-          "type": "string"
-        }
-      },
-      "path5": {
-        "name": "path",
-        "in": "path",
-        "required": true,
-        "schema": {
-          "type": "string"
-        }
-      },
-      "path6": {
-        "name": "path",
-        "in": "path",
-        "required": true,
-        "schema": {
-          "type": "string"
-        }
-      },
-      "path7": {
         "name": "path",
         "in": "path",
         "required": true,
