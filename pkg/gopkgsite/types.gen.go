@@ -234,6 +234,9 @@ type PackageInfo struct {
 	Synopsis          string `json:"synopsis,omitzero"`
 }
 
+// PackageInfos defines a model
+type PackageInfos []PackageInfo
+
 // PackageSymbols defines a model
 type PackageSymbols struct {
 	ModulePath string             `json:"modulePath,omitzero"`
@@ -243,15 +246,21 @@ type PackageSymbols struct {
 
 // PackagesResponse defines a model
 type PackagesResponse struct {
-	IsStandardLibrary bool               `json:"isStandardLibrary,omitempty"`
-	ModulePath        string             `json:"modulePath,omitzero"`
-	Packages          *PaginatedResponse `json:"packages,omitempty"`
-	Version           string             `json:"version,omitzero"`
+	IsStandardLibrary bool                   `json:"isStandardLibrary,omitempty"`
+	ModulePath        string                 `json:"modulePath,omitzero"`
+	Packages          *PaginatedPackageInfos `json:"packages,omitempty"`
+	Version           string                 `json:"version,omitzero"`
 }
 
 // PaginatedModuleVersions defines a model
 type PaginatedModuleVersions struct {
 	Items ModuleVersions `json:"items,omitempty"`
+	PaginatedResponse
+}
+
+// PaginatedPackageInfos defines a model
+type PaginatedPackageInfos struct {
+	Items PackageInfos `json:"items,omitempty"`
 	PaginatedResponse
 }
 

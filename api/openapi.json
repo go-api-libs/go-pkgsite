@@ -127,10 +127,10 @@
       ],
       "get": {
         "summary": "Information about packages of the module at {path}.\nFiltering is applied to the list of packages in the response.\nOnly packages that match the filter query parameter are returned.",
-        "operationId": "getPackages",
+        "operationId": "GetPackages",
         "responses": {
           "200": {
-            "$ref": "#/components/responses/GetPackagesOkResponse"
+            "$ref": "#/components/responses/PackagesResponse"
           }
         }
       }
@@ -517,6 +517,12 @@
           }
         }
       },
+      "PackageInfos": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/PackageInfo"
+        }
+      },
       "PackageSymbols": {
         "type": "object",
         "properties": {
@@ -541,7 +547,7 @@
             "type": "string"
           },
           "packages": {
-            "$ref": "#/components/schemas/PaginatedResponse"
+            "$ref": "#/components/schemas/PaginatedPackageInfos"
           },
           "version": {
             "type": "string"
@@ -555,6 +561,21 @@
             "properties": {
               "items": {
                 "$ref": "#/components/schemas/ModuleVersions"
+              }
+            }
+          },
+          {
+            "$ref": "#/components/schemas/PaginatedResponse"
+          }
+        ]
+      },
+      "PaginatedPackageInfos": {
+        "allOf": [
+          {
+            "type": "object",
+            "properties": {
+              "items": {
+                "$ref": "#/components/schemas/PackageInfos"
               }
             }
           },
@@ -654,16 +675,6 @@
           }
         }
       },
-      "GetPackagesOkResponse": {
-        "description": "Successful response",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/PackagesResponse"
-            }
-          }
-        }
-      },
       "GetSearchOkResponse": {
         "description": "Successful response",
         "content": {
@@ -710,6 +721,16 @@
           "application/json": {
             "schema": {
               "$ref": "#/components/schemas/Package"
+            }
+          }
+        }
+      },
+      "PackagesResponse": {
+        "description": "Successful response",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/PackagesResponse"
             }
           }
         }
