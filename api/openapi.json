@@ -175,10 +175,10 @@
           "$ref": "#/components/parameters/version"
         },
         {
-          "$ref": "#/components/parameters/goos2"
+          "$ref": "#/components/parameters/goos"
         },
         {
-          "$ref": "#/components/parameters/goarch2"
+          "$ref": "#/components/parameters/goarch"
         },
         {
           "$ref": "#/components/parameters/limit4"
@@ -804,23 +804,7 @@
           "type": "string"
         }
       },
-      "goarch2": {
-        "name": "goarch",
-        "in": "query",
-        "description": "GOARCH of documentation build context.",
-        "schema": {
-          "type": "string"
-        }
-      },
       "goos": {
-        "name": "goos",
-        "in": "query",
-        "description": "GOOS of documentation build context.",
-        "schema": {
-          "type": "string"
-        }
-      },
-      "goos2": {
         "name": "goos",
         "in": "query",
         "description": "GOOS of documentation build context.",
