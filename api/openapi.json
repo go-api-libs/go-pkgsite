@@ -116,13 +116,13 @@
           "$ref": "#/components/parameters/version"
         },
         {
-          "$ref": "#/components/parameters/limit2"
+          "$ref": "#/components/parameters/limit"
         },
         {
-          "$ref": "#/components/parameters/token2"
+          "$ref": "#/components/parameters/token"
         },
         {
-          "$ref": "#/components/parameters/filter2"
+          "$ref": "#/components/parameters/filter"
         }
       ],
       "get": {
@@ -144,13 +144,13 @@
           "$ref": "#/components/parameters/symbol"
         },
         {
-          "$ref": "#/components/parameters/limit3"
+          "$ref": "#/components/parameters/limit"
         },
         {
-          "$ref": "#/components/parameters/token3"
+          "$ref": "#/components/parameters/token"
         },
         {
-          "$ref": "#/components/parameters/filter3"
+          "$ref": "#/components/parameters/filter"
         }
       ],
       "get": {
@@ -181,13 +181,13 @@
           "$ref": "#/components/parameters/goarch"
         },
         {
-          "$ref": "#/components/parameters/limit4"
+          "$ref": "#/components/parameters/limit"
         },
         {
-          "$ref": "#/components/parameters/token4"
+          "$ref": "#/components/parameters/token"
         },
         {
-          "$ref": "#/components/parameters/filter4"
+          "$ref": "#/components/parameters/filter"
         }
       ],
       "get": {
@@ -206,13 +206,13 @@
           "$ref": "#/components/parameters/path"
         },
         {
-          "$ref": "#/components/parameters/limit5"
+          "$ref": "#/components/parameters/limit"
         },
         {
-          "$ref": "#/components/parameters/token5"
+          "$ref": "#/components/parameters/token"
         },
         {
-          "$ref": "#/components/parameters/filter5"
+          "$ref": "#/components/parameters/filter"
         }
       ],
       "get": {
@@ -237,13 +237,13 @@
           "$ref": "#/components/parameters/version"
         },
         {
-          "$ref": "#/components/parameters/limit6"
+          "$ref": "#/components/parameters/limit"
         },
         {
-          "$ref": "#/components/parameters/token6"
+          "$ref": "#/components/parameters/token"
         },
         {
-          "$ref": "#/components/parameters/filter6"
+          "$ref": "#/components/parameters/filter"
         }
       ],
       "get": {
@@ -750,46 +750,6 @@
           "type": "string"
         }
       },
-      "filter2": {
-        "name": "filter",
-        "in": "query",
-        "description": "Include only items matching the regular expression filter.",
-        "schema": {
-          "type": "string"
-        }
-      },
-      "filter3": {
-        "name": "filter",
-        "in": "query",
-        "description": "Include only items matching the regular expression filter.",
-        "schema": {
-          "type": "string"
-        }
-      },
-      "filter4": {
-        "name": "filter",
-        "in": "query",
-        "description": "Include only items matching the regular expression filter.",
-        "schema": {
-          "type": "string"
-        }
-      },
-      "filter5": {
-        "name": "filter",
-        "in": "query",
-        "description": "Include only items matching the regular expression filter.",
-        "schema": {
-          "type": "string"
-        }
-      },
-      "filter6": {
-        "name": "filter",
-        "in": "query",
-        "description": "Include only items matching the regular expression filter.",
-        "schema": {
-          "type": "string"
-        }
-      },
       "goarch": {
         "name": "goarch",
         "in": "query",
@@ -823,46 +783,6 @@
         }
       },
       "limit": {
-        "name": "limit",
-        "in": "query",
-        "description": "Max number of items to return.",
-        "schema": {
-          "type": "integer"
-        }
-      },
-      "limit2": {
-        "name": "limit",
-        "in": "query",
-        "description": "Max number of items to return.",
-        "schema": {
-          "type": "integer"
-        }
-      },
-      "limit3": {
-        "name": "limit",
-        "in": "query",
-        "description": "Max number of items to return.",
-        "schema": {
-          "type": "integer"
-        }
-      },
-      "limit4": {
-        "name": "limit",
-        "in": "query",
-        "description": "Max number of items to return.",
-        "schema": {
-          "type": "integer"
-        }
-      },
-      "limit5": {
-        "name": "limit",
-        "in": "query",
-        "description": "Max number of items to return.",
-        "schema": {
-          "type": "integer"
-        }
-      },
-      "limit6": {
         "name": "limit",
         "in": "query",
         "description": "Max number of items to return.",
@@ -911,46 +831,6 @@
         }
       },
       "token": {
-        "name": "token",
-        "in": "query",
-        "description": "Where to resume listing.",
-        "schema": {
-          "type": "string"
-        }
-      },
-      "token2": {
-        "name": "token",
-        "in": "query",
-        "description": "Where to resume listing.",
-        "schema": {
-          "type": "string"
-        }
-      },
-      "token3": {
-        "name": "token",
-        "in": "query",
-        "description": "Where to resume listing.",
-        "schema": {
-          "type": "string"
-        }
-      },
-      "token4": {
-        "name": "token",
-        "in": "query",
-        "description": "Where to resume listing.",
-        "schema": {
-          "type": "string"
-        }
-      },
-      "token5": {
-        "name": "token",
-        "in": "query",
-        "description": "Where to resume listing.",
-        "schema": {
-          "type": "string"
-        }
-      },
-      "token6": {
         "name": "token",
         "in": "query",
         "description": "Where to resume listing.",
