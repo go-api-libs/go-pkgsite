@@ -94,7 +94,7 @@
           "$ref": "#/components/parameters/imports"
         },
         {
-          "$ref": "#/components/parameters/licenses2"
+          "$ref": "#/components/parameters/licenses"
         }
       ],
       "get": {
@@ -821,14 +821,6 @@
         }
       },
       "licenses": {
-        "name": "licenses",
-        "in": "query",
-        "description": "Whether to include licenses in the result.",
-        "schema": {
-          "type": "boolean"
-        }
-      },
-      "licenses2": {
         "name": "licenses",
         "in": "query",
         "description": "Whether to include licenses in the result.",
