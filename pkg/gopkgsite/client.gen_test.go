@@ -822,6 +822,7 @@ func replay(t *testing.T) http.RoundTripper {
 
 		idx++
 		return &http.Response{
+			Status:     fmt.Sprintf("%d %s", ia.Response.StatusCode, http.StatusText(ia.Response.StatusCode)),
 			StatusCode: ia.Response.StatusCode,
 			Header:     ia.Response.Headers.Clone(),
 			Body:       io.NopCloser(bytes.NewReader(ia.Response.Body)),
@@ -838,40 +839,40 @@ func TestClient_Interactions(t *testing.T) {
 	}
 
 	if _, err := c.GetPackage(ctx, "github.com/google/go-cmp/cmp", &GetPackageParams{}); err != nil {
-		t.Fatal(err)
+		t.Fatalf("GetPackage: %v", err)
 	}
 
 	if _, err := c.GetPackage(ctx, "github.com/google/go-cmp/cmp", &GetPackageParams{
 		Version: "master",
 	}); err != nil {
-		t.Fatal(err)
+		t.Fatalf("GetPackage: %v", err)
 	}
 
 	if _, err := c.GetPackage(ctx, "golang.org/x/time/rate", &GetPackageParams{}); err != nil {
-		t.Fatal(err)
+		t.Fatalf("GetPackage: %v", err)
 	}
 
 	if _, err := c.GetModule(ctx, "golang.org/x/time", &GetModuleParams{}); err != nil {
-		t.Fatal(err)
+		t.Fatalf("GetModule: %v", err)
 	}
 
 	if _, err := c.GetVersions(ctx, "golang.org/x/time", &GetVersionsParams{
 		Limit: 3,
 	}); err != nil {
-		t.Fatal(err)
+		t.Fatalf("GetVersions: %v", err)
 	}
 
 	if _, err := c.GetSearch(ctx, &GetSearchParams{
 		Q: "xyzzy",
 	}); err != nil {
-		t.Fatal(err)
+		t.Fatalf("GetSearch: %v", err)
 	}
 
 	if _, err := c.GetSymbols(ctx, "golang.org/x/time/rate", &GetSymbolsParams{}); err != nil {
-		t.Fatal(err)
+		t.Fatalf("GetSymbols: %v", err)
 	}
 
 	if _, err := c.GetVulns(ctx, "golang.org/x/image", &GetVulnsParams{}); err != nil {
-		t.Fatal(err)
+		t.Fatalf("GetVulns: %v", err)
 	}
 }

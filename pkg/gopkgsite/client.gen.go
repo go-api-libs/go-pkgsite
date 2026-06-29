@@ -88,7 +88,6 @@ func (c *Client) GetImportedBy(ctx context.Context, path string, params *GetImpo
 //	GET /imported-by/{path}
 func GetImportedBy[R any](ctx context.Context, c *Client, path string, params *GetImportedByParams) (*R, error) {
 	u := c.baseURL.JoinPath("imported-by", path)
-
 	if params != nil {
 		q := make(url.Values, 5)
 
@@ -165,7 +164,6 @@ func (c *Client) GetModule(ctx context.Context, path string, params *GetModulePa
 //	GET /module/{path}
 func GetModule[R any](ctx context.Context, c *Client, path string, params *GetModuleParams) (*R, error) {
 	u := c.baseURL.JoinPath("module", path)
-
 	if params != nil {
 		q := make(url.Values, 3)
 
@@ -234,7 +232,6 @@ func (c *Client) GetPackage(ctx context.Context, path string, params *GetPackage
 //	GET /package/{path}
 func GetPackage[R any](ctx context.Context, c *Client, path string, params *GetPackageParams) (*R, error) {
 	u := c.baseURL.JoinPath("package", path)
-
 	if params != nil {
 		q := make(url.Values, 8)
 
@@ -327,7 +324,6 @@ func (c *Client) GetPackages(ctx context.Context, path string, params *GetPackag
 //	GET /packages/{path}
 func GetPackages[R any](ctx context.Context, c *Client, path string, params *GetPackagesParams) (*R, error) {
 	u := c.baseURL.JoinPath("packages", path)
-
 	if params != nil {
 		q := make(url.Values, 4)
 
@@ -403,7 +399,6 @@ func (c *Client) GetSearch(ctx context.Context, params *GetSearchParams) (*Pagin
 //	GET /search
 func GetSearch[R any](ctx context.Context, c *Client, params *GetSearchParams) (*R, error) {
 	u := c.baseURL.JoinPath("search")
-
 	if params != nil {
 		q := make(url.Values, 5)
 
@@ -484,7 +479,6 @@ func (c *Client) GetSymbols(ctx context.Context, path string, params *GetSymbols
 //	GET /symbols/{path}
 func GetSymbols[R any](ctx context.Context, c *Client, path string, params *GetSymbolsParams) (*R, error) {
 	u := c.baseURL.JoinPath("symbols", path)
-
 	if params != nil {
 		q := make(url.Values, 7)
 
@@ -577,7 +571,6 @@ func (c *Client) GetVersions(ctx context.Context, path string, params *GetVersio
 //	GET /versions/{path}
 func GetVersions[R any](ctx context.Context, c *Client, path string, params *GetVersionsParams) (*R, error) {
 	u := c.baseURL.JoinPath("versions", path)
-
 	if params != nil {
 		q := make(url.Values, 3)
 
@@ -650,7 +643,6 @@ func (c *Client) GetVulns(ctx context.Context, path string, params *GetVulnsPara
 //	GET /vulns/{path}
 func GetVulns[R any](ctx context.Context, c *Client, path string, params *GetVulnsParams) (*R, error) {
 	u := c.baseURL.JoinPath("vulns", path)
-
 	if params != nil {
 		q := make(url.Values, 5)
 
