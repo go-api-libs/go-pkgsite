@@ -7,13 +7,13 @@ github.com/MarkRosemaker/errpath
 # github.com/MarkRosemaker/json2yaml v0.0.0-20260507220148-d6cc0d01bff0
 ## explicit; go 1.23.4
 github.com/MarkRosemaker/json2yaml
-# github.com/MarkRosemaker/jsonutil v0.0.0-20260504210623-75122b64cb24
-## explicit; go 1.24.0
+# github.com/MarkRosemaker/jsonutil v0.0.0-20260706231607-d613fb825b72
+## explicit; go 1.26.3
 github.com/MarkRosemaker/jsonutil
-# github.com/MarkRosemaker/openapi v0.0.0-20260611220347-8831c3657808
-## explicit; go 1.25.0
+# github.com/MarkRosemaker/openapi v0.0.0-20260706231712-1c391d684de9
+## explicit; go 1.26.3
 github.com/MarkRosemaker/openapi
-# github.com/MarkRosemaker/openapi-codegen v0.0.0-20260706221349-cc8e3c39ca0f
+# github.com/MarkRosemaker/openapi-codegen v0.0.0-20260707041209-6f023a69a50a
 ## explicit; go 1.26.3
 github.com/MarkRosemaker/openapi-codegen
 github.com/MarkRosemaker/openapi-codegen/cmd/openapi-codegen
@@ -24,18 +24,18 @@ github.com/MarkRosemaker/openapi-codegen/render
 ## explicit; go 1.26.3
 github.com/MarkRosemaker/openapi-compress
 github.com/MarkRosemaker/openapi-compress/cmd/openapi-compress
-# github.com/MarkRosemaker/openapi-enrich v0.0.0-20260705040714-34e5975b00ac
-## explicit; go 1.26.0
+# github.com/MarkRosemaker/openapi-enrich v0.0.0-20260706233507-9788ea9027dd
+## explicit; go 1.26.3
 github.com/MarkRosemaker/openapi-enrich
 github.com/MarkRosemaker/openapi-enrich/cassette
 github.com/MarkRosemaker/openapi-enrich/cmd/openapi-enrich
 github.com/MarkRosemaker/openapi-enrich/recorder
-# github.com/MarkRosemaker/openapi-flatten v0.0.0-20260706220819-3e0c018d00bc
+# github.com/MarkRosemaker/openapi-flatten v0.0.0-20260707040606-5cbc13f80769
 ## explicit; go 1.26.3
 github.com/MarkRosemaker/openapi-flatten
 github.com/MarkRosemaker/openapi-flatten/cmd/openapi-flatten
-# github.com/MarkRosemaker/openapi-merge v0.0.0-20260705040224-a225c6704192
-## explicit; go 1.25.0
+# github.com/MarkRosemaker/openapi-merge v0.0.0-20260706232523-62123f9ec30f
+## explicit; go 1.26.3
 github.com/MarkRosemaker/openapi-merge
 # github.com/MarkRosemaker/ordmap v0.0.0-20260611220112-724580dd2bee
 ## explicit; go 1.25.0
