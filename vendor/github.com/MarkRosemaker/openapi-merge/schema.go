@@ -28,6 +28,27 @@ func Schema(a, b *openapi.Schema, isParam bool) error {
 	a.Title = mergeString(a.Title, b.Title)
 	a.Description = mergeString(a.Description, b.Description)
 
+	// if a already represents multiple possible shapes (e.g. a date that can
+	// be either a date-time string or a unix timestamp integer), merge b into
+	// whichever alternative it matches
+	if len(a.OneOf) > 0 {
+		return mergeOneOf(a, b)
+	}
+
+	// symmetric case: b is the one that already has multiple possible shapes.
+	// a's Title/Description were already merged into a above; carry that
+	// over to b, since b (not a) is about to become the authoritative result.
+	if len(b.OneOf) > 0 {
+		b.Title, b.Description = a.Title, a.Description
+
+		if err := mergeOneOf(b, a); err != nil {
+			return err
+		}
+
+		*a = *b
+		return nil
+	}
+
 	tp := a.Type
 
 	if len(a.AllOf) > 0 {
@@ -540,6 +561,64 @@ func mergeArrayParamMismatch(a, b *openapi.Schema) error {
 
 	*a = *b
 	return nil
+}
+
+// mergeOneOf merges b into the alternative of a.OneOf that matches its type,
+// since a already represents a value that can take multiple shapes.
+func mergeOneOf(a, b *openapi.Schema) error {
+	// b is itself a oneOf (e.g. built up from another, independent set of
+	// samples that happened to hit the same alternatives); merge each of its
+	// alternatives into a in turn rather than treating b as a single schema
+	if len(b.OneOf) > 0 {
+		for i, alt := range b.OneOf {
+			if err := mergeOneOf(a, alt.Value); err != nil {
+				return &errpath.ErrField{Field: "oneOf", Err: &errpath.ErrIndex{Index: i, Err: err}}
+			}
+		}
+
+		return nil
+	}
+
+	// b carries no real type information (e.g. it was generated from a null
+	// value in this particular sample); there's no way to tell which
+	// alternative it would belong to, so there's nothing to merge
+	if b.Type == "" || isGeneratedFromNull(b) {
+		return nil
+	}
+
+	idx := slices.IndexFunc(a.OneOf, func(alt *openapi.SchemaRef) bool {
+		return oneOfBranchMatches(alt.Value, b)
+	})
+	if idx == -1 {
+		return &errpath.ErrField{Field: "oneOf", Err: fmt.Errorf("no branch matches type %q", b.Type)}
+	}
+
+	branch := a.OneOf[idx].Value
+	if err := Schema(branch, b, false); err != nil {
+		return &errpath.ErrField{
+			Field: "oneOf",
+			Err:   &errpath.ErrIndex{Index: idx, Err: err},
+		}
+	}
+
+	// the title and description belong on the oneOf schema itself, not on the
+	// individual alternatives; undo whatever the merge above picked up
+	branch.Title, branch.Description = "", ""
+
+	return nil
+}
+
+// oneOfBranchMatches reports whether b could be an instance of the given oneOf alternative.
+func oneOfBranchMatches(alt, b *openapi.Schema) bool {
+	if alt.Type != b.Type {
+		return false
+	}
+
+	if alt.Type == openapi.TypeString {
+		return alt.Format == b.Format
+	}
+
+	return true
 }
 
 // mergeDateTimeOrTimestamp merges a value that appears as a date-time string in
