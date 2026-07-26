@@ -7,7 +7,6 @@ package gopkgsite
 import (
 	"context"
 	"encoding/json/v2"
-	"fmt"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -380,7 +379,17 @@ func GetPackages[R any](ctx context.Context, c *Client, path string, params *Get
 		}
 	case http.StatusBadRequest:
 		// Bad Request
-		return nil, fmt.Errorf("GetPackages: status %s", rsp.Status)
+		switch mt, _, _ := strings.Cut(rsp.Header.Get("Content-Type"), ";"); mt {
+		case "application/json":
+			var out PackagesBadRequestResponse
+			if err := json.UnmarshalRead(rsp.Body, &out, jsonOpts); err != nil {
+				return nil, api.WrapDecodingError(rsp, err)
+			}
+
+			return nil, api.NewErrCustom(rsp, &out)
+		default:
+			return nil, api.NewErrUnknownContentType(rsp)
+		}
 	default:
 		return nil, api.NewErrUnknownStatusCode(rsp)
 	}
