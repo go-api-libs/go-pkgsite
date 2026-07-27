@@ -31,7 +31,7 @@ require (
 	github.com/go-api-libs/types v0.0.0-20251210072721-82754f56609d // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/spf13/afero v1.15.0 // indirect
-	golang.org/x/exp v0.0.0-20260718201538-764159d718ef // indirect
+	golang.org/x/exp v0.0.0-20260727155853-b88d891fe743 // indirect
 	golang.org/x/mod v0.38.0 // indirect
 	golang.org/x/sync v0.22.0 // indirect
 	golang.org/x/text v0.40.0 // indirect
