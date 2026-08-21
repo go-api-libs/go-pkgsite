@@ -1,6 +1,6 @@
 module github.com/go-api-libs/go-pkgsite
 
-go 1.26.3
+go 1.27
 
 tool (
 	github.com/MarkRosemaker/openapi-codegen/cmd/openapi-codegen
@@ -18,7 +18,7 @@ require (
 	cloud.google.com/go v0.123.0 // indirect
 	github.com/MarkRosemaker/errpath v0.0.0-20260425165607-bbd4959d04d9 // indirect
 	github.com/MarkRosemaker/json2yaml v0.0.0-20260507220148-d6cc0d01bff0 // indirect
-	github.com/MarkRosemaker/jsonutil v0.0.0-20260718153618-78b5039427a4 // indirect
+	github.com/MarkRosemaker/jsonutil v0.0.0-20260820212410-12ba6685df41 // indirect
 	github.com/MarkRosemaker/openapi v0.0.0-20260811160236-f3751aa1c44d // indirect
 	github.com/MarkRosemaker/openapi-codegen v0.0.0-20260811221453-406d9247d275 // indirect
 	github.com/MarkRosemaker/openapi-compress v0.0.0-20260811221234-d691b2cdf6af // indirect
