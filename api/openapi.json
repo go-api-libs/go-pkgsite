@@ -3,11 +3,13 @@
   "info": {
     "title": "Go Pkgsite API",
     "description": "API for accessing information about Go packages and modules on pkg.go.dev.",
-    "version": "v0.1.0"
+    "version": "v0.1.0",
+    "Extensions": null
   },
   "servers": [
     {
-      "url": "https://pkg.go.dev/v1beta"
+      "url": "https://pkg.go.dev/v1beta",
+      "Extensions": null
     }
   ],
   "paths": {
@@ -39,8 +41,10 @@
           "200": {
             "$ref": "#/components/responses/PackageImportedBy"
           }
-        }
-      }
+        },
+        "Extensions": null
+      },
+      "Extensions": null
     },
     "/module/{path}": {
       "parameters": [
@@ -64,8 +68,10 @@
           "200": {
             "$ref": "#/components/responses/Module"
           }
-        }
-      }
+        },
+        "Extensions": null
+      },
+      "Extensions": null
     },
     "/package/{path}": {
       "parameters": [
@@ -104,8 +110,10 @@
           "200": {
             "$ref": "#/components/responses/Package"
           }
-        }
-      }
+        },
+        "Extensions": null
+      },
+      "Extensions": null
     },
     "/packages/{path}": {
       "parameters": [
@@ -135,8 +143,10 @@
           "400": {
             "$ref": "#/components/responses/PackagesBadRequestResponse"
           }
-        }
-      }
+        },
+        "Extensions": null
+      },
+      "Extensions": null
     },
     "/search": {
       "parameters": [
@@ -163,8 +173,10 @@
           "200": {
             "$ref": "#/components/responses/PaginatedSearchResults"
           }
-        }
-      }
+        },
+        "Extensions": null
+      },
+      "Extensions": null
     },
     "/symbols/{path}": {
       "parameters": [
@@ -200,8 +212,10 @@
           "200": {
             "$ref": "#/components/responses/PackageSymbols"
           }
-        }
-      }
+        },
+        "Extensions": null
+      },
+      "Extensions": null
     },
     "/versions/{path}": {
       "parameters": [
@@ -225,8 +239,10 @@
           "200": {
             "$ref": "#/components/responses/PaginatedModuleVersions"
           }
-        }
-      }
+        },
+        "Extensions": null
+      },
+      "Extensions": null
     },
     "/vulns/{path}": {
       "parameters": [
@@ -256,8 +272,10 @@
           "200": {
             "$ref": "#/components/responses/PaginatedVulnerabilities"
           }
-        }
-      }
+        },
+        "Extensions": null
+      },
+      "Extensions": null
     }
   },
   "components": {
@@ -266,12 +284,15 @@
         "type": "object",
         "properties": {
           "modulePath": {
-            "type": "string"
+            "type": "string",
+            "Extensions": null
           },
           "packagePath": {
-            "type": "string"
+            "type": "string",
+            "Extensions": null
           }
-        }
+        },
+        "Extensions": null
       },
       "Error": {
         "type": "object",
@@ -281,48 +302,60 @@
           },
           "code": {
             "description": "HTTP status code",
-            "type": "integer"
+            "type": "integer",
+            "Extensions": null
           },
           "fixes": {
             "description": "suggestions for how to fix",
             "type": "array",
             "items": {
-              "type": "string"
-            }
+              "type": "string",
+              "Extensions": null
+            },
+            "Extensions": null
           },
           "message": {
-            "type": "string"
+            "type": "string",
+            "Extensions": null
           }
-        }
+        },
+        "Extensions": null
       },
       "ErrorCandidates": {
         "type": "array",
         "items": {
           "$ref": "#/components/schemas/Candidate"
-        }
+        },
+        "Extensions": null
       },
       "License": {
         "type": "object",
         "properties": {
           "contents": {
-            "type": "string"
+            "type": "string",
+            "Extensions": null
           },
           "filePath": {
-            "type": "string"
+            "type": "string",
+            "Extensions": null
           },
           "types": {
             "type": "array",
             "items": {
-              "type": "string"
-            }
+              "type": "string",
+              "Extensions": null
+            },
+            "Extensions": null
           }
-        }
+        },
+        "Extensions": null
       },
       "Licenses": {
         "type": "array",
         "items": {
           "$ref": "#/components/schemas/License"
-        }
+        },
+        "Extensions": null
       },
       "Module": {
         "type": "object",
@@ -331,46 +364,56 @@
             "description": "CommitTime is the timestamp returned by the module proxy's .info endpoint,\nrepresenting the time the version was created.",
             "type": "string",
             "format": "date-time",
-            "example": "2026-02-11T19:14:29Z"
+            "example": "2026-02-11T19:14:29Z",
+            "Extensions": null
           },
           "goModContents": {
-            "type": "string"
+            "type": "string",
+            "Extensions": null
           },
           "hasGoMod": {
             "type": "boolean",
-            "example": true
+            "example": true,
+            "Extensions": null
           },
           "isLatest": {
             "type": "boolean",
-            "example": true
+            "example": true,
+            "Extensions": null
           },
           "isRedistributable": {
             "type": "boolean",
-            "example": true
+            "example": true,
+            "Extensions": null
           },
           "isStandardLibrary": {
             "type": "boolean",
-            "example": false
+            "example": false,
+            "Extensions": null
           },
           "licenses": {
             "$ref": "#/components/schemas/Licenses"
           },
           "path": {
             "type": "string",
-            "example": "golang.org/x/time"
+            "example": "golang.org/x/time",
+            "Extensions": null
           },
           "readme": {
             "$ref": "#/components/schemas/Readme"
           },
           "repoUrl": {
             "type": "string",
-            "example": "https://cs.opensource.google/go/x/time"
+            "example": "https://cs.opensource.google/go/x/time",
+            "Extensions": null
           },
           "version": {
             "type": "string",
-            "example": "v0.15.0"
+            "example": "v0.15.0",
+            "Extensions": null
           }
-        }
+        },
+        "Extensions": null
       },
       "ModuleVersion": {
         "type": "object",
@@ -378,111 +421,137 @@
           "commitTime": {
             "type": "string",
             "format": "date-time",
-            "example": "2026-02-11T19:14:29Z"
+            "example": "2026-02-11T19:14:29Z",
+            "Extensions": null
           },
           "deprecated": {
             "type": "boolean",
-            "example": false
+            "example": false,
+            "Extensions": null
           },
           "deprecationReason": {
             "type": "string",
-            "example": ""
+            "example": "",
+            "Extensions": null
           },
           "hasGoMod": {
             "description": "Whether the module has a go.mod file.",
             "type": "boolean",
-            "example": true
+            "example": true,
+            "Extensions": null
           },
           "isRedistributable": {
             "description": "Whether the license allows distribution.",
             "type": "boolean",
-            "example": true
+            "example": true,
+            "Extensions": null
           },
           "latestVersion": {
             "description": "latest unretracted version",
             "type": "string",
-            "example": "v0.15.0"
+            "example": "v0.15.0",
+            "Extensions": null
           },
           "modulePath": {
             "type": "string",
-            "example": "golang.org/x/time"
+            "example": "golang.org/x/time",
+            "Extensions": null
           },
           "retracted": {
             "type": "boolean",
-            "example": false
+            "example": false,
+            "Extensions": null
           },
           "retractionReason": {
             "type": "string",
-            "example": ""
+            "example": "",
+            "Extensions": null
           },
           "version": {
             "type": "string",
-            "example": "v0.15.0"
+            "example": "v0.15.0",
+            "Extensions": null
           }
-        }
+        },
+        "Extensions": null
       },
       "ModuleVersions": {
         "type": "array",
         "items": {
           "$ref": "#/components/schemas/ModuleVersion"
-        }
+        },
+        "Extensions": null
       },
       "Package": {
         "type": "object",
         "properties": {
           "docs": {
-            "type": "string"
+            "type": "string",
+            "Extensions": null
           },
           "goarch": {
             "type": "string",
-            "example": "all"
+            "example": "all",
+            "Extensions": null
           },
           "goos": {
             "type": "string",
-            "example": "all"
+            "example": "all",
+            "Extensions": null
           },
           "imports": {
             "type": "array",
             "items": {
-              "type": "string"
-            }
+              "type": "string",
+              "Extensions": null
+            },
+            "Extensions": null
           },
           "isLatest": {
             "type": "boolean",
-            "example": true
+            "example": true,
+            "Extensions": null
           },
           "isStandardLibrary": {
             "type": "boolean",
-            "example": false
+            "example": false,
+            "Extensions": null
           },
           "licenses": {
             "$ref": "#/components/schemas/Licenses"
           },
           "modulePath": {
             "type": "string",
-            "example": "github.com/google/go-cmp"
+            "example": "github.com/google/go-cmp",
+            "Extensions": null
           },
           "version": {
             "type": "string",
-            "example": "v0.7.0"
+            "example": "v0.7.0",
+            "Extensions": null
           },
           "path": {
             "type": "string",
-            "example": "github.com/google/go-cmp/cmp"
+            "example": "github.com/google/go-cmp/cmp",
+            "Extensions": null
           },
           "name": {
             "type": "string",
-            "example": "cmp"
+            "example": "cmp",
+            "Extensions": null
           },
           "synopsis": {
             "type": "string",
-            "example": "Package cmp determines equality of values."
+            "example": "Package cmp determines equality of values.",
+            "Extensions": null
           },
           "isRedistributable": {
             "type": "boolean",
-            "example": true
+            "example": true,
+            "Extensions": null
           }
-        }
+        },
+        "Extensions": null
       },
       "PackageImportedBy": {
         "type": "object",
@@ -491,94 +560,115 @@
             "$ref": "#/components/schemas/PaginatedStrings"
           },
           "modulePath": {
-            "type": "string"
+            "type": "string",
+            "Extensions": null
           },
           "version": {
-            "type": "string"
+            "type": "string",
+            "Extensions": null
           }
-        }
+        },
+        "Extensions": null
       },
       "PackageInfo": {
         "type": "object",
         "properties": {
           "isRedistributable": {
             "description": "Whether the license allows distribution.",
-            "type": "boolean"
+            "type": "boolean",
+            "Extensions": null
           },
           "name": {
-            "type": "string"
+            "type": "string",
+            "Extensions": null
           },
           "path": {
-            "type": "string"
+            "type": "string",
+            "Extensions": null
           },
           "synopsis": {
-            "type": "string"
+            "type": "string",
+            "Extensions": null
           }
-        }
+        },
+        "Extensions": null
       },
       "PackageInfos": {
         "type": "array",
         "items": {
           "$ref": "#/components/schemas/PackageInfo"
-        }
+        },
+        "Extensions": null
       },
       "PackageSymbols": {
         "type": "object",
         "properties": {
           "modulePath": {
             "type": "string",
-            "example": "golang.org/x/time"
+            "example": "golang.org/x/time",
+            "Extensions": null
           },
           "symbols": {
             "$ref": "#/components/schemas/PaginatedSymbols"
           },
           "version": {
             "type": "string",
-            "example": "v0.15.0"
+            "example": "v0.15.0",
+            "Extensions": null
           }
-        }
+        },
+        "Extensions": null
       },
       "PackagesBadRequestResponse": {
         "type": "object",
         "properties": {
           "code": {
             "type": "integer",
-            "example": 400
+            "example": 400,
+            "Extensions": null
           },
           "message": {
             "type": "string",
-            "example": "golang.org/x/time/rate is a package, not a module"
+            "example": "golang.org/x/time/rate is a package, not a module",
+            "Extensions": null
           },
           "fixes": {
             "type": "array",
             "items": {
               "type": "string",
-              "example": "retry the call with the containing module: \"golang.org/x/time\""
-            }
+              "example": "retry the call with the containing module: \"golang.org/x/time\"",
+              "Extensions": null
+            },
+            "Extensions": null
           }
         },
         "required": [
           "code",
           "message",
           "fixes"
-        ]
+        ],
+        "Extensions": null
       },
       "PackagesResponse": {
         "type": "object",
         "properties": {
           "isStandardLibrary": {
-            "type": "boolean"
+            "type": "boolean",
+            "Extensions": null
           },
           "modulePath": {
-            "type": "string"
+            "type": "string",
+            "Extensions": null
           },
           "packages": {
             "$ref": "#/components/schemas/PaginatedPackageInfos"
           },
           "version": {
-            "type": "string"
+            "type": "string",
+            "Extensions": null
           }
-        }
+        },
+        "Extensions": null
       },
       "PaginatedModuleVersions": {
         "allOf": [
@@ -588,12 +678,14 @@
               "items": {
                 "$ref": "#/components/schemas/ModuleVersions"
               }
-            }
+            },
+            "Extensions": null
           },
           {
             "$ref": "#/components/schemas/PaginatedResponse"
           }
-        ]
+        ],
+        "Extensions": null
       },
       "PaginatedPackageInfos": {
         "allOf": [
@@ -603,29 +695,34 @@
               "items": {
                 "$ref": "#/components/schemas/PackageInfos"
               }
-            }
+            },
+            "Extensions": null
           },
           {
             "$ref": "#/components/schemas/PaginatedResponse"
           }
-        ]
+        ],
+        "Extensions": null
       },
       "PaginatedResponse": {
         "type": "object",
         "properties": {
           "total": {
             "type": "integer",
-            "example": 15
+            "example": 15,
+            "Extensions": null
           },
           "nextPageToken": {
             "type": "string",
-            "example": "c5806e999a87f632c2e6016f77dbf204"
+            "example": "c5806e999a87f632c2e6016f77dbf204",
+            "Extensions": null
           }
         },
         "required": [
           "nextPageToken",
           "total"
-        ]
+        ],
+        "Extensions": null
       },
       "PaginatedSearchResults": {
         "allOf": [
@@ -635,12 +732,14 @@
               "items": {
                 "$ref": "#/components/schemas/SearchResults"
               }
-            }
+            },
+            "Extensions": null
           },
           {
             "$ref": "#/components/schemas/PaginatedResponse"
           }
-        ]
+        ],
+        "Extensions": null
       },
       "PaginatedStrings": {
         "allOf": [
@@ -650,15 +749,19 @@
               "items": {
                 "type": "array",
                 "items": {
-                  "type": "string"
-                }
+                  "type": "string",
+                  "Extensions": null
+                },
+                "Extensions": null
               }
-            }
+            },
+            "Extensions": null
           },
           {
             "$ref": "#/components/schemas/PaginatedResponse"
           }
-        ]
+        ],
+        "Extensions": null
       },
       "PaginatedSymbols": {
         "allOf": [
@@ -668,12 +771,14 @@
               "items": {
                 "$ref": "#/components/schemas/Symbols"
               }
-            }
+            },
+            "Extensions": null
           },
           {
             "$ref": "#/components/schemas/PaginatedResponse"
           }
-        ]
+        ],
+        "Extensions": null
       },
       "PaginatedVulnerabilities": {
         "allOf": [
@@ -683,101 +788,124 @@
               "items": {
                 "$ref": "#/components/schemas/Vulnerabilities"
               }
-            }
+            },
+            "Extensions": null
           },
           {
             "$ref": "#/components/schemas/PaginatedResponse"
           }
-        ]
+        ],
+        "Extensions": null
       },
       "Readme": {
         "type": "object",
         "properties": {
           "contents": {
-            "type": "string"
+            "type": "string",
+            "Extensions": null
           },
           "filepath": {
-            "type": "string"
+            "type": "string",
+            "Extensions": null
           }
-        }
+        },
+        "Extensions": null
       },
       "SearchResult": {
         "type": "object",
         "properties": {
           "modulePath": {
             "type": "string",
-            "example": "github.com/docktermj/go-xyzzy-helpers"
+            "example": "github.com/docktermj/go-xyzzy-helpers",
+            "Extensions": null
           },
           "packagePath": {
             "type": "string",
-            "example": "github.com/docktermj/go-xyzzy-helpers/logger"
+            "example": "github.com/docktermj/go-xyzzy-helpers/logger",
+            "Extensions": null
           },
           "synopsis": {
             "type": "string",
-            "example": "Package helper ..."
+            "example": "Package helper ...",
+            "Extensions": null
           },
           "version": {
             "type": "string",
-            "example": "v0.2.2"
+            "example": "v0.2.2",
+            "Extensions": null
           }
-        }
+        },
+        "Extensions": null
       },
       "SearchResults": {
         "type": "array",
         "items": {
           "$ref": "#/components/schemas/SearchResult"
-        }
+        },
+        "Extensions": null
       },
       "Symbol": {
         "type": "object",
         "properties": {
           "kind": {
             "type": "string",
-            "example": "Type"
+            "example": "Type",
+            "Extensions": null
           },
           "name": {
             "type": "string",
-            "example": "Limit"
+            "example": "Limit",
+            "Extensions": null
           },
           "parent": {
             "type": "string",
-            "example": "Limit"
+            "example": "Limit",
+            "Extensions": null
           },
           "synopsis": {
             "type": "string",
-            "example": "type Limit float64"
+            "example": "type Limit float64",
+            "Extensions": null
           }
-        }
+        },
+        "Extensions": null
       },
       "Symbols": {
         "type": "array",
         "items": {
           "$ref": "#/components/schemas/Symbol"
-        }
+        },
+        "Extensions": null
       },
       "Vulnerabilities": {
         "type": "array",
         "items": {
           "$ref": "#/components/schemas/Vulnerability"
         },
-        "example": null
+        "example": null,
+        "Extensions": null
       },
       "Vulnerability": {
         "type": "object",
         "properties": {
           "details": {
-            "type": "string"
+            "type": "string",
+            "Extensions": null
           },
           "fixedVersion": {
-            "type": "string"
+            "type": "string",
+            "Extensions": null
           },
           "id": {
-            "type": "string"
+            "type": "string",
+            "Extensions": null
           },
           "summary": {
-            "type": "string"
+            "type": "string",
+            "Extensions": null
           }
-        }
+        },
+        "Extensions": null
       }
     },
     "responses": {
@@ -787,9 +915,11 @@
           "application/json": {
             "schema": {
               "$ref": "#/components/schemas/Module"
-            }
+            },
+            "Extensions": null
           }
-        }
+        },
+        "Extensions": null
       },
       "Package": {
         "description": "Successful response",
@@ -797,9 +927,11 @@
           "application/json": {
             "schema": {
               "$ref": "#/components/schemas/Package"
-            }
+            },
+            "Extensions": null
           }
-        }
+        },
+        "Extensions": null
       },
       "PackageImportedBy": {
         "description": "Successful response",
@@ -807,9 +939,11 @@
           "application/json": {
             "schema": {
               "$ref": "#/components/schemas/PackageImportedBy"
-            }
+            },
+            "Extensions": null
           }
-        }
+        },
+        "Extensions": null
       },
       "PackageSymbols": {
         "description": "Successful response",
@@ -817,9 +951,11 @@
           "application/json": {
             "schema": {
               "$ref": "#/components/schemas/PackageSymbols"
-            }
+            },
+            "Extensions": null
           }
-        }
+        },
+        "Extensions": null
       },
       "PackagesBadRequestResponse": {
         "description": "Bad Request",
@@ -827,9 +963,11 @@
           "application/json": {
             "schema": {
               "$ref": "#/components/schemas/PackagesBadRequestResponse"
-            }
+            },
+            "Extensions": null
           }
-        }
+        },
+        "Extensions": null
       },
       "PackagesResponse": {
         "description": "Successful response",
@@ -837,9 +975,11 @@
           "application/json": {
             "schema": {
               "$ref": "#/components/schemas/PackagesResponse"
-            }
+            },
+            "Extensions": null
           }
-        }
+        },
+        "Extensions": null
       },
       "PaginatedModuleVersions": {
         "description": "Successful response",
@@ -847,9 +987,11 @@
           "application/json": {
             "schema": {
               "$ref": "#/components/schemas/PaginatedModuleVersions"
-            }
+            },
+            "Extensions": null
           }
-        }
+        },
+        "Extensions": null
       },
       "PaginatedSearchResults": {
         "description": "Successful response",
@@ -857,9 +999,11 @@
           "application/json": {
             "schema": {
               "$ref": "#/components/schemas/PaginatedSearchResults"
-            }
+            },
+            "Extensions": null
           }
-        }
+        },
+        "Extensions": null
       },
       "PaginatedVulnerabilities": {
         "description": "Successful response",
@@ -867,9 +1011,11 @@
           "application/json": {
             "schema": {
               "$ref": "#/components/schemas/PaginatedVulnerabilities"
-            }
+            },
+            "Extensions": null
           }
-        }
+        },
+        "Extensions": null
       }
     },
     "parameters": {
@@ -878,80 +1024,100 @@
         "in": "query",
         "description": "Documentation format: text, html, md or markdown.\nIf omitted, documentation is not returned.",
         "schema": {
-          "type": "string"
-        }
+          "type": "string",
+          "Extensions": null
+        },
+        "Extensions": null
       },
       "examples": {
         "name": "examples",
         "in": "query",
         "description": "Whether to include examples with the returned documentation.",
         "schema": {
-          "type": "boolean"
-        }
+          "type": "boolean",
+          "Extensions": null
+        },
+        "Extensions": null
       },
       "filter": {
         "name": "filter",
         "in": "query",
         "description": "Include only items matching the regular expression filter.",
         "schema": {
-          "type": "string"
-        }
+          "type": "string",
+          "Extensions": null
+        },
+        "Extensions": null
       },
       "goarch": {
         "name": "goarch",
         "in": "query",
         "description": "GOARCH of documentation build context.",
         "schema": {
-          "type": "string"
-        }
+          "type": "string",
+          "Extensions": null
+        },
+        "Extensions": null
       },
       "goos": {
         "name": "goos",
         "in": "query",
         "description": "GOOS of documentation build context.",
         "schema": {
-          "type": "string"
-        }
+          "type": "string",
+          "Extensions": null
+        },
+        "Extensions": null
       },
       "imports": {
         "name": "imports",
         "in": "query",
         "description": "Whether to include the packages that this one imports.",
         "schema": {
-          "type": "boolean"
-        }
+          "type": "boolean",
+          "Extensions": null
+        },
+        "Extensions": null
       },
       "licenses": {
         "name": "licenses",
         "in": "query",
         "description": "Whether to include licenses in the result.",
         "schema": {
-          "type": "boolean"
-        }
+          "type": "boolean",
+          "Extensions": null
+        },
+        "Extensions": null
       },
       "limit": {
         "name": "limit",
         "in": "query",
         "description": "Max number of items to return.",
         "schema": {
-          "type": "integer"
-        }
+          "type": "integer",
+          "Extensions": null
+        },
+        "Extensions": null
       },
       "module": {
         "name": "module",
         "in": "query",
         "description": "Module path.",
         "schema": {
-          "type": "string"
-        }
+          "type": "string",
+          "Extensions": null
+        },
+        "Extensions": null
       },
       "path": {
         "name": "path",
         "in": "path",
         "required": true,
         "schema": {
-          "type": "string"
-        }
+          "type": "string",
+          "Extensions": null
+        },
+        "Extensions": null
       },
       "q": {
         "name": "q",
@@ -959,32 +1125,40 @@
         "description": "Find packages matching this query.",
         "schema": {
           "type": "string",
-          "example": "xyzzy"
-        }
+          "example": "xyzzy",
+          "Extensions": null
+        },
+        "Extensions": null
       },
       "readme": {
         "name": "readme",
         "in": "query",
         "description": "Whether to include the README in the result.",
         "schema": {
-          "type": "boolean"
-        }
+          "type": "boolean",
+          "Extensions": null
+        },
+        "Extensions": null
       },
       "symbol": {
         "name": "symbol",
         "in": "query",
         "description": "If non-empty, find symbols matching this string.\nThe query further restricts the search to matching packages.",
         "schema": {
-          "type": "string"
-        }
+          "type": "string",
+          "Extensions": null
+        },
+        "Extensions": null
       },
       "token": {
         "name": "token",
         "in": "query",
         "description": "Where to resume listing.",
         "schema": {
-          "type": "string"
-        }
+          "type": "string",
+          "Extensions": null
+        },
+        "Extensions": null
       },
       "version": {
         "name": "version",
@@ -992,9 +1166,13 @@
         "description": "Module version: semantic version, 'latest', or default branches 'master' or 'main'.\n(Latest if empty).",
         "schema": {
           "type": "string",
-          "example": "master"
-        }
+          "example": "master",
+          "Extensions": null
+        },
+        "Extensions": null
       }
-    }
-  }
+    },
+    "Extensions": null
+  },
+  "Extensions": null
 }
