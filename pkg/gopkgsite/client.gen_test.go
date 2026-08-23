@@ -661,4 +661,8 @@ func TestClient_Interactions(t *testing.T) {
 	}); err != nil {
 		t.Fatalf("GetVersions: %v", err)
 	}
+
+	if _, err := c.GetPackages(ctx, "golang.org/x/time", &GetPackagesParams{}); err != nil {
+		t.Fatalf("GetPackages: %v", err)
+	}
 }

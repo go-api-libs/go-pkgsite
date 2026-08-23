@@ -98,5 +98,33 @@
 				"nextPageToken": "0d2b18b139e65c9d5c88c9d41e1bb6dc57cdc67e892d5668addbee330af572ad6307fe0e60ae487e7278f3b5a28a2cd4020abf758cf2aabcbec3fd299bfa42c926a17090"
 			}
 		}
+	},
+	{
+		"request": {
+			"method": "GET",
+			"url": "https://pkg.go.dev/v1/packages/golang.org/x/time"
+		},
+		"response": {
+			"statusCode": 200,
+			"header": {
+				"Content-Type": "application/json"
+			},
+			"body": {
+				"modulePath": "golang.org/x/time",
+				"version": "v0.15.0",
+				"isStandardLibrary": false,
+				"packages": {
+					"items": [
+						{
+							"path": "golang.org/x/time/rate",
+							"name": "rate",
+							"synopsis": "Package rate provides a rate limiter.",
+							"isRedistributable": true
+						}
+					],
+					"total": 1
+				}
+			}
+		}
 	}
 ]

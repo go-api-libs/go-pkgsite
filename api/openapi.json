@@ -560,13 +560,16 @@
             "type": "boolean"
           },
           "name": {
-            "type": "string"
+            "type": "string",
+            "example": "rate"
           },
           "path": {
-            "type": "string"
+            "type": "string",
+            "example": "golang.org/x/time/rate"
           },
           "synopsis": {
-            "type": "string"
+            "type": "string",
+            "example": "Package rate provides a rate limiter."
           }
         }
       },
@@ -597,13 +600,15 @@
             "type": "boolean"
           },
           "modulePath": {
-            "type": "string"
+            "type": "string",
+            "example": "golang.org/x/time"
           },
           "packages": {
             "$ref": "#/components/schemas/PaginatedResponse_PackageInfo"
           },
           "version": {
-            "type": "string"
+            "type": "string",
+            "example": "v0.15.0"
           }
         }
       },
@@ -633,7 +638,8 @@
             "type": "string"
           },
           "total": {
-            "type": "integer"
+            "type": "integer",
+            "example": 1
           }
         }
       },
