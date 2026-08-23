@@ -653,7 +653,8 @@
             "type": "string"
           },
           "total": {
-            "type": "integer"
+            "type": "integer",
+            "example": 13
           }
         }
       },
@@ -717,16 +718,20 @@
         "type": "object",
         "properties": {
           "modulePath": {
-            "type": "string"
+            "type": "string",
+            "example": "github.com/docktermj/go-xyzzy-helpers"
           },
           "packagePath": {
-            "type": "string"
+            "type": "string",
+            "example": "github.com/docktermj/go-xyzzy-helpers/logger"
           },
           "synopsis": {
-            "type": "string"
+            "type": "string",
+            "example": "Package helper ..."
           },
           "version": {
-            "type": "string"
+            "type": "string",
+            "example": "v0.2.2"
           }
         }
       },
@@ -989,7 +994,8 @@
         "in": "query",
         "description": "Find packages matching this query.",
         "schema": {
-          "type": "string"
+          "type": "string",
+          "example": "xyzzy"
         }
       },
       "readme": {

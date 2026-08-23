@@ -665,4 +665,10 @@ func TestClient_Interactions(t *testing.T) {
 	if _, err := c.GetPackages(ctx, "golang.org/x/time", &GetPackagesParams{}); err != nil {
 		t.Fatalf("GetPackages: %v", err)
 	}
+
+	if _, err := c.GetSearch(ctx, &GetSearchParams{
+		Q: "xyzzy",
+	}); err != nil {
+		t.Fatalf("GetSearch: %v", err)
+	}
 }
