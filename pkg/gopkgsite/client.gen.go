@@ -74,7 +74,7 @@ func NewClient(opts ...ClientOption) (*Client, error) {
 //
 //	GET /imported-by/{path}
 func (c *Client) GetImportedBy(ctx context.Context, path string, params *GetImportedByParams) (*PackageImportedBy, error) {
-	return GetImportedBy[PackageImportedBy](ctx, c, path, params)
+	return c.GetImportedByWithResult[PackageImportedBy](ctx, path, params)
 }
 
 // Paths of packages importing the package at {path},
@@ -85,7 +85,7 @@ func (c *Client) GetImportedBy(ctx context.Context, path string, params *GetImpo
 // You can define a custom result to unmarshal the response into.
 //
 //	GET /imported-by/{path}
-func GetImportedBy[R any](ctx context.Context, c *Client, path string, params *GetImportedByParams) (*R, error) {
+func (c *Client) GetImportedByWithResult[R any](ctx context.Context, path string, params *GetImportedByParams) (*R, error) {
 	u := c.baseURL.JoinPath("imported-by", path)
 	if params != nil {
 		q := make(url.Values, 5)
@@ -154,14 +154,14 @@ func GetImportedBy[R any](ctx context.Context, c *Client, path string, params *G
 //
 //	GET /module/{path}
 func (c *Client) GetModule(ctx context.Context, path string, params *GetModuleParams) (*Module, error) {
-	return GetModule[Module](ctx, c, path, params)
+	return c.GetModuleWithResult[Module](ctx, path, params)
 }
 
 // Information about the module at {path}.
 // You can define a custom result to unmarshal the response into.
 //
 //	GET /module/{path}
-func GetModule[R any](ctx context.Context, c *Client, path string, params *GetModuleParams) (*R, error) {
+func (c *Client) GetModuleWithResult[R any](ctx context.Context, path string, params *GetModuleParams) (*R, error) {
 	u := c.baseURL.JoinPath("module", path)
 	if params != nil {
 		q := make(url.Values, 3)
@@ -222,14 +222,14 @@ func GetModule[R any](ctx context.Context, c *Client, path string, params *GetMo
 //
 //	GET /package/{path}
 func (c *Client) GetPackage(ctx context.Context, path string, params *GetPackageParams) (*Package, error) {
-	return GetPackage[Package](ctx, c, path, params)
+	return c.GetPackageWithResult[Package](ctx, path, params)
 }
 
 // Information about the package at {path}.
 // You can define a custom result to unmarshal the response into.
 //
 //	GET /package/{path}
-func GetPackage[R any](ctx context.Context, c *Client, path string, params *GetPackageParams) (*R, error) {
+func (c *Client) GetPackageWithResult[R any](ctx context.Context, path string, params *GetPackageParams) (*R, error) {
 	u := c.baseURL.JoinPath("package", path)
 	if params != nil {
 		q := make(url.Values, 8)
@@ -312,7 +312,7 @@ func GetPackage[R any](ctx context.Context, c *Client, path string, params *GetP
 //
 //	GET /packages/{path}
 func (c *Client) GetPackages(ctx context.Context, path string, params *GetPackagesParams) (*PackagesResponse, error) {
-	return GetPackages[PackagesResponse](ctx, c, path, params)
+	return c.GetPackagesWithResult[PackagesResponse](ctx, path, params)
 }
 
 // Information about packages of the module at {path}.
@@ -321,7 +321,7 @@ func (c *Client) GetPackages(ctx context.Context, path string, params *GetPackag
 // You can define a custom result to unmarshal the response into.
 //
 //	GET /packages/{path}
-func GetPackages[R any](ctx context.Context, c *Client, path string, params *GetPackagesParams) (*R, error) {
+func (c *Client) GetPackagesWithResult[R any](ctx context.Context, path string, params *GetPackagesParams) (*R, error) {
 	u := c.baseURL.JoinPath("packages", path)
 	if params != nil {
 		q := make(url.Values, 4)
@@ -399,14 +399,14 @@ func GetPackages[R any](ctx context.Context, c *Client, path string, params *Get
 //
 //	GET /search
 func (c *Client) GetSearch(ctx context.Context, params *GetSearchParams) (*PaginatedSearchResults, error) {
-	return GetSearch[PaginatedSearchResults](ctx, c, params)
+	return c.GetSearchWithResult[PaginatedSearchResults](ctx, params)
 }
 
 // Search results. Only results that match the filter query parameter are returned.
 // You can define a custom result to unmarshal the response into.
 //
 //	GET /search
-func GetSearch[R any](ctx context.Context, c *Client, params *GetSearchParams) (*R, error) {
+func (c *Client) GetSearchWithResult[R any](ctx context.Context, params *GetSearchParams) (*R, error) {
 	u := c.baseURL.JoinPath("search")
 	if params != nil {
 		q := make(url.Values, 5)
@@ -477,7 +477,7 @@ func GetSearch[R any](ctx context.Context, c *Client, params *GetSearchParams) (
 //
 //	GET /symbols/{path}
 func (c *Client) GetSymbols(ctx context.Context, path string, params *GetSymbolsParams) (*PackageSymbols, error) {
-	return GetSymbols[PackageSymbols](ctx, c, path, params)
+	return c.GetSymbolsWithResult[PackageSymbols](ctx, path, params)
 }
 
 // List of symbols for the package at {path}.
@@ -486,7 +486,7 @@ func (c *Client) GetSymbols(ctx context.Context, path string, params *GetSymbols
 // You can define a custom result to unmarshal the response into.
 //
 //	GET /symbols/{path}
-func GetSymbols[R any](ctx context.Context, c *Client, path string, params *GetSymbolsParams) (*R, error) {
+func (c *Client) GetSymbolsWithResult[R any](ctx context.Context, path string, params *GetSymbolsParams) (*R, error) {
 	u := c.baseURL.JoinPath("symbols", path)
 	if params != nil {
 		q := make(url.Values, 7)
@@ -567,7 +567,7 @@ func GetSymbols[R any](ctx context.Context, c *Client, path string, params *GetS
 //
 //	GET /versions/{path}
 func (c *Client) GetVersions(ctx context.Context, path string, params *GetVersionsParams) (*PaginatedModuleVersions, error) {
-	return GetVersions[PaginatedModuleVersions](ctx, c, path, params)
+	return c.GetVersionsWithResult[PaginatedModuleVersions](ctx, path, params)
 }
 
 // Versions of the module at {path}.
@@ -578,7 +578,7 @@ func (c *Client) GetVersions(ctx context.Context, path string, params *GetVersio
 // You can define a custom result to unmarshal the response into.
 //
 //	GET /versions/{path}
-func GetVersions[R any](ctx context.Context, c *Client, path string, params *GetVersionsParams) (*R, error) {
+func (c *Client) GetVersionsWithResult[R any](ctx context.Context, path string, params *GetVersionsParams) (*R, error) {
 	u := c.baseURL.JoinPath("versions", path)
 	if params != nil {
 		q := make(url.Values, 3)
@@ -641,7 +641,7 @@ func GetVersions[R any](ctx context.Context, c *Client, path string, params *Get
 //
 //	GET /vulns/{path}
 func (c *Client) GetVulns(ctx context.Context, path string, params *GetVulnsParams) (*PaginatedVulnerabilities, error) {
-	return GetVulns[PaginatedVulnerabilities](ctx, c, path, params)
+	return c.GetVulnsWithResult[PaginatedVulnerabilities](ctx, path, params)
 }
 
 // Vulnerabilities of the module or package at {path}, from
@@ -650,7 +650,7 @@ func (c *Client) GetVulns(ctx context.Context, path string, params *GetVulnsPara
 // You can define a custom result to unmarshal the response into.
 //
 //	GET /vulns/{path}
-func GetVulns[R any](ctx context.Context, c *Client, path string, params *GetVulnsParams) (*R, error) {
+func (c *Client) GetVulnsWithResult[R any](ctx context.Context, path string, params *GetVulnsParams) (*R, error) {
 	u := c.baseURL.JoinPath("vulns", path)
 	if params != nil {
 		q := make(url.Values, 5)
