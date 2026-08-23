@@ -7,6 +7,8 @@ import (
 	"fmt"
 	"io/fs"
 	"os"
+	"slices"
+	"strings"
 
 	"github.com/MarkRosemaker/openapi"
 	enrich "github.com/MarkRosemaker/openapi-enrich"
@@ -52,7 +54,7 @@ func run(ctx context.Context) error {
 	// Call requests that don't have a response yet
 	for _, ia := range prevIas {
 		if ia.Response.StatusCode > 0 {
-			continue
+			continue // we have a response
 		}
 
 		if ia.Request.URL == "" {
@@ -97,7 +99,19 @@ func run(ctx context.Context) error {
 	}
 
 	ias := tr.Interactions
-	ias.Mask()
+
+	if strings.HasPrefix(doc.Info.Title, "Habitica") {
+		// for them, "X-Client" is more like a user agent - they're weird that way
+		m := cassette.DefaultMasker()
+		if i := slices.Index(m.HeaderKeys, "X-Client"); i > -1 {
+			m.HeaderKeys = slices.Delete(m.HeaderKeys, i, i+1)
+		}
+
+		ias.MaskWith(m)
+	} else {
+		ias.Mask()
+	}
+
 	ias.TrimResponseHeaders()
 
 	if scaffoldNext {
