@@ -20,7 +20,7 @@ const defaultUserAgent = "Go Pkgsite API"
 var defaultBaseURL = &url.URL{
 	Scheme: "https",
 	Host:   "pkg.go.dev",
-	Path:   "/v1beta",
+	Path:   "/v1",
 }
 
 // Client is an HTTP client for the gopkgsite API.
@@ -146,7 +146,18 @@ func (c *Client) GetImportedByWithResult[R any](ctx context.Context, path string
 			return nil, api.NewErrUnknownContentType(rsp)
 		}
 	default:
-		return nil, api.NewErrUnknownStatusCode(rsp)
+		// Error response
+		switch mt, _, _ := strings.Cut(rsp.Header.Get("Content-Type"), ";"); mt {
+		case "application/json":
+			var out Error
+			if err := json.UnmarshalRead(rsp.Body, &out, jsonOpts); err != nil {
+				return nil, api.WrapDecodingError(rsp, err)
+			}
+
+			return nil, api.NewErrCustom(rsp, &out)
+		default:
+			return nil, api.NewErrUnknownContentType(rsp)
+		}
 	}
 }
 
@@ -214,7 +225,18 @@ func (c *Client) GetModuleWithResult[R any](ctx context.Context, path string, pa
 			return nil, api.NewErrUnknownContentType(rsp)
 		}
 	default:
-		return nil, api.NewErrUnknownStatusCode(rsp)
+		// Error response
+		switch mt, _, _ := strings.Cut(rsp.Header.Get("Content-Type"), ";"); mt {
+		case "application/json":
+			var out Error
+			if err := json.UnmarshalRead(rsp.Body, &out, jsonOpts); err != nil {
+				return nil, api.WrapDecodingError(rsp, err)
+			}
+
+			return nil, api.NewErrCustom(rsp, &out)
+		default:
+			return nil, api.NewErrUnknownContentType(rsp)
+		}
 	}
 }
 
@@ -302,7 +324,18 @@ func (c *Client) GetPackageWithResult[R any](ctx context.Context, path string, p
 			return nil, api.NewErrUnknownContentType(rsp)
 		}
 	default:
-		return nil, api.NewErrUnknownStatusCode(rsp)
+		// Error response
+		switch mt, _, _ := strings.Cut(rsp.Header.Get("Content-Type"), ";"); mt {
+		case "application/json":
+			var out Error
+			if err := json.UnmarshalRead(rsp.Body, &out, jsonOpts); err != nil {
+				return nil, api.WrapDecodingError(rsp, err)
+			}
+
+			return nil, api.NewErrCustom(rsp, &out)
+		default:
+			return nil, api.NewErrUnknownContentType(rsp)
+		}
 	}
 }
 
@@ -377,11 +410,11 @@ func (c *Client) GetPackagesWithResult[R any](ctx context.Context, path string, 
 		default:
 			return nil, api.NewErrUnknownContentType(rsp)
 		}
-	case http.StatusBadRequest:
-		// Bad Request
+	default:
+		// Error response
 		switch mt, _, _ := strings.Cut(rsp.Header.Get("Content-Type"), ";"); mt {
 		case "application/json":
-			var out PackagesBadRequestResponse
+			var out Error
 			if err := json.UnmarshalRead(rsp.Body, &out, jsonOpts); err != nil {
 				return nil, api.WrapDecodingError(rsp, err)
 			}
@@ -390,19 +423,19 @@ func (c *Client) GetPackagesWithResult[R any](ctx context.Context, path string, 
 		default:
 			return nil, api.NewErrUnknownContentType(rsp)
 		}
-	default:
-		return nil, api.NewErrUnknownStatusCode(rsp)
 	}
 }
 
 // Search results. Only results that match the filter query parameter are returned.
+// Results are sorted by how well the match the query, with the best match first.
 //
 //	GET /search
-func (c *Client) GetSearch(ctx context.Context, params *GetSearchParams) (*PaginatedSearchResults, error) {
-	return c.GetSearchWithResult[PaginatedSearchResults](ctx, params)
+func (c *Client) GetSearch(ctx context.Context, params *GetSearchParams) (*PaginatedResponse_SearchResult, error) {
+	return c.GetSearchWithResult[PaginatedResponse_SearchResult](ctx, params)
 }
 
 // Search results. Only results that match the filter query parameter are returned.
+// Results are sorted by how well the match the query, with the best match first.
 // You can define a custom result to unmarshal the response into.
 //
 //	GET /search
@@ -467,7 +500,18 @@ func (c *Client) GetSearchWithResult[R any](ctx context.Context, params *GetSear
 			return nil, api.NewErrUnknownContentType(rsp)
 		}
 	default:
-		return nil, api.NewErrUnknownStatusCode(rsp)
+		// Error response
+		switch mt, _, _ := strings.Cut(rsp.Header.Get("Content-Type"), ";"); mt {
+		case "application/json":
+			var out Error
+			if err := json.UnmarshalRead(rsp.Body, &out, jsonOpts); err != nil {
+				return nil, api.WrapDecodingError(rsp, err)
+			}
+
+			return nil, api.NewErrCustom(rsp, &out)
+		default:
+			return nil, api.NewErrUnknownContentType(rsp)
+		}
 	}
 }
 
@@ -555,33 +599,46 @@ func (c *Client) GetSymbolsWithResult[R any](ctx context.Context, path string, p
 			return nil, api.NewErrUnknownContentType(rsp)
 		}
 	default:
-		return nil, api.NewErrUnknownStatusCode(rsp)
+		// Error response
+		switch mt, _, _ := strings.Cut(rsp.Header.Get("Content-Type"), ";"); mt {
+		case "application/json":
+			var out Error
+			if err := json.UnmarshalRead(rsp.Body, &out, jsonOpts); err != nil {
+				return nil, api.WrapDecodingError(rsp, err)
+			}
+
+			return nil, api.NewErrCustom(rsp, &out)
+		default:
+			return nil, api.NewErrUnknownContentType(rsp)
+		}
 	}
 }
 
-// Versions of the module at {path}.
-// If there are tagged versions, they are returned.
-// Otherwise, the 10 most recent pseudo-versions are returned.
-// The versions are in descending order.
-// Only results that match the filter query parameter are returned.
+// All versions of the module at {path}, including all major versions.
+// Versions are listed in descending order, with incompatible versions last.
+// Only tagged versions are returned, unless the pseudo query parameter is true.
+// In addition, only results that match the filter query parameter are returned.
+// The total in the response is -1 to indicate that the total number of results is unknown,
+// unless all results fit on a single page.
 //
 //	GET /versions/{path}
-func (c *Client) GetVersions(ctx context.Context, path string, params *GetVersionsParams) (*PaginatedModuleVersions, error) {
-	return c.GetVersionsWithResult[PaginatedModuleVersions](ctx, path, params)
+func (c *Client) GetVersions(ctx context.Context, path string, params *GetVersionsParams) (*PaginatedResponse_ModuleVersion, error) {
+	return c.GetVersionsWithResult[PaginatedResponse_ModuleVersion](ctx, path, params)
 }
 
-// Versions of the module at {path}.
-// If there are tagged versions, they are returned.
-// Otherwise, the 10 most recent pseudo-versions are returned.
-// The versions are in descending order.
-// Only results that match the filter query parameter are returned.
+// All versions of the module at {path}, including all major versions.
+// Versions are listed in descending order, with incompatible versions last.
+// Only tagged versions are returned, unless the pseudo query parameter is true.
+// In addition, only results that match the filter query parameter are returned.
+// The total in the response is -1 to indicate that the total number of results is unknown,
+// unless all results fit on a single page.
 // You can define a custom result to unmarshal the response into.
 //
 //	GET /versions/{path}
 func (c *Client) GetVersionsWithResult[R any](ctx context.Context, path string, params *GetVersionsParams) (*R, error) {
 	u := c.baseURL.JoinPath("versions", path)
 	if params != nil {
-		q := make(url.Values, 3)
+		q := make(url.Values, 4)
 
 		if params.Limit != 0 {
 			q["limit"] = []string{strconv.Itoa(params.Limit)}
@@ -593,6 +650,10 @@ func (c *Client) GetVersionsWithResult[R any](ctx context.Context, path string, 
 
 		if params.Filter != "" {
 			q["filter"] = []string{params.Filter}
+		}
+
+		if params.Pseudo {
+			q["pseudo"] = []string{strconv.FormatBool(params.Pseudo)}
 		}
 
 		u.RawQuery = q.Encode()
@@ -631,21 +692,32 @@ func (c *Client) GetVersionsWithResult[R any](ctx context.Context, path string, 
 			return nil, api.NewErrUnknownContentType(rsp)
 		}
 	default:
-		return nil, api.NewErrUnknownStatusCode(rsp)
+		// Error response
+		switch mt, _, _ := strings.Cut(rsp.Header.Get("Content-Type"), ";"); mt {
+		case "application/json":
+			var out Error
+			if err := json.UnmarshalRead(rsp.Body, &out, jsonOpts); err != nil {
+				return nil, api.WrapDecodingError(rsp, err)
+			}
+
+			return nil, api.NewErrCustom(rsp, &out)
+		default:
+			return nil, api.NewErrUnknownContentType(rsp)
+		}
 	}
 }
 
-// Vulnerabilities of the module or package at {path}, from
-// the Go vulnerability database (https://vuln.go.dev).
+// Vulnerabilities of the module or package at {path}.
+// Data comes from the Go vulnerability database (https://vuln.go.dev).
 // Only results that match the filter query parameter are returned.
 //
 //	GET /vulns/{path}
-func (c *Client) GetVulns(ctx context.Context, path string, params *GetVulnsParams) (*PaginatedVulnerabilities, error) {
-	return c.GetVulnsWithResult[PaginatedVulnerabilities](ctx, path, params)
+func (c *Client) GetVulns(ctx context.Context, path string, params *GetVulnsParams) (*PaginatedResponse_Vulnerability, error) {
+	return c.GetVulnsWithResult[PaginatedResponse_Vulnerability](ctx, path, params)
 }
 
-// Vulnerabilities of the module or package at {path}, from
-// the Go vulnerability database (https://vuln.go.dev).
+// Vulnerabilities of the module or package at {path}.
+// Data comes from the Go vulnerability database (https://vuln.go.dev).
 // Only results that match the filter query parameter are returned.
 // You can define a custom result to unmarshal the response into.
 //
@@ -711,6 +783,17 @@ func (c *Client) GetVulnsWithResult[R any](ctx context.Context, path string, par
 			return nil, api.NewErrUnknownContentType(rsp)
 		}
 	default:
-		return nil, api.NewErrUnknownStatusCode(rsp)
+		// Error response
+		switch mt, _, _ := strings.Cut(rsp.Header.Get("Content-Type"), ";"); mt {
+		case "application/json":
+			var out Error
+			if err := json.UnmarshalRead(rsp.Body, &out, jsonOpts); err != nil {
+				return nil, api.WrapDecodingError(rsp, err)
+			}
+
+			return nil, api.NewErrCustom(rsp, &out)
+		default:
+			return nil, api.NewErrUnknownContentType(rsp)
+		}
 	}
 }

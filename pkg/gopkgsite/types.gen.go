@@ -116,6 +116,8 @@ type GetVersionsParams struct {
 	Token string
 	// Include only items matching the regular expression filter.
 	Filter string
+	// Whether to include pseudo-versions in the result.
+	Pseudo bool
 }
 
 // GetVulnsParams holds the query parameters for GetVulns.
@@ -139,18 +141,18 @@ type Candidate struct {
 	PackagePath string `json:"packagePath,omitzero"`
 }
 
+// Candidates defines a model
+type Candidates []Candidate
+
 // Error defines a model
 type Error struct {
-	Candidates ErrorCandidates `json:"candidates,omitempty"`
-	// HTTP status code
-	Code *int `json:"code,omitempty"`
-	// suggestions for how to fix
+	Candidates Candidates `json:"candidates,omitempty"`
+	// Code is the HTTP status code.
+	Code int `json:"code,omitzero"`
+	// Fixes are suggestions for how to fix.
 	Fixes   []string `json:"fixes,omitempty"`
 	Message string   `json:"message,omitzero"`
 }
-
-// ErrorCandidates defines a model
-type ErrorCandidates []Candidate
 
 // License defines a model
 type License struct {
@@ -184,11 +186,11 @@ type ModuleVersion struct {
 	CommitTime        time.Time `json:"commitTime,omitempty"`
 	Deprecated        bool      `json:"deprecated,omitempty"`
 	DeprecationReason string    `json:"deprecationReason,omitzero"`
-	// Whether the module has a go.mod file.
+	// HasGoMod is whether the module has a go.mod file.
 	HasGoMod bool `json:"hasGoMod,omitempty"`
-	// Whether the license allows distribution.
+	// IsRedistributable is whether the license allows distribution.
 	IsRedistributable bool `json:"isRedistributable,omitempty"`
-	// latest unretracted version
+	// LatestVersion is the latest unretracted version.
 	LatestVersion    string `json:"latestVersion,omitzero"`
 	ModulePath       string `json:"modulePath,omitzero"`
 	Retracted        bool   `json:"retracted,omitempty"`
@@ -201,31 +203,32 @@ type ModuleVersions []ModuleVersion
 
 // Package defines a model
 type Package struct {
-	Docs              string   `json:"docs,omitzero"`
-	Goarch            string   `json:"goarch,omitzero"`
-	Goos              string   `json:"goos,omitzero"`
-	Imports           []string `json:"imports,omitempty"`
-	IsLatest          bool     `json:"isLatest,omitempty"`
+	Docs     string   `json:"docs,omitzero"`
+	Goarch   string   `json:"goarch,omitzero"`
+	Goos     string   `json:"goos,omitzero"`
+	Imports  []string `json:"imports,omitempty"`
+	IsLatest bool     `json:"isLatest,omitempty"`
+	// IsRedistributable is whether the license allows distribution.
+	IsRedistributable bool     `json:"isRedistributable,omitempty"`
 	IsStandardLibrary bool     `json:"isStandardLibrary,omitempty"`
 	Licenses          Licenses `json:"licenses,omitempty"`
 	ModulePath        string   `json:"modulePath,omitzero"`
-	Version           string   `json:"version,omitzero"`
-	Path              string   `json:"path,omitzero"`
 	Name              string   `json:"name,omitzero"`
+	Path              string   `json:"path,omitzero"`
 	Synopsis          string   `json:"synopsis,omitzero"`
-	IsRedistributable bool     `json:"isRedistributable,omitempty"`
+	Version           string   `json:"version,omitzero"`
 }
 
 // PackageImportedBy defines a model
 type PackageImportedBy struct {
-	ImportedBy *PaginatedStrings `json:"importedBy,omitempty"`
-	ModulePath string            `json:"modulePath,omitzero"`
-	Version    string            `json:"version,omitzero"`
+	ImportedBy *PaginatedResponse_string `json:"importedBy,omitempty"`
+	ModulePath string                    `json:"modulePath,omitzero"`
+	Version    string                    `json:"version,omitzero"`
 }
 
 // PackageInfo defines a model
 type PackageInfo struct {
-	// Whether the license allows distribution.
+	// IsRedistributable is whether the license allows distribution.
 	IsRedistributable bool   `json:"isRedistributable,omitempty"`
 	Name              string `json:"name,omitzero"`
 	Path              string `json:"path,omitzero"`
@@ -237,66 +240,59 @@ type PackageInfos []PackageInfo
 
 // PackageSymbols defines a model
 type PackageSymbols struct {
-	ModulePath string            `json:"modulePath,omitzero"`
-	Symbols    *PaginatedSymbols `json:"symbols,omitempty"`
-	Version    string            `json:"version,omitzero"`
-}
-
-// PackagesBadRequestResponse defines a model
-type PackagesBadRequestResponse struct {
-	Code    int      `json:"code,omitzero"`
-	Message string   `json:"message,omitzero"`
-	Fixes   []string `json:"fixes,omitempty"`
+	ModulePath string                    `json:"modulePath,omitzero"`
+	Symbols    *PaginatedResponse_Symbol `json:"symbols,omitempty"`
+	Version    string                    `json:"version,omitzero"`
 }
 
 // PackagesResponse defines a model
 type PackagesResponse struct {
-	IsStandardLibrary bool                   `json:"isStandardLibrary,omitempty"`
-	ModulePath        string                 `json:"modulePath,omitzero"`
-	Packages          *PaginatedPackageInfos `json:"packages,omitempty"`
-	Version           string                 `json:"version,omitzero"`
+	IsStandardLibrary bool                           `json:"isStandardLibrary,omitempty"`
+	ModulePath        string                         `json:"modulePath,omitzero"`
+	Packages          *PaginatedResponse_PackageInfo `json:"packages,omitempty"`
+	Version           string                         `json:"version,omitzero"`
 }
 
-// PaginatedModuleVersions defines a model
-type PaginatedModuleVersions struct {
-	Items ModuleVersions `json:"items,omitempty"`
-	PaginatedResponse
+// PaginatedResponse_ModuleVersion defines a model
+type PaginatedResponse_ModuleVersion struct {
+	Items         ModuleVersions `json:"items,omitempty"`
+	NextPageToken string         `json:"nextPageToken,omitzero"`
+	Total         *int           `json:"total,omitempty"`
 }
 
-// PaginatedPackageInfos defines a model
-type PaginatedPackageInfos struct {
-	Items PackageInfos `json:"items,omitempty"`
-	PaginatedResponse
+// PaginatedResponse_PackageInfo defines a model
+type PaginatedResponse_PackageInfo struct {
+	Items         PackageInfos `json:"items,omitempty"`
+	NextPageToken string       `json:"nextPageToken,omitzero"`
+	Total         *int         `json:"total,omitempty"`
 }
 
-// PaginatedResponse defines a model
-type PaginatedResponse struct {
-	Total         int    `json:"total,omitzero"`
-	NextPageToken string `json:"nextPageToken,omitzero"`
+// PaginatedResponse_SearchResult defines a model
+type PaginatedResponse_SearchResult struct {
+	Items         SearchResults `json:"items,omitempty"`
+	NextPageToken string        `json:"nextPageToken,omitzero"`
+	Total         *int          `json:"total,omitempty"`
 }
 
-// PaginatedSearchResults defines a model
-type PaginatedSearchResults struct {
-	Items SearchResults `json:"items,omitempty"`
-	PaginatedResponse
+// PaginatedResponse_Symbol defines a model
+type PaginatedResponse_Symbol struct {
+	Items         Symbols `json:"items,omitempty"`
+	NextPageToken string  `json:"nextPageToken,omitzero"`
+	Total         *int    `json:"total,omitempty"`
 }
 
-// PaginatedStrings defines a model
-type PaginatedStrings struct {
-	Items []string `json:"items,omitempty"`
-	PaginatedResponse
+// PaginatedResponse_Vulnerability defines a model
+type PaginatedResponse_Vulnerability struct {
+	Items         Vulnerabilities `json:"items,omitempty"`
+	NextPageToken string          `json:"nextPageToken,omitzero"`
+	Total         *int            `json:"total,omitempty"`
 }
 
-// PaginatedSymbols defines a model
-type PaginatedSymbols struct {
-	Items Symbols `json:"items,omitempty"`
-	PaginatedResponse
-}
-
-// PaginatedVulnerabilities defines a model
-type PaginatedVulnerabilities struct {
-	Items Vulnerabilities `json:"items,omitempty"`
-	PaginatedResponse
+// PaginatedResponse_string defines a model
+type PaginatedResponse_string struct {
+	Items         []string `json:"items,omitempty"`
+	NextPageToken string   `json:"nextPageToken,omitzero"`
+	Total         *int     `json:"total,omitempty"`
 }
 
 // Readme defines a model
@@ -318,6 +314,7 @@ type SearchResults []SearchResult
 
 // Symbol defines a model
 type Symbol struct {
+	// Kind is one of "Constant", "Variable", "Function", "Type", "Field", or "Method".
 	Kind     string `json:"kind,omitzero"`
 	Name     string `json:"name,omitzero"`
 	Parent   string `json:"parent,omitzero"`

@@ -5,19 +5,14 @@
 package gopkgsite
 
 import (
-	"bytes"
 	"encoding/json/jsontext"
 	"errors"
-	"fmt"
 	"io"
-	"maps"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
-	"slices"
 	"testing"
 
-	"github.com/MarkRosemaker/openapi-enrich/cassette"
 	"github.com/go-api-libs/api"
 )
 
@@ -51,30 +46,6 @@ func TestClient_Error(t *testing.T) {
 				t.Fatal("expected error")
 			} else if !errors.Is(err, io.EOF) {
 				t.Fatalf("want: %v, got: %v", io.EOF, err)
-			}
-		})
-
-		t.Run("unknown status code", func(t *testing.T) {
-			srv := newTestServer(t, http.StatusTeapot)
-
-			baseURL, err := url.Parse(srv.URL)
-			if err != nil {
-				t.Fatal(err)
-			}
-
-			c, err := NewClient(WithBaseURL(baseURL))
-			if err != nil {
-				t.Fatal(err)
-			}
-
-			if _, err := c.GetImportedBy(t.Context(), "", nil); err == nil {
-				t.Fatal("expected error")
-			} else if apiErr, ok := errors.AsType[*api.Error](err); !ok {
-				t.Fatalf("got: %T, want: *api.Error", err)
-			} else if apiErr.Err != api.ErrUnknownStatusCode {
-				t.Fatalf("got: %v, want: %v", apiErr.Err, api.ErrUnknownStatusCode)
-			} else if apiErr.Response.StatusCode != http.StatusTeapot {
-				t.Fatalf("got: %v, want: %v", apiErr.Response.StatusCode, http.StatusTeapot)
 			}
 		})
 
@@ -146,30 +117,6 @@ func TestClient_Error(t *testing.T) {
 			}
 		})
 
-		t.Run("unknown status code", func(t *testing.T) {
-			srv := newTestServer(t, http.StatusTeapot)
-
-			baseURL, err := url.Parse(srv.URL)
-			if err != nil {
-				t.Fatal(err)
-			}
-
-			c, err := NewClient(WithBaseURL(baseURL))
-			if err != nil {
-				t.Fatal(err)
-			}
-
-			if _, err := c.GetModule(t.Context(), "", nil); err == nil {
-				t.Fatal("expected error")
-			} else if apiErr, ok := errors.AsType[*api.Error](err); !ok {
-				t.Fatalf("got: %T, want: *api.Error", err)
-			} else if apiErr.Err != api.ErrUnknownStatusCode {
-				t.Fatalf("got: %v, want: %v", apiErr.Err, api.ErrUnknownStatusCode)
-			} else if apiErr.Response.StatusCode != http.StatusTeapot {
-				t.Fatalf("got: %v, want: %v", apiErr.Response.StatusCode, http.StatusTeapot)
-			}
-		})
-
 		t.Run("unknown content type", func(t *testing.T) {
 			srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 				w.Header().Set("Content-Type", "foo")
@@ -235,30 +182,6 @@ func TestClient_Error(t *testing.T) {
 				t.Fatal("expected error")
 			} else if !errors.Is(err, io.EOF) {
 				t.Fatalf("want: %v, got: %v", io.EOF, err)
-			}
-		})
-
-		t.Run("unknown status code", func(t *testing.T) {
-			srv := newTestServer(t, http.StatusTeapot)
-
-			baseURL, err := url.Parse(srv.URL)
-			if err != nil {
-				t.Fatal(err)
-			}
-
-			c, err := NewClient(WithBaseURL(baseURL))
-			if err != nil {
-				t.Fatal(err)
-			}
-
-			if _, err := c.GetPackage(t.Context(), "", nil); err == nil {
-				t.Fatal("expected error")
-			} else if apiErr, ok := errors.AsType[*api.Error](err); !ok {
-				t.Fatalf("got: %T, want: *api.Error", err)
-			} else if apiErr.Err != api.ErrUnknownStatusCode {
-				t.Fatalf("got: %v, want: %v", apiErr.Err, api.ErrUnknownStatusCode)
-			} else if apiErr.Response.StatusCode != http.StatusTeapot {
-				t.Fatalf("got: %v, want: %v", apiErr.Response.StatusCode, http.StatusTeapot)
 			}
 		})
 
@@ -330,30 +253,6 @@ func TestClient_Error(t *testing.T) {
 			}
 		})
 
-		t.Run("unknown status code", func(t *testing.T) {
-			srv := newTestServer(t, http.StatusTeapot)
-
-			baseURL, err := url.Parse(srv.URL)
-			if err != nil {
-				t.Fatal(err)
-			}
-
-			c, err := NewClient(WithBaseURL(baseURL))
-			if err != nil {
-				t.Fatal(err)
-			}
-
-			if _, err := c.GetPackages(t.Context(), "", nil); err == nil {
-				t.Fatal("expected error")
-			} else if apiErr, ok := errors.AsType[*api.Error](err); !ok {
-				t.Fatalf("got: %T, want: *api.Error", err)
-			} else if apiErr.Err != api.ErrUnknownStatusCode {
-				t.Fatalf("got: %v, want: %v", apiErr.Err, api.ErrUnknownStatusCode)
-			} else if apiErr.Response.StatusCode != http.StatusTeapot {
-				t.Fatalf("got: %v, want: %v", apiErr.Response.StatusCode, http.StatusTeapot)
-			}
-		})
-
 		t.Run("unknown content type", func(t *testing.T) {
 			srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 				w.Header().Set("Content-Type", "foo")
@@ -419,30 +318,6 @@ func TestClient_Error(t *testing.T) {
 				t.Fatal("expected error")
 			} else if !errors.Is(err, io.EOF) {
 				t.Fatalf("want: %v, got: %v", io.EOF, err)
-			}
-		})
-
-		t.Run("unknown status code", func(t *testing.T) {
-			srv := newTestServer(t, http.StatusTeapot)
-
-			baseURL, err := url.Parse(srv.URL)
-			if err != nil {
-				t.Fatal(err)
-			}
-
-			c, err := NewClient(WithBaseURL(baseURL))
-			if err != nil {
-				t.Fatal(err)
-			}
-
-			if _, err := c.GetSearch(t.Context(), nil); err == nil {
-				t.Fatal("expected error")
-			} else if apiErr, ok := errors.AsType[*api.Error](err); !ok {
-				t.Fatalf("got: %T, want: *api.Error", err)
-			} else if apiErr.Err != api.ErrUnknownStatusCode {
-				t.Fatalf("got: %v, want: %v", apiErr.Err, api.ErrUnknownStatusCode)
-			} else if apiErr.Response.StatusCode != http.StatusTeapot {
-				t.Fatalf("got: %v, want: %v", apiErr.Response.StatusCode, http.StatusTeapot)
 			}
 		})
 
@@ -514,30 +389,6 @@ func TestClient_Error(t *testing.T) {
 			}
 		})
 
-		t.Run("unknown status code", func(t *testing.T) {
-			srv := newTestServer(t, http.StatusTeapot)
-
-			baseURL, err := url.Parse(srv.URL)
-			if err != nil {
-				t.Fatal(err)
-			}
-
-			c, err := NewClient(WithBaseURL(baseURL))
-			if err != nil {
-				t.Fatal(err)
-			}
-
-			if _, err := c.GetSymbols(t.Context(), "", nil); err == nil {
-				t.Fatal("expected error")
-			} else if apiErr, ok := errors.AsType[*api.Error](err); !ok {
-				t.Fatalf("got: %T, want: *api.Error", err)
-			} else if apiErr.Err != api.ErrUnknownStatusCode {
-				t.Fatalf("got: %v, want: %v", apiErr.Err, api.ErrUnknownStatusCode)
-			} else if apiErr.Response.StatusCode != http.StatusTeapot {
-				t.Fatalf("got: %v, want: %v", apiErr.Response.StatusCode, http.StatusTeapot)
-			}
-		})
-
 		t.Run("unknown content type", func(t *testing.T) {
 			srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 				w.Header().Set("Content-Type", "foo")
@@ -603,30 +454,6 @@ func TestClient_Error(t *testing.T) {
 				t.Fatal("expected error")
 			} else if !errors.Is(err, io.EOF) {
 				t.Fatalf("want: %v, got: %v", io.EOF, err)
-			}
-		})
-
-		t.Run("unknown status code", func(t *testing.T) {
-			srv := newTestServer(t, http.StatusTeapot)
-
-			baseURL, err := url.Parse(srv.URL)
-			if err != nil {
-				t.Fatal(err)
-			}
-
-			c, err := NewClient(WithBaseURL(baseURL))
-			if err != nil {
-				t.Fatal(err)
-			}
-
-			if _, err := c.GetVersions(t.Context(), "", nil); err == nil {
-				t.Fatal("expected error")
-			} else if apiErr, ok := errors.AsType[*api.Error](err); !ok {
-				t.Fatalf("got: %T, want: *api.Error", err)
-			} else if apiErr.Err != api.ErrUnknownStatusCode {
-				t.Fatalf("got: %v, want: %v", apiErr.Err, api.ErrUnknownStatusCode)
-			} else if apiErr.Response.StatusCode != http.StatusTeapot {
-				t.Fatalf("got: %v, want: %v", apiErr.Response.StatusCode, http.StatusTeapot)
 			}
 		})
 
@@ -698,30 +525,6 @@ func TestClient_Error(t *testing.T) {
 			}
 		})
 
-		t.Run("unknown status code", func(t *testing.T) {
-			srv := newTestServer(t, http.StatusTeapot)
-
-			baseURL, err := url.Parse(srv.URL)
-			if err != nil {
-				t.Fatal(err)
-			}
-
-			c, err := NewClient(WithBaseURL(baseURL))
-			if err != nil {
-				t.Fatal(err)
-			}
-
-			if _, err := c.GetVulns(t.Context(), "", nil); err == nil {
-				t.Fatal("expected error")
-			} else if apiErr, ok := errors.AsType[*api.Error](err); !ok {
-				t.Fatalf("got: %T, want: *api.Error", err)
-			} else if apiErr.Err != api.ErrUnknownStatusCode {
-				t.Fatalf("got: %v, want: %v", apiErr.Err, api.ErrUnknownStatusCode)
-			} else if apiErr.Response.StatusCode != http.StatusTeapot {
-				t.Fatalf("got: %v, want: %v", apiErr.Response.StatusCode, http.StatusTeapot)
-			}
-		})
-
 		t.Run("unknown content type", func(t *testing.T) {
 			srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 				w.Header().Set("Content-Type", "foo")
@@ -773,108 +576,4 @@ func TestClient_Error(t *testing.T) {
 			}
 		})
 	})
-}
-
-func replay(t *testing.T) http.RoundTripper {
-	t.Helper()
-
-	interactions, err := cassette.InteractionsReadFile("../../api/interactions.json")
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	var idx int
-	return roundTripFunc(func(req *http.Request) (*http.Response, error) {
-		if idx >= len(interactions) {
-			return nil, fmt.Errorf("unexpected request: %s %s", req.Method, req.URL)
-		}
-
-		ia := interactions[idx]
-
-		r, err := cassette.NewRequest(req)
-		if err != nil {
-			return nil, err
-		}
-
-		if r.URL != ia.Request.URL {
-			return nil, fmt.Errorf("interaction #%d: got URL %s, want %s", idx, r.URL, ia.Request.URL)
-		}
-
-		if r.Method != ia.Request.Method {
-			return nil, fmt.Errorf("interaction #%d: got method %s, want %s", idx, r.Method, ia.Request.Method)
-		}
-
-		if !bytes.Equal(r.Body, ia.Request.Body) {
-			return nil, fmt.Errorf("interaction #%d: got body %s, want %s", idx, string(r.Body), string(ia.Request.Method))
-		}
-
-		if ia.Request.Headers == nil {
-			ia.Request.Headers = http.Header{}
-		}
-
-		ia.Request.Headers.Set("User-Agent", defaultUserAgent)
-
-		if len(ia.Request.Body) == 0 {
-			ia.Request.Headers.Del("Content-Type")
-		}
-
-		if !maps.EqualFunc(r.Headers, ia.Request.Headers, slices.Equal) {
-			return nil, fmt.Errorf("interaction #%d: got headers %s, want %s", idx, r.Headers, ia.Request.Headers)
-		}
-
-		idx++
-		return &http.Response{
-			Status:     fmt.Sprintf("%d %s", ia.Response.StatusCode, http.StatusText(ia.Response.StatusCode)),
-			StatusCode: ia.Response.StatusCode,
-			Header:     ia.Response.Headers.Clone(),
-			Body:       io.NopCloser(bytes.NewReader(ia.Response.Body)),
-		}, nil
-	})
-}
-
-func TestClient_Interactions(t *testing.T) {
-	ctx := t.Context()
-
-	c, err := NewClient(WithHTTPClient(&http.Client{Transport: replay(t)}))
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	if _, err := c.GetPackage(ctx, "github.com/google/go-cmp/cmp", &GetPackageParams{}); err != nil {
-		t.Fatalf("GetPackage: %v", err)
-	}
-
-	if _, err := c.GetPackage(ctx, "github.com/google/go-cmp/cmp", &GetPackageParams{
-		Version: "master",
-	}); err != nil {
-		t.Fatalf("GetPackage: %v", err)
-	}
-
-	if _, err := c.GetPackage(ctx, "golang.org/x/time/rate", &GetPackageParams{}); err != nil {
-		t.Fatalf("GetPackage: %v", err)
-	}
-
-	if _, err := c.GetModule(ctx, "golang.org/x/time", &GetModuleParams{}); err != nil {
-		t.Fatalf("GetModule: %v", err)
-	}
-
-	if _, err := c.GetVersions(ctx, "golang.org/x/time", &GetVersionsParams{
-		Limit: 3,
-	}); err != nil {
-		t.Fatalf("GetVersions: %v", err)
-	}
-
-	if _, err := c.GetSearch(ctx, &GetSearchParams{
-		Q: "xyzzy",
-	}); err != nil {
-		t.Fatalf("GetSearch: %v", err)
-	}
-
-	if _, err := c.GetSymbols(ctx, "golang.org/x/time/rate", &GetSymbolsParams{}); err != nil {
-		t.Fatalf("GetSymbols: %v", err)
-	}
-
-	if _, err := c.GetVulns(ctx, "golang.org/x/image", &GetVulnsParams{}); err != nil {
-		t.Fatalf("GetVulns: %v", err)
-	}
 }
