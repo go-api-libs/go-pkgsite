@@ -651,4 +651,8 @@ func TestClient_Interactions(t *testing.T) {
 	if _, err := c.GetPackage(ctx, "golang.org/x/time/rate", &GetPackageParams{}); err != nil {
 		t.Fatalf("GetPackage: %v", err)
 	}
+
+	if _, err := c.GetModule(ctx, "golang.org/x/time", &GetModuleParams{}); err != nil {
+		t.Fatalf("GetModule: %v", err)
+	}
 }

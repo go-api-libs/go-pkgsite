@@ -22,5 +22,27 @@
 				"isRedistributable": true
 			}
 		}
+	},
+	{
+		"request": {
+			"method": "GET",
+			"url": "https://pkg.go.dev/v1/module/golang.org/x/time"
+		},
+		"response": {
+			"statusCode": 200,
+			"header": {
+				"Content-Type": "application/json"
+			},
+			"body": {
+				"path": "golang.org/x/time",
+				"version": "v0.15.0",
+				"commitTime": "2026-02-11T19:14:29Z",
+				"isLatest": true,
+				"isRedistributable": true,
+				"isStandardLibrary": false,
+				"hasGoMod": true,
+				"repoUrl": "https://cs.opensource.google/go/x/time"
+			}
+		}
 	}
 ]
