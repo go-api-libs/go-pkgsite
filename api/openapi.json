@@ -3,18 +3,23 @@
   "info": {
     "title": "Go Pkgsite API",
     "description": "API for accessing information about Go packages and modules on pkg.go.dev.",
-    "version": "v0.1.0"
+    "contact": {
+      "name": "The Go team at Google",
+      "url": "https://go.dev/s/discovery-feedback",
+      "email": "golang-dev@googlegroups.com"
+    },
+    "version": "v1.0.0"
   },
   "servers": [
     {
-      "url": "https://pkg.go.dev/v1beta"
+      "url": "https://pkg.go.dev/v1"
     }
   ],
   "paths": {
     "/imported-by/{path}": {
       "parameters": [
         {
-          "$ref": "#/components/parameters/path"
+          "$ref": "#/components/parameters/packageInPath"
         },
         {
           "$ref": "#/components/parameters/module"
@@ -33,11 +38,18 @@
         }
       ],
       "get": {
-        "summary": "Paths of packages importing the package at {path},\nnot including packages in the same module.\nFiltering is applied to the list of paths in the response.\nOnly paths that match the filter query parameter are returned.\nWithin a filter, the variable `path` is set to the import path.",
+        "tags": [
+          "imported-by"
+        ],
+        "summary": "Paths of packages importing the package at {path},\nnot including packages in the same module",
+        "description": "Paths of packages importing the package at {path},\nnot including packages in the same module.\nFiltering is applied to the list of paths in the response.\nOnly paths that match the filter query parameter are returned.\nWithin a filter, the variable `path` is set to the import path.",
         "operationId": "GetImportedBy",
         "responses": {
           "200": {
             "$ref": "#/components/responses/PackageImportedBy"
+          },
+          "default": {
+            "$ref": "#/components/responses/Error"
           }
         }
       }
@@ -45,7 +57,7 @@
     "/module/{path}": {
       "parameters": [
         {
-          "$ref": "#/components/parameters/path"
+          "$ref": "#/components/parameters/moduleInPath"
         },
         {
           "$ref": "#/components/parameters/version"
@@ -58,11 +70,18 @@
         }
       ],
       "get": {
-        "summary": "Information about the module at {path}.",
+        "tags": [
+          "module"
+        ],
+        "summary": "Information about the module at {path}",
+        "description": "Information about the module at {path}.",
         "operationId": "GetModule",
         "responses": {
           "200": {
             "$ref": "#/components/responses/Module"
+          },
+          "default": {
+            "$ref": "#/components/responses/Error"
           }
         }
       }
@@ -70,7 +89,7 @@
     "/package/{path}": {
       "parameters": [
         {
-          "$ref": "#/components/parameters/path"
+          "$ref": "#/components/parameters/packageInPath"
         },
         {
           "$ref": "#/components/parameters/module"
@@ -98,11 +117,18 @@
         }
       ],
       "get": {
-        "summary": "Information about the package at {path}.",
+        "tags": [
+          "package"
+        ],
+        "summary": "Information about the package at {path}",
+        "description": "Information about the package at {path}.",
         "operationId": "GetPackage",
         "responses": {
           "200": {
             "$ref": "#/components/responses/Package"
+          },
+          "default": {
+            "$ref": "#/components/responses/Error"
           }
         }
       }
@@ -110,7 +136,7 @@
     "/packages/{path}": {
       "parameters": [
         {
-          "$ref": "#/components/parameters/path"
+          "$ref": "#/components/parameters/moduleInPath"
         },
         {
           "$ref": "#/components/parameters/version"
@@ -126,14 +152,18 @@
         }
       ],
       "get": {
-        "summary": "Information about packages of the module at {path}.\nFiltering is applied to the list of packages in the response.\nOnly packages that match the filter query parameter are returned.",
+        "tags": [
+          "packages"
+        ],
+        "summary": "Information about packages of the module at {path}",
+        "description": "Information about packages of the module at {path}.\nFiltering is applied to the list of packages in the response.\nOnly packages that match the filter query parameter are returned.",
         "operationId": "GetPackages",
         "responses": {
           "200": {
             "$ref": "#/components/responses/PackagesResponse"
           },
-          "400": {
-            "$ref": "#/components/responses/PackagesBadRequestResponse"
+          "default": {
+            "$ref": "#/components/responses/Error"
           }
         }
       }
@@ -157,11 +187,18 @@
         }
       ],
       "get": {
-        "summary": "Search results. Only results that match the filter query parameter are returned.",
+        "tags": [
+          "search"
+        ],
+        "summary": "Search results",
+        "description": "Search results. Only results that match the filter query parameter are returned.\nResults are sorted by how well the match the query, with the best match first.",
         "operationId": "GetSearch",
         "responses": {
           "200": {
             "$ref": "#/components/responses/PaginatedSearchResults"
+          },
+          "default": {
+            "$ref": "#/components/responses/Error"
           }
         }
       }
@@ -169,7 +206,7 @@
     "/symbols/{path}": {
       "parameters": [
         {
-          "$ref": "#/components/parameters/path"
+          "$ref": "#/components/parameters/packageInPath"
         },
         {
           "$ref": "#/components/parameters/module"
@@ -194,11 +231,18 @@
         }
       ],
       "get": {
-        "summary": "List of symbols for the package at {path}.\nFiltering is applied to the list of symbols in the response.\nOnly symbols that match the filter query parameter are returned.",
+        "tags": [
+          "symbols"
+        ],
+        "summary": "List of symbols for the package at {path}",
+        "description": "List of symbols for the package at {path}.\nFiltering is applied to the list of symbols in the response.\nOnly symbols that match the filter query parameter are returned.",
         "operationId": "GetSymbols",
         "responses": {
           "200": {
             "$ref": "#/components/responses/PackageSymbols"
+          },
+          "default": {
+            "$ref": "#/components/responses/Error"
           }
         }
       }
@@ -206,7 +250,7 @@
     "/versions/{path}": {
       "parameters": [
         {
-          "$ref": "#/components/parameters/path"
+          "$ref": "#/components/parameters/moduleInPath"
         },
         {
           "$ref": "#/components/parameters/limit"
@@ -216,14 +260,24 @@
         },
         {
           "$ref": "#/components/parameters/filter"
+        },
+        {
+          "$ref": "#/components/parameters/pseudo"
         }
       ],
       "get": {
-        "summary": "Versions of the module at {path}.\nIf there are tagged versions, they are returned.\nOtherwise, the 10 most recent pseudo-versions are returned.\nThe versions are in descending order.\nOnly results that match the filter query parameter are returned.",
+        "tags": [
+          "versions"
+        ],
+        "summary": "All versions of the module at {path}, including all major versions",
+        "description": "All versions of the module at {path}, including all major versions.\nVersions are listed in descending order, with incompatible versions last.\nOnly tagged versions are returned, unless the pseudo query parameter is true.\nIn addition, only results that match the filter query parameter are returned.\nThe total in the response is -1 to indicate that the total number of results is unknown,\nunless all results fit on a single page.",
         "operationId": "GetVersions",
         "responses": {
           "200": {
             "$ref": "#/components/responses/PaginatedModuleVersions"
+          },
+          "default": {
+            "$ref": "#/components/responses/Error"
           }
         }
       }
@@ -250,11 +304,18 @@
         }
       ],
       "get": {
-        "summary": "Vulnerabilities of the module or package at {path}, from\nthe Go vulnerability database (https://vuln.go.dev).\nOnly results that match the filter query parameter are returned.",
+        "tags": [
+          "vulns"
+        ],
+        "summary": "Vulnerabilities of the module or package at {path}",
+        "description": "Vulnerabilities of the module or package at {path}.\nData comes from the Go vulnerability database (https://vuln.go.dev).\nOnly results that match the filter query parameter are returned.",
         "operationId": "GetVulns",
         "responses": {
           "200": {
             "$ref": "#/components/responses/PaginatedVulnerabilities"
+          },
+          "default": {
+            "$ref": "#/components/responses/Error"
           }
         }
       }
@@ -273,18 +334,24 @@
           }
         }
       },
+      "Candidates": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Candidate"
+        }
+      },
       "Error": {
         "type": "object",
         "properties": {
           "candidates": {
-            "$ref": "#/components/schemas/ErrorCandidates"
+            "$ref": "#/components/schemas/Candidates"
           },
           "code": {
-            "description": "HTTP status code",
+            "description": "Code is the HTTP status code.",
             "type": "integer"
           },
           "fixes": {
-            "description": "suggestions for how to fix",
+            "description": "Fixes are suggestions for how to fix.",
             "type": "array",
             "items": {
               "type": "string"
@@ -293,13 +360,10 @@
           "message": {
             "type": "string"
           }
-        }
-      },
-      "ErrorCandidates": {
-        "type": "array",
-        "items": {
-          "$ref": "#/components/schemas/Candidate"
-        }
+        },
+        "required": [
+          "code"
+        ]
       },
       "License": {
         "type": "object",
@@ -330,45 +394,37 @@
           "commitTime": {
             "description": "CommitTime is the timestamp returned by the module proxy's .info endpoint,\nrepresenting the time the version was created.",
             "type": "string",
-            "format": "date-time",
-            "example": "2026-02-11T19:14:29Z"
+            "format": "date-time"
           },
           "goModContents": {
             "type": "string"
           },
           "hasGoMod": {
-            "type": "boolean",
-            "example": true
+            "type": "boolean"
           },
           "isLatest": {
-            "type": "boolean",
-            "example": true
+            "type": "boolean"
           },
           "isRedistributable": {
-            "type": "boolean",
-            "example": true
+            "type": "boolean"
           },
           "isStandardLibrary": {
-            "type": "boolean",
-            "example": false
+            "type": "boolean"
           },
           "licenses": {
             "$ref": "#/components/schemas/Licenses"
           },
           "path": {
-            "type": "string",
-            "example": "golang.org/x/time"
+            "type": "string"
           },
           "readme": {
             "$ref": "#/components/schemas/Readme"
           },
           "repoUrl": {
-            "type": "string",
-            "example": "https://cs.opensource.google/go/x/time"
+            "type": "string"
           },
           "version": {
-            "type": "string",
-            "example": "v0.15.0"
+            "type": "string"
           }
         }
       },
@@ -377,47 +433,37 @@
         "properties": {
           "commitTime": {
             "type": "string",
-            "format": "date-time",
-            "example": "2026-02-11T19:14:29Z"
+            "format": "date-time"
           },
           "deprecated": {
-            "type": "boolean",
-            "example": false
+            "type": "boolean"
           },
           "deprecationReason": {
-            "type": "string",
-            "example": ""
+            "type": "string"
           },
           "hasGoMod": {
-            "description": "Whether the module has a go.mod file.",
-            "type": "boolean",
-            "example": true
+            "description": "HasGoMod is whether the module has a go.mod file.",
+            "type": "boolean"
           },
           "isRedistributable": {
-            "description": "Whether the license allows distribution.",
-            "type": "boolean",
-            "example": true
+            "description": "IsRedistributable is whether the license allows distribution.",
+            "type": "boolean"
           },
           "latestVersion": {
-            "description": "latest unretracted version",
-            "type": "string",
-            "example": "v0.15.0"
+            "description": "LatestVersion is the latest unretracted version.",
+            "type": "string"
           },
           "modulePath": {
-            "type": "string",
-            "example": "golang.org/x/time"
+            "type": "string"
           },
           "retracted": {
-            "type": "boolean",
-            "example": false
+            "type": "boolean"
           },
           "retractionReason": {
-            "type": "string",
-            "example": ""
+            "type": "string"
           },
           "version": {
-            "type": "string",
-            "example": "v0.15.0"
+            "type": "string"
           }
         }
       },
@@ -434,12 +480,10 @@
             "type": "string"
           },
           "goarch": {
-            "type": "string",
-            "example": "all"
+            "type": "string"
           },
           "goos": {
-            "type": "string",
-            "example": "all"
+            "type": "string"
           },
           "imports": {
             "type": "array",
@@ -448,39 +492,32 @@
             }
           },
           "isLatest": {
-            "type": "boolean",
-            "example": true
+            "type": "boolean"
+          },
+          "isRedistributable": {
+            "description": "IsRedistributable is whether the license allows distribution.",
+            "type": "boolean"
           },
           "isStandardLibrary": {
-            "type": "boolean",
-            "example": false
+            "type": "boolean"
           },
           "licenses": {
             "$ref": "#/components/schemas/Licenses"
           },
           "modulePath": {
-            "type": "string",
-            "example": "github.com/google/go-cmp"
-          },
-          "version": {
-            "type": "string",
-            "example": "v0.7.0"
-          },
-          "path": {
-            "type": "string",
-            "example": "github.com/google/go-cmp/cmp"
+            "type": "string"
           },
           "name": {
-            "type": "string",
-            "example": "cmp"
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
           },
           "synopsis": {
-            "type": "string",
-            "example": "Package cmp determines equality of values."
+            "type": "string"
           },
-          "isRedistributable": {
-            "type": "boolean",
-            "example": true
+          "version": {
+            "type": "string"
           }
         }
       },
@@ -488,7 +525,7 @@
         "type": "object",
         "properties": {
           "importedBy": {
-            "$ref": "#/components/schemas/PaginatedStrings"
+            "$ref": "#/components/schemas/PaginatedResponse_string"
           },
           "modulePath": {
             "type": "string"
@@ -502,7 +539,7 @@
         "type": "object",
         "properties": {
           "isRedistributable": {
-            "description": "Whether the license allows distribution.",
+            "description": "IsRedistributable is whether the license allows distribution.",
             "type": "boolean"
           },
           "name": {
@@ -526,42 +563,15 @@
         "type": "object",
         "properties": {
           "modulePath": {
-            "type": "string",
-            "example": "golang.org/x/time"
+            "type": "string"
           },
           "symbols": {
-            "$ref": "#/components/schemas/PaginatedSymbols"
+            "$ref": "#/components/schemas/PaginatedResponse_Symbol"
           },
           "version": {
-            "type": "string",
-            "example": "v0.15.0"
+            "type": "string"
           }
         }
-      },
-      "PackagesBadRequestResponse": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "integer",
-            "example": 400
-          },
-          "message": {
-            "type": "string",
-            "example": "golang.org/x/time/rate is a package, not a module"
-          },
-          "fixes": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "example": "retry the call with the containing module: \"golang.org/x/time\""
-            }
-          }
-        },
-        "required": [
-          "code",
-          "message",
-          "fixes"
-        ]
       },
       "PackagesResponse": {
         "type": "object",
@@ -573,122 +583,99 @@
             "type": "string"
           },
           "packages": {
-            "$ref": "#/components/schemas/PaginatedPackageInfos"
+            "$ref": "#/components/schemas/PaginatedResponse_PackageInfo"
           },
           "version": {
             "type": "string"
           }
         }
       },
-      "PaginatedModuleVersions": {
-        "allOf": [
-          {
-            "type": "object",
-            "properties": {
-              "items": {
-                "$ref": "#/components/schemas/ModuleVersions"
-              }
-            }
-          },
-          {
-            "$ref": "#/components/schemas/PaginatedResponse"
-          }
-        ]
-      },
-      "PaginatedPackageInfos": {
-        "allOf": [
-          {
-            "type": "object",
-            "properties": {
-              "items": {
-                "$ref": "#/components/schemas/PackageInfos"
-              }
-            }
-          },
-          {
-            "$ref": "#/components/schemas/PaginatedResponse"
-          }
-        ]
-      },
-      "PaginatedResponse": {
+      "PaginatedResponse_ModuleVersion": {
         "type": "object",
         "properties": {
-          "total": {
-            "type": "integer",
-            "example": 15
+          "items": {
+            "$ref": "#/components/schemas/ModuleVersions"
           },
           "nextPageToken": {
-            "type": "string",
-            "example": "c5806e999a87f632c2e6016f77dbf204"
+            "type": "string"
+          },
+          "total": {
+            "type": "integer"
           }
-        },
-        "required": [
-          "nextPageToken",
-          "total"
-        ]
+        }
       },
-      "PaginatedSearchResults": {
-        "allOf": [
-          {
-            "type": "object",
-            "properties": {
-              "items": {
-                "$ref": "#/components/schemas/SearchResults"
-              }
+      "PaginatedResponse_PackageInfo": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "$ref": "#/components/schemas/PackageInfos"
+          },
+          "nextPageToken": {
+            "type": "string"
+          },
+          "total": {
+            "type": "integer"
+          }
+        }
+      },
+      "PaginatedResponse_SearchResult": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "$ref": "#/components/schemas/SearchResults"
+          },
+          "nextPageToken": {
+            "type": "string"
+          },
+          "total": {
+            "type": "integer"
+          }
+        }
+      },
+      "PaginatedResponse_Symbol": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "$ref": "#/components/schemas/Symbols"
+          },
+          "nextPageToken": {
+            "type": "string"
+          },
+          "total": {
+            "type": "integer"
+          }
+        }
+      },
+      "PaginatedResponse_Vulnerability": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "$ref": "#/components/schemas/Vulnerabilities"
+          },
+          "nextPageToken": {
+            "type": "string"
+          },
+          "total": {
+            "type": "integer"
+          }
+        }
+      },
+      "PaginatedResponse_string": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "string"
             }
           },
-          {
-            "$ref": "#/components/schemas/PaginatedResponse"
-          }
-        ]
-      },
-      "PaginatedStrings": {
-        "allOf": [
-          {
-            "type": "object",
-            "properties": {
-              "items": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              }
-            }
+          "nextPageToken": {
+            "type": "string"
           },
-          {
-            "$ref": "#/components/schemas/PaginatedResponse"
+          "total": {
+            "type": "integer"
           }
-        ]
-      },
-      "PaginatedSymbols": {
-        "allOf": [
-          {
-            "type": "object",
-            "properties": {
-              "items": {
-                "$ref": "#/components/schemas/Symbols"
-              }
-            }
-          },
-          {
-            "$ref": "#/components/schemas/PaginatedResponse"
-          }
-        ]
-      },
-      "PaginatedVulnerabilities": {
-        "allOf": [
-          {
-            "type": "object",
-            "properties": {
-              "items": {
-                "$ref": "#/components/schemas/Vulnerabilities"
-              }
-            }
-          },
-          {
-            "$ref": "#/components/schemas/PaginatedResponse"
-          }
-        ]
+        }
       },
       "Readme": {
         "type": "object",
@@ -705,20 +692,16 @@
         "type": "object",
         "properties": {
           "modulePath": {
-            "type": "string",
-            "example": "github.com/docktermj/go-xyzzy-helpers"
+            "type": "string"
           },
           "packagePath": {
-            "type": "string",
-            "example": "github.com/docktermj/go-xyzzy-helpers/logger"
+            "type": "string"
           },
           "synopsis": {
-            "type": "string",
-            "example": "Package helper ..."
+            "type": "string"
           },
           "version": {
-            "type": "string",
-            "example": "v0.2.2"
+            "type": "string"
           }
         }
       },
@@ -732,20 +715,17 @@
         "type": "object",
         "properties": {
           "kind": {
-            "type": "string",
-            "example": "Type"
+            "description": "Kind is one of \"Constant\", \"Variable\", \"Function\", \"Type\", \"Field\", or \"Method\".",
+            "type": "string"
           },
           "name": {
-            "type": "string",
-            "example": "Limit"
+            "type": "string"
           },
           "parent": {
-            "type": "string",
-            "example": "Limit"
+            "type": "string"
           },
           "synopsis": {
-            "type": "string",
-            "example": "type Limit float64"
+            "type": "string"
           }
         }
       },
@@ -759,8 +739,7 @@
         "type": "array",
         "items": {
           "$ref": "#/components/schemas/Vulnerability"
-        },
-        "example": null
+        }
       },
       "Vulnerability": {
         "type": "object",
@@ -781,6 +760,16 @@
       }
     },
     "responses": {
+      "Error": {
+        "description": "Error response",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
       "Module": {
         "description": "Successful response",
         "content": {
@@ -821,16 +810,6 @@
           }
         }
       },
-      "PackagesBadRequestResponse": {
-        "description": "Bad Request",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/PackagesBadRequestResponse"
-            }
-          }
-        }
-      },
       "PackagesResponse": {
         "description": "Successful response",
         "content": {
@@ -846,7 +825,7 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/PaginatedModuleVersions"
+              "$ref": "#/components/schemas/PaginatedResponse_ModuleVersion"
             }
           }
         }
@@ -856,7 +835,7 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/PaginatedSearchResults"
+              "$ref": "#/components/schemas/PaginatedResponse_SearchResult"
             }
           }
         }
@@ -866,7 +845,7 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/PaginatedVulnerabilities"
+              "$ref": "#/components/schemas/PaginatedResponse_Vulnerability"
             }
           }
         }
@@ -945,12 +924,39 @@
           "type": "string"
         }
       },
-      "path": {
+      "moduleInPath": {
         "name": "path",
         "in": "path",
+        "description": "Module path.",
         "required": true,
         "schema": {
           "type": "string"
+        }
+      },
+      "packageInPath": {
+        "name": "path",
+        "in": "path",
+        "description": "Package path.",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "path": {
+        "name": "path",
+        "in": "path",
+        "description": "Module or package path.",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "pseudo": {
+        "name": "pseudo",
+        "in": "query",
+        "description": "Whether to include pseudo-versions in the result.",
+        "schema": {
+          "type": "boolean"
         }
       },
       "q": {
@@ -958,8 +964,7 @@
         "in": "query",
         "description": "Find packages matching this query.",
         "schema": {
-          "type": "string",
-          "example": "xyzzy"
+          "type": "string"
         }
       },
       "readme": {
@@ -991,10 +996,35 @@
         "in": "query",
         "description": "Module version: semantic version, 'latest', or default branches 'master' or 'main'.\n(Latest if empty).",
         "schema": {
-          "type": "string",
-          "example": "master"
+          "type": "string"
         }
       }
     }
-  }
+  },
+  "tags": [
+    {
+      "name": "imported-by"
+    },
+    {
+      "name": "module"
+    },
+    {
+      "name": "package"
+    },
+    {
+      "name": "packages"
+    },
+    {
+      "name": "search"
+    },
+    {
+      "name": "symbols"
+    },
+    {
+      "name": "versions"
+    },
+    {
+      "name": "vulns"
+    }
+  ]
 }
