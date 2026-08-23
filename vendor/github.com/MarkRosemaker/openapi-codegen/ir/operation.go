@@ -448,8 +448,9 @@ func fromResponses(responses openapi.OperationResponses) ([]Response, *GoType, b
 // statusCodeToConst converts an OpenAPI status code to its net/http constant name.
 func statusCodeToConst(code openapi.StatusCode) string {
 	if code == openapi.StatusCodeDefault {
-		return "0"
+		return "default"
 	}
+	
 	n, err := strconv.Atoi(string(code))
 	if err != nil {
 		return string(code)

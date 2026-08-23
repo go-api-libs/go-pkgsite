@@ -275,8 +275,13 @@ func (c *Client) {{.Name}}(ctx context.Context{{range .PathParams}}, {{.GoName}}
 	defer rsp.Body.Close()
 
 	switch rsp.StatusCode {
-{{- range .Responses}}
-	case {{.GoConstant}}:
+{{- $hasDefault := false -}}
+{{- range .Responses }}
+	{{ if eq .GoConstant "default" -}}
+		{{- $hasDefault = true -}}
+	{{ else -}}
+		case {{ end -}}
+	{{ .GoConstant }}:
 		{{ with .Description }}{{ toGoComment . }}{{ end }}
 {{- if or .IsSuccess .GoType }}
 		switch mt, _, _ := strings.Cut(rsp.Header.Get("Content-Type"), ";"); mt {
@@ -316,8 +321,10 @@ func (c *Client) {{.Name}}(ctx context.Context{{range .PathParams}}, {{.GoName}}
 		return {{if $op.SuccessReturn}}nil, {{end}}fmt.Errorf("{{$op.Name}}: status %s", rsp.Status)
 {{- end}}
 {{- end}}
+	{{ if not $hasDefault -}}
 	default:
 		return {{if .SuccessReturn}}nil, {{end}}api.NewErrUnknownStatusCode(rsp)
+	{{ end -}}
 	}
 }
 {{end}}
