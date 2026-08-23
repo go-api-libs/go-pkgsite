@@ -583,13 +583,15 @@
         "type": "object",
         "properties": {
           "modulePath": {
-            "type": "string"
+            "type": "string",
+            "example": "golang.org/x/time"
           },
           "symbols": {
             "$ref": "#/components/schemas/PaginatedResponse_Symbol"
           },
           "version": {
-            "type": "string"
+            "type": "string",
+            "example": "v0.15.0"
           }
         }
       },
@@ -668,7 +670,8 @@
             "type": "string"
           },
           "total": {
-            "type": "integer"
+            "type": "integer",
+            "example": 31
           }
         }
       },
@@ -746,16 +749,20 @@
         "properties": {
           "kind": {
             "description": "Kind is one of \"Constant\", \"Variable\", \"Function\", \"Type\", \"Field\", or \"Method\".",
-            "type": "string"
+            "type": "string",
+            "example": "Type"
           },
           "name": {
-            "type": "string"
+            "type": "string",
+            "example": "Limit"
           },
           "parent": {
-            "type": "string"
+            "type": "string",
+            "example": "Limit"
           },
           "synopsis": {
-            "type": "string"
+            "type": "string",
+            "example": "type Limit float64"
           }
         }
       },

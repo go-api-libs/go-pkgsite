@@ -671,4 +671,8 @@ func TestClient_Interactions(t *testing.T) {
 	}); err != nil {
 		t.Fatalf("GetSearch: %v", err)
 	}
+
+	if _, err := c.GetSymbols(ctx, "golang.org/x/time/rate", &GetSymbolsParams{}); err != nil {
+		t.Fatalf("GetSymbols: %v", err)
+	}
 }
