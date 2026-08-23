@@ -545,10 +545,12 @@
             "$ref": "#/components/schemas/PaginatedResponse_string"
           },
           "modulePath": {
-            "type": "string"
+            "type": "string",
+            "example": "golang.org/x/time"
           },
           "version": {
-            "type": "string"
+            "type": "string",
+            "example": "latest"
           }
         }
       },
@@ -695,14 +697,17 @@
           "items": {
             "type": "array",
             "items": {
-              "type": "string"
+              "type": "string",
+              "example": "0xacab.org/leap/geoip-service/internal/service"
             }
           },
           "nextPageToken": {
-            "type": "string"
+            "type": "string",
+            "example": "15a859f8f5a82e2ce654788c147e1bcfe1a1001e0bb1ddbb73ec7001c926b7baa6e1fc667e50779a7480d2b295f009ebc437ac6710a356543f6356eddeecac5aa2bc75dd6c06384502dc621630b092"
           },
           "total": {
-            "type": "integer"
+            "type": "integer",
+            "example": 14348
           }
         }
       },

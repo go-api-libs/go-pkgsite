@@ -675,4 +675,10 @@ func TestClient_Interactions(t *testing.T) {
 	if _, err := c.GetSymbols(ctx, "golang.org/x/time/rate", &GetSymbolsParams{}); err != nil {
 		t.Fatalf("GetSymbols: %v", err)
 	}
+
+	if _, err := c.GetImportedBy(ctx, "golang.org/x/time/rate", &GetImportedByParams{
+		Limit: 10,
+	}); err != nil {
+		t.Fatalf("GetImportedBy: %v", err)
+	}
 }
