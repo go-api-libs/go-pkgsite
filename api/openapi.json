@@ -480,10 +480,12 @@
             "type": "string"
           },
           "goarch": {
-            "type": "string"
+            "type": "string",
+            "example": "all"
           },
           "goos": {
-            "type": "string"
+            "type": "string",
+            "example": "all"
           },
           "imports": {
             "type": "array",
@@ -505,19 +507,24 @@
             "$ref": "#/components/schemas/Licenses"
           },
           "modulePath": {
-            "type": "string"
+            "type": "string",
+            "example": "golang.org/x/time"
           },
           "name": {
-            "type": "string"
+            "type": "string",
+            "example": "rate"
           },
           "path": {
-            "type": "string"
+            "type": "string",
+            "example": "golang.org/x/time/rate"
           },
           "synopsis": {
-            "type": "string"
+            "type": "string",
+            "example": "Package rate provides a rate limiter."
           },
           "version": {
-            "type": "string"
+            "type": "string",
+            "example": "v0.15.0"
           }
         }
       },
