@@ -44,5 +44,59 @@
 				"repoUrl": "https://cs.opensource.google/go/x/time"
 			}
 		}
+	},
+	{
+		"request": {
+			"method": "GET",
+			"url": "https://pkg.go.dev/v1/versions/golang.org/x/time?limit=3"
+		},
+		"response": {
+			"statusCode": 200,
+			"header": {
+				"Content-Type": "application/json"
+			},
+			"body": {
+				"items": [
+					{
+						"modulePath": "golang.org/x/time",
+						"version": "v0.15.0",
+						"commitTime": "2026-02-11T19:14:29Z",
+						"isRedistributable": true,
+						"hasGoMod": true,
+						"latestVersion": "v0.15.0",
+						"deprecated": false,
+						"deprecationReason": "",
+						"retracted": false,
+						"retractionReason": ""
+					},
+					{
+						"modulePath": "golang.org/x/time",
+						"version": "v0.14.0",
+						"commitTime": "2025-09-16T23:29:52Z",
+						"isRedistributable": true,
+						"hasGoMod": true,
+						"latestVersion": "v0.15.0",
+						"deprecated": false,
+						"deprecationReason": "",
+						"retracted": false,
+						"retractionReason": ""
+					},
+					{
+						"modulePath": "golang.org/x/time",
+						"version": "v0.13.0",
+						"commitTime": "2025-08-13T14:44:00Z",
+						"isRedistributable": true,
+						"hasGoMod": true,
+						"latestVersion": "v0.15.0",
+						"deprecated": false,
+						"deprecationReason": "",
+						"retracted": false,
+						"retractionReason": ""
+					}
+				],
+				"total": -1,
+				"nextPageToken": "0d2b18b139e65c9d5c88c9d41e1bb6dc57cdc67e892d5668addbee330af572ad6307fe0e60ae487e7278f3b5a28a2cd4020abf758cf2aabcbec3fd299bfa42c926a17090"
+			}
+		}
 	}
 ]

@@ -437,13 +437,15 @@
         "properties": {
           "commitTime": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "example": "2026-02-11T19:14:29Z"
           },
           "deprecated": {
             "type": "boolean"
           },
           "deprecationReason": {
-            "type": "string"
+            "type": "string",
+            "example": ""
           },
           "hasGoMod": {
             "description": "HasGoMod is whether the module has a go.mod file.",
@@ -455,19 +457,23 @@
           },
           "latestVersion": {
             "description": "LatestVersion is the latest unretracted version.",
-            "type": "string"
+            "type": "string",
+            "example": "v0.15.0"
           },
           "modulePath": {
-            "type": "string"
+            "type": "string",
+            "example": "golang.org/x/time"
           },
           "retracted": {
             "type": "boolean"
           },
           "retractionReason": {
-            "type": "string"
+            "type": "string",
+            "example": ""
           },
           "version": {
-            "type": "string"
+            "type": "string",
+            "example": "v0.15.0"
           }
         }
       },
@@ -608,10 +614,12 @@
             "$ref": "#/components/schemas/ModuleVersions"
           },
           "nextPageToken": {
-            "type": "string"
+            "type": "string",
+            "example": "0d2b18b139e65c9d5c88c9d41e1bb6dc57cdc67e892d5668addbee330af572ad6307fe0e60ae487e7278f3b5a28a2cd4020abf758cf2aabcbec3fd299bfa42c926a17090"
           },
           "total": {
-            "type": "integer"
+            "type": "integer",
+            "example": -1
           }
         }
       },
