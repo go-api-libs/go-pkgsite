@@ -687,7 +687,8 @@
             "type": "string"
           },
           "total": {
-            "type": "integer"
+            "type": "integer",
+            "example": 0
           }
         }
       },
@@ -781,7 +782,8 @@
         "type": "array",
         "items": {
           "$ref": "#/components/schemas/Vulnerability"
-        }
+        },
+        "example": null
       },
       "Vulnerability": {
         "type": "object",

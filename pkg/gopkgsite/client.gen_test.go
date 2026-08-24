@@ -681,4 +681,8 @@ func TestClient_Interactions(t *testing.T) {
 	}); err != nil {
 		t.Fatalf("GetImportedBy: %v", err)
 	}
+
+	if _, err := c.GetVulns(ctx, "golang.org/x/image", &GetVulnsParams{}); err != nil {
+		t.Fatalf("GetVulns: %v", err)
+	}
 }
