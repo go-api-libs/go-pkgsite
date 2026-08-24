@@ -9,7 +9,10 @@ tool (
 	github.com/MarkRosemaker/openapi-flatten/cmd/openapi-flatten
 )
 
-require github.com/go-api-libs/api v0.0.0-20260822224219-ad37a7b68775
+require (
+	github.com/MarkRosemaker/openapi-enrich v0.0.0-20260823141700-b724bcc12500
+	github.com/go-api-libs/api v0.0.0-20260822224219-ad37a7b68775
+)
 
 require (
 	cloud.google.com/go v0.123.0 // indirect
@@ -21,7 +24,6 @@ require (
 	github.com/MarkRosemaker/openapi-compare v0.0.0-20260822160308-d46325b41c60 // indirect
 	github.com/MarkRosemaker/openapi-compress v0.0.0-20260822224615-33984efb16a7 // indirect
 	github.com/MarkRosemaker/openapi-edit v0.0.0-20260822160309-e064283927a6 // indirect
-	github.com/MarkRosemaker/openapi-enrich v0.0.0-20260823141700-b724bcc12500 // indirect
 	github.com/MarkRosemaker/openapi-flatten v0.0.0-20260822213818-299a958d1c34 // indirect
 	github.com/MarkRosemaker/openapi-merge v0.0.0-20260822160309-abc859c5db13 // indirect
 	github.com/MarkRosemaker/ordmap v0.0.0-20260821225345-9c948bb0ea43 // indirect
