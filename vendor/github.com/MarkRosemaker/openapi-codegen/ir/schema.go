@@ -124,6 +124,8 @@ func integerGoType(f openapi.Format) (*GoType, error) {
 		return &GoType{Name: "uint64"}, nil
 	case openapi.FormatDuration:
 		return &GoType{Name: "time.Duration"}, nil
+	case openapi.FormatDateTime:
+		return &GoType{Name: "time.Time"}, nil
 	default:
 		return nil, fmt.Errorf("unsupported integer format: %q", f)
 	}
@@ -650,7 +652,8 @@ func digitWord(r rune) string {
 //   - plain string, required:     json:"name"
 //   - plain string, optional:     json:"name"       (empty strings are valid values)
 //   - array:                      json:"name,omitempty"
-//   - other, required:            json:"name,omitzero"
+//   - other, required:            json:"name"        (a required field must always be sent,
+//     zero value included -- omitzero would silently drop e.g. a required "false" or "0")
 //   - other, optional:            json:"name,omitempty"
 func buildJSONTag(jsonName string, tp openapi.DataType, format openapi.Format, required bool) string {
 	// NOTE: JSON tags need to be rethought;
@@ -672,12 +675,18 @@ func buildJSONTag(jsonName string, tp openapi.DataType, format openapi.Format, r
 			}
 		}
 	case openapi.TypeArray:
-		opts = ",omitempty" // always omit empty array
-	case openapi.TypeBoolean, openapi.TypeInteger:
-		// NOTE: copied from legacy code, might not make sense
-		if required {
+		// omitempty would drop an initialised-but-empty slice, so a required
+		// array could never be sent as []. omitzero drops only a nil slice,
+		// leaving the sender to choose: nil omits the field, []T{} sends [].
+		// If the array is required, we do not have any tags.
+		if !required {
 			opts = ",omitzero"
-		} else {
+		}
+	case openapi.TypeBoolean, openapi.TypeInteger:
+		// A required field must always be sent, zero value included: a
+		// required boolean that happens to be false, or a required count of
+		// 0, is a real value, not an absence to omit.
+		if !required {
 			opts = ",omitempty"
 		}
 	default:

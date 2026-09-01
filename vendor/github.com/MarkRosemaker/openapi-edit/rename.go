@@ -61,10 +61,6 @@ func (e *ErrInvalidSchemaName) Error() string {
 //     point every reference to whichever survived;
 //   - newName could not be referenced ([ErrInvalidSchemaName]).
 func RenameSchema(doc *openapi.Document, oldName, newName string) error {
-	if doc == nil {
-		return nil
-	}
-
 	schemas := doc.Components.Schemas
 
 	s, ok := schemas[oldName]
@@ -204,9 +200,7 @@ func (w *refWriter) parameter(r *openapi.ParameterRef) {
 		return
 	}
 
-	// A parameter holds a schema directly rather than a reference to one, so
-	// there is nothing to rewrite at this level — only below it.
-	w.schema(r.Value.Schema)
+	w.schemaRef(r.Value.Schema)
 	w.content(r.Value.Content)
 }
 
