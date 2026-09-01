@@ -146,11 +146,11 @@ type Candidates []Candidate
 
 // Error defines a model
 type Error struct {
-	Candidates Candidates `json:"candidates,omitempty"`
+	Candidates Candidates `json:"candidates,omitzero"`
 	// Code is the HTTP status code.
-	Code int `json:"code,omitzero"`
+	Code int `json:"code"`
 	// Fixes are suggestions for how to fix.
-	Fixes   []string `json:"fixes,omitempty"`
+	Fixes   []string `json:"fixes,omitzero"`
 	Message string   `json:"message,omitzero"`
 }
 
@@ -158,7 +158,7 @@ type Error struct {
 type License struct {
 	Contents string   `json:"contents,omitzero"`
 	FilePath string   `json:"filePath,omitzero"`
-	Types    []string `json:"types,omitempty"`
+	Types    []string `json:"types,omitzero"`
 }
 
 // Licenses defines a model
@@ -174,7 +174,7 @@ type Module struct {
 	IsLatest          bool      `json:"isLatest,omitempty"`
 	IsRedistributable bool      `json:"isRedistributable,omitempty"`
 	IsStandardLibrary bool      `json:"isStandardLibrary,omitempty"`
-	Licenses          Licenses  `json:"licenses,omitempty"`
+	Licenses          Licenses  `json:"licenses,omitzero"`
 	Path              string    `json:"path,omitzero"`
 	Readme            *Readme   `json:"readme,omitempty"`
 	RepoURL           string    `json:"repoUrl,omitzero"`
@@ -206,12 +206,12 @@ type Package struct {
 	Docs     string   `json:"docs,omitzero"`
 	Goarch   string   `json:"goarch,omitzero"`
 	Goos     string   `json:"goos,omitzero"`
-	Imports  []string `json:"imports,omitempty"`
+	Imports  []string `json:"imports,omitzero"`
 	IsLatest bool     `json:"isLatest,omitempty"`
 	// IsRedistributable is whether the license allows distribution.
 	IsRedistributable bool     `json:"isRedistributable,omitempty"`
 	IsStandardLibrary bool     `json:"isStandardLibrary,omitempty"`
-	Licenses          Licenses `json:"licenses,omitempty"`
+	Licenses          Licenses `json:"licenses,omitzero"`
 	ModulePath        string   `json:"modulePath,omitzero"`
 	Name              string   `json:"name,omitzero"`
 	Path              string   `json:"path,omitzero"`
@@ -255,42 +255,42 @@ type PackagesResponse struct {
 
 // PaginatedResponse_ModuleVersion defines a model
 type PaginatedResponse_ModuleVersion struct {
-	Items         ModuleVersions `json:"items,omitempty"`
+	Items         ModuleVersions `json:"items,omitzero"`
 	NextPageToken string         `json:"nextPageToken,omitzero"`
 	Total         *int           `json:"total,omitempty"`
 }
 
 // PaginatedResponse_PackageInfo defines a model
 type PaginatedResponse_PackageInfo struct {
-	Items         PackageInfos `json:"items,omitempty"`
+	Items         PackageInfos `json:"items,omitzero"`
 	NextPageToken string       `json:"nextPageToken,omitzero"`
 	Total         *int         `json:"total,omitempty"`
 }
 
 // PaginatedResponse_SearchResult defines a model
 type PaginatedResponse_SearchResult struct {
-	Items         SearchResults `json:"items,omitempty"`
+	Items         SearchResults `json:"items,omitzero"`
 	NextPageToken string        `json:"nextPageToken,omitzero"`
 	Total         *int          `json:"total,omitempty"`
 }
 
 // PaginatedResponse_Symbol defines a model
 type PaginatedResponse_Symbol struct {
-	Items         Symbols `json:"items,omitempty"`
+	Items         Symbols `json:"items,omitzero"`
 	NextPageToken string  `json:"nextPageToken,omitzero"`
 	Total         *int    `json:"total,omitempty"`
 }
 
 // PaginatedResponse_Vulnerability defines a model
 type PaginatedResponse_Vulnerability struct {
-	Items         Vulnerabilities `json:"items,omitempty"`
+	Items         Vulnerabilities `json:"items,omitzero"`
 	NextPageToken string          `json:"nextPageToken,omitzero"`
 	Total         *int            `json:"total,omitempty"`
 }
 
 // PaginatedResponse_string defines a model
 type PaginatedResponse_string struct {
-	Items         []string `json:"items,omitempty"`
+	Items         []string `json:"items,omitzero"`
 	NextPageToken string   `json:"nextPageToken,omitzero"`
 	Total         *int     `json:"total,omitempty"`
 }
