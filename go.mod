@@ -11,7 +11,7 @@ tool (
 
 require (
 	github.com/MarkRosemaker/openapi-enrich v0.0.0-20260918180733-77357b46d638
-	github.com/go-api-libs/api v0.0.0-20260918135843-6d89b4c494cb
+	github.com/go-api-libs/api v0.0.0-20260918183703-358e12107fa2
 )
 
 require (
