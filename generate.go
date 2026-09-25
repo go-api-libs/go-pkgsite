@@ -1,4 +1,4 @@
-package habitica
+package main
 
 //go:generate go tool openapi-enrich
 //go:generate go tool openapi-flatten
