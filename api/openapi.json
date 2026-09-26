@@ -800,7 +800,8 @@
           "summary": {
             "type": "string"
           }
-        }
+        },
+        "example": null
       }
     },
     "responses": {
