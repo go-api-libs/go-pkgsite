@@ -779,11 +779,13 @@
         }
       },
       "Vulnerabilities": {
-        "type": "array",
+        "type": [
+          "array",
+          "null"
+        ],
         "items": {
           "$ref": "#/components/schemas/Vulnerability"
-        },
-        "example": null
+        }
       },
       "Vulnerability": {
         "type": "object",
@@ -800,8 +802,7 @@
           "summary": {
             "type": "string"
           }
-        },
-        "example": null
+        }
       }
     },
     "responses": {

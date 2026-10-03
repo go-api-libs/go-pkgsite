@@ -168,32 +168,32 @@ type Licenses []License
 type Module struct {
 	// CommitTime is the timestamp returned by the module proxy's .info endpoint,
 	// representing the time the version was created.
-	CommitTime        time.Time `json:"commitTime,omitempty"`
+	CommitTime        time.Time `json:"commitTime,omitzero"`
 	GoModContents     string    `json:"goModContents,omitzero"`
-	HasGoMod          bool      `json:"hasGoMod,omitempty"`
-	IsLatest          bool      `json:"isLatest,omitempty"`
-	IsRedistributable bool      `json:"isRedistributable,omitempty"`
-	IsStandardLibrary bool      `json:"isStandardLibrary,omitempty"`
+	HasGoMod          *bool     `json:"hasGoMod,omitzero"`
+	IsLatest          *bool     `json:"isLatest,omitzero"`
+	IsRedistributable *bool     `json:"isRedistributable,omitzero"`
+	IsStandardLibrary *bool     `json:"isStandardLibrary,omitzero"`
 	Licenses          Licenses  `json:"licenses,omitzero"`
 	Path              string    `json:"path,omitzero"`
-	Readme            *Readme   `json:"readme,omitempty"`
+	Readme            *Readme   `json:"readme,omitzero"`
 	RepoURL           string    `json:"repoUrl,omitzero"`
 	Version           string    `json:"version,omitzero"`
 }
 
 // ModuleVersion defines a model
 type ModuleVersion struct {
-	CommitTime        time.Time `json:"commitTime,omitempty"`
-	Deprecated        bool      `json:"deprecated,omitempty"`
+	CommitTime        time.Time `json:"commitTime,omitzero"`
+	Deprecated        *bool     `json:"deprecated,omitzero"`
 	DeprecationReason string    `json:"deprecationReason,omitzero"`
 	// HasGoMod is whether the module has a go.mod file.
-	HasGoMod bool `json:"hasGoMod,omitempty"`
+	HasGoMod *bool `json:"hasGoMod,omitzero"`
 	// IsRedistributable is whether the license allows distribution.
-	IsRedistributable bool `json:"isRedistributable,omitempty"`
+	IsRedistributable *bool `json:"isRedistributable,omitzero"`
 	// LatestVersion is the latest unretracted version.
 	LatestVersion    string `json:"latestVersion,omitzero"`
 	ModulePath       string `json:"modulePath,omitzero"`
-	Retracted        bool   `json:"retracted,omitempty"`
+	Retracted        *bool  `json:"retracted,omitzero"`
 	RetractionReason string `json:"retractionReason,omitzero"`
 	Version          string `json:"version,omitzero"`
 }
@@ -207,10 +207,10 @@ type Package struct {
 	Goarch   string   `json:"goarch,omitzero"`
 	Goos     string   `json:"goos,omitzero"`
 	Imports  []string `json:"imports,omitzero"`
-	IsLatest bool     `json:"isLatest,omitempty"`
+	IsLatest *bool    `json:"isLatest,omitzero"`
 	// IsRedistributable is whether the license allows distribution.
-	IsRedistributable bool     `json:"isRedistributable,omitempty"`
-	IsStandardLibrary bool     `json:"isStandardLibrary,omitempty"`
+	IsRedistributable *bool    `json:"isRedistributable,omitzero"`
+	IsStandardLibrary *bool    `json:"isStandardLibrary,omitzero"`
 	Licenses          Licenses `json:"licenses,omitzero"`
 	ModulePath        string   `json:"modulePath,omitzero"`
 	Name              string   `json:"name,omitzero"`
@@ -221,7 +221,7 @@ type Package struct {
 
 // PackageImportedBy defines a model
 type PackageImportedBy struct {
-	ImportedBy *PaginatedResponse_string `json:"importedBy,omitempty"`
+	ImportedBy *PaginatedResponse_string `json:"importedBy,omitzero"`
 	ModulePath string                    `json:"modulePath,omitzero"`
 	Version    string                    `json:"version,omitzero"`
 }
@@ -229,7 +229,7 @@ type PackageImportedBy struct {
 // PackageInfo defines a model
 type PackageInfo struct {
 	// IsRedistributable is whether the license allows distribution.
-	IsRedistributable bool   `json:"isRedistributable,omitempty"`
+	IsRedistributable *bool  `json:"isRedistributable,omitzero"`
 	Name              string `json:"name,omitzero"`
 	Path              string `json:"path,omitzero"`
 	Synopsis          string `json:"synopsis,omitzero"`
@@ -241,15 +241,15 @@ type PackageInfos []PackageInfo
 // PackageSymbols defines a model
 type PackageSymbols struct {
 	ModulePath string                    `json:"modulePath,omitzero"`
-	Symbols    *PaginatedResponse_Symbol `json:"symbols,omitempty"`
+	Symbols    *PaginatedResponse_Symbol `json:"symbols,omitzero"`
 	Version    string                    `json:"version,omitzero"`
 }
 
 // PackagesResponse defines a model
 type PackagesResponse struct {
-	IsStandardLibrary bool                           `json:"isStandardLibrary,omitempty"`
+	IsStandardLibrary *bool                          `json:"isStandardLibrary,omitzero"`
 	ModulePath        string                         `json:"modulePath,omitzero"`
-	Packages          *PaginatedResponse_PackageInfo `json:"packages,omitempty"`
+	Packages          *PaginatedResponse_PackageInfo `json:"packages,omitzero"`
 	Version           string                         `json:"version,omitzero"`
 }
 
@@ -257,42 +257,42 @@ type PackagesResponse struct {
 type PaginatedResponse_ModuleVersion struct {
 	Items         ModuleVersions `json:"items,omitzero"`
 	NextPageToken string         `json:"nextPageToken,omitzero"`
-	Total         *int           `json:"total,omitempty"`
+	Total         *int           `json:"total,omitzero"`
 }
 
 // PaginatedResponse_PackageInfo defines a model
 type PaginatedResponse_PackageInfo struct {
 	Items         PackageInfos `json:"items,omitzero"`
 	NextPageToken string       `json:"nextPageToken,omitzero"`
-	Total         *int         `json:"total,omitempty"`
+	Total         *int         `json:"total,omitzero"`
 }
 
 // PaginatedResponse_SearchResult defines a model
 type PaginatedResponse_SearchResult struct {
 	Items         SearchResults `json:"items,omitzero"`
 	NextPageToken string        `json:"nextPageToken,omitzero"`
-	Total         *int          `json:"total,omitempty"`
+	Total         *int          `json:"total,omitzero"`
 }
 
 // PaginatedResponse_Symbol defines a model
 type PaginatedResponse_Symbol struct {
 	Items         Symbols `json:"items,omitzero"`
 	NextPageToken string  `json:"nextPageToken,omitzero"`
-	Total         *int    `json:"total,omitempty"`
+	Total         *int    `json:"total,omitzero"`
 }
 
 // PaginatedResponse_Vulnerability defines a model
 type PaginatedResponse_Vulnerability struct {
 	Items         Vulnerabilities `json:"items,omitzero"`
 	NextPageToken string          `json:"nextPageToken,omitzero"`
-	Total         *int            `json:"total,omitempty"`
+	Total         *int            `json:"total,omitzero"`
 }
 
 // PaginatedResponse_string defines a model
 type PaginatedResponse_string struct {
 	Items         []string `json:"items,omitzero"`
 	NextPageToken string   `json:"nextPageToken,omitzero"`
-	Total         *int     `json:"total,omitempty"`
+	Total         *int     `json:"total,omitzero"`
 }
 
 // Readme defines a model
