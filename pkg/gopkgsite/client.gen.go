@@ -137,7 +137,14 @@ func (c *Client) GetImportedByWithResult[R any](ctx context.Context, path string
 		switch mt, _, _ := strings.Cut(rsp.Header.Get("Content-Type"), ";"); mt {
 		case "application/json":
 			var out R
-			if err := json.UnmarshalRead(rsp.Body, &out, jsonOpts); err != nil {
+
+			// a type of the caller's own declares only what it needs of the response, so it is decoded leniently
+			opts := jsonOptsLenient
+			if _, ok := any(&out).(*PackageImportedBy); ok {
+				opts = jsonOpts
+			}
+
+			if err := json.UnmarshalRead(rsp.Body, &out, opts); err != nil {
 				return nil, api.WrapDecodingError(rsp, err)
 			}
 
@@ -216,7 +223,14 @@ func (c *Client) GetModuleWithResult[R any](ctx context.Context, path string, pa
 		switch mt, _, _ := strings.Cut(rsp.Header.Get("Content-Type"), ";"); mt {
 		case "application/json":
 			var out R
-			if err := json.UnmarshalRead(rsp.Body, &out, jsonOpts); err != nil {
+
+			// a type of the caller's own declares only what it needs of the response, so it is decoded leniently
+			opts := jsonOptsLenient
+			if _, ok := any(&out).(*Module); ok {
+				opts = jsonOpts
+			}
+
+			if err := json.UnmarshalRead(rsp.Body, &out, opts); err != nil {
 				return nil, api.WrapDecodingError(rsp, err)
 			}
 
@@ -315,7 +329,14 @@ func (c *Client) GetPackageWithResult[R any](ctx context.Context, path string, p
 		switch mt, _, _ := strings.Cut(rsp.Header.Get("Content-Type"), ";"); mt {
 		case "application/json":
 			var out R
-			if err := json.UnmarshalRead(rsp.Body, &out, jsonOpts); err != nil {
+
+			// a type of the caller's own declares only what it needs of the response, so it is decoded leniently
+			opts := jsonOptsLenient
+			if _, ok := any(&out).(*Package); ok {
+				opts = jsonOpts
+			}
+
+			if err := json.UnmarshalRead(rsp.Body, &out, opts); err != nil {
 				return nil, api.WrapDecodingError(rsp, err)
 			}
 
@@ -402,7 +423,14 @@ func (c *Client) GetPackagesWithResult[R any](ctx context.Context, path string, 
 		switch mt, _, _ := strings.Cut(rsp.Header.Get("Content-Type"), ";"); mt {
 		case "application/json":
 			var out R
-			if err := json.UnmarshalRead(rsp.Body, &out, jsonOpts); err != nil {
+
+			// a type of the caller's own declares only what it needs of the response, so it is decoded leniently
+			opts := jsonOptsLenient
+			if _, ok := any(&out).(*PackagesResponse); ok {
+				opts = jsonOpts
+			}
+
+			if err := json.UnmarshalRead(rsp.Body, &out, opts); err != nil {
 				return nil, api.WrapDecodingError(rsp, err)
 			}
 
@@ -491,7 +519,14 @@ func (c *Client) GetSearchWithResult[R any](ctx context.Context, params *GetSear
 		switch mt, _, _ := strings.Cut(rsp.Header.Get("Content-Type"), ";"); mt {
 		case "application/json":
 			var out R
-			if err := json.UnmarshalRead(rsp.Body, &out, jsonOpts); err != nil {
+
+			// a type of the caller's own declares only what it needs of the response, so it is decoded leniently
+			opts := jsonOptsLenient
+			if _, ok := any(&out).(*PaginatedResponse_SearchResult); ok {
+				opts = jsonOpts
+			}
+
+			if err := json.UnmarshalRead(rsp.Body, &out, opts); err != nil {
 				return nil, api.WrapDecodingError(rsp, err)
 			}
 
@@ -590,7 +625,14 @@ func (c *Client) GetSymbolsWithResult[R any](ctx context.Context, path string, p
 		switch mt, _, _ := strings.Cut(rsp.Header.Get("Content-Type"), ";"); mt {
 		case "application/json":
 			var out R
-			if err := json.UnmarshalRead(rsp.Body, &out, jsonOpts); err != nil {
+
+			// a type of the caller's own declares only what it needs of the response, so it is decoded leniently
+			opts := jsonOptsLenient
+			if _, ok := any(&out).(*PackageSymbols); ok {
+				opts = jsonOpts
+			}
+
+			if err := json.UnmarshalRead(rsp.Body, &out, opts); err != nil {
 				return nil, api.WrapDecodingError(rsp, err)
 			}
 
@@ -683,7 +725,14 @@ func (c *Client) GetVersionsWithResult[R any](ctx context.Context, path string, 
 		switch mt, _, _ := strings.Cut(rsp.Header.Get("Content-Type"), ";"); mt {
 		case "application/json":
 			var out R
-			if err := json.UnmarshalRead(rsp.Body, &out, jsonOpts); err != nil {
+
+			// a type of the caller's own declares only what it needs of the response, so it is decoded leniently
+			opts := jsonOptsLenient
+			if _, ok := any(&out).(*PaginatedResponse_ModuleVersion); ok {
+				opts = jsonOpts
+			}
+
+			if err := json.UnmarshalRead(rsp.Body, &out, opts); err != nil {
 				return nil, api.WrapDecodingError(rsp, err)
 			}
 
@@ -774,7 +823,14 @@ func (c *Client) GetVulnsWithResult[R any](ctx context.Context, path string, par
 		switch mt, _, _ := strings.Cut(rsp.Header.Get("Content-Type"), ";"); mt {
 		case "application/json":
 			var out R
-			if err := json.UnmarshalRead(rsp.Body, &out, jsonOpts); err != nil {
+
+			// a type of the caller's own declares only what it needs of the response, so it is decoded leniently
+			opts := jsonOptsLenient
+			if _, ok := any(&out).(*PaginatedResponse_Vulnerability); ok {
+				opts = jsonOpts
+			}
+
+			if err := json.UnmarshalRead(rsp.Body, &out, opts); err != nil {
 				return nil, api.WrapDecodingError(rsp, err)
 			}
 
