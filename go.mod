@@ -11,7 +11,7 @@ tool (
 
 require (
 	github.com/MarkRosemaker/cassette v0.0.0-20261016100221-68e478a1272e
-	github.com/go-api-libs/api v0.0.0-20261011100139-4690447dcdfa
+	github.com/go-api-libs/api v0.0.0-20261016110315-20cc10d340f4
 )
 
 require (
