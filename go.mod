@@ -11,6 +11,7 @@ tool (
 
 require (
 	github.com/MarkRosemaker/cassette v0.0.0-20261023185554-6ef93f427dfd
+	github.com/MarkRosemaker/jsonutil v0.0.0-20261023192140-497ece8b064f
 	github.com/go-api-libs/api v0.0.0-20261022123116-10cafa1bd9b1
 )
 
@@ -18,7 +19,6 @@ require (
 	cloud.google.com/go v0.123.0 // indirect
 	github.com/MarkRosemaker/errpath v0.0.0-20261022123114-077265568e41 // indirect
 	github.com/MarkRosemaker/json2yaml v0.0.0-20261022123116-6447be2c9430 // indirect
-	github.com/MarkRosemaker/jsonutil v0.0.0-20261023182945-bdc3cc16b47f // indirect
 	github.com/MarkRosemaker/openapi v0.0.0-20261023185603-7d0980c7e40a // indirect
 	github.com/MarkRosemaker/openapi-codegen v0.0.0-20261023185910-227e3b1b41cf // indirect
 	github.com/MarkRosemaker/openapi-compare v0.0.0-20261023185634-5a2c92c1fee5 // indirect
