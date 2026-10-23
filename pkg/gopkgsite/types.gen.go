@@ -7,10 +7,15 @@ package gopkgsite
 import (
 	"encoding/json/v2"
 	"time"
+
+	"github.com/MarkRosemaker/jsonutil"
 )
 
 var jsonOpts = json.JoinOptions(
 	json.RejectUnknownMembers(true),
+	json.WithUnmarshalers(json.JoinUnmarshalers(
+		json.UnmarshalFromFunc(jsonutil.TimeUnmarshalEmptyAsZero),
+	)),
 )
 
 // jsonOptsLenient is jsonOpts accepting members the specification does not know, as debug mode decodes once a strict
