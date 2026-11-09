@@ -6,6 +6,7 @@ package gopkgsite
 
 import (
 	"encoding/json/jsontext"
+	"encoding/json/v2"
 	"errors"
 	"io"
 	"net/http"
@@ -25,6 +26,41 @@ func newTestServer(t *testing.T, status int) *httptest.Server {
 	}))
 	t.Cleanup(srv.Close)
 	return srv
+}
+
+// newBodyServer is the base URL of a server that answers every request with status, contentType and body.
+func newBodyServer(t *testing.T, status int, contentType string, body []byte) *url.URL {
+	t.Helper()
+
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", contentType)
+		w.WriteHeader(status)
+		_, _ = w.Write(body)
+	}))
+	t.Cleanup(srv.Close)
+
+	u, err := url.Parse(srv.URL)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	return u
+}
+
+// withUnknownMember is v as JSON, with a member no type declares added to it.
+func withUnknownMember(t *testing.T, v any) []byte {
+	t.Helper()
+
+	b, err := json.Marshal(v, jsonOpts)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if string(b) == "{}" {
+		return []byte(`{"not_a_member_of_any_type": true}`)
+	}
+
+	return append([]byte(`{"not_a_member_of_any_type": true, `), b[1:]...)
 }
 
 type roundTripFunc func(*http.Request) (*http.Response, error)
@@ -100,6 +136,23 @@ func TestClient_Error(t *testing.T) {
 				t.Fatalf("got: %T, want: *jsontext.SyntacticError", decErr.Err)
 			}
 		})
+
+		t.Run("unknown member", func(t *testing.T) {
+			c, err := NewClient(WithBaseURL(newBodyServer(t, http.StatusOK, "application/json", withUnknownMember(t, PackageImportedBy{}))))
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			if _, err := c.GetImportedBy(t.Context(), "", nil); err == nil {
+				t.Fatal("the package's own type accepted a member it does not declare")
+			} else if _, ok := errors.AsType[*api.DecodingError](err); !ok {
+				t.Fatalf("got: %T, want: *api.DecodingError", err)
+			}
+
+			if _, err := c.GetImportedByWithResult[struct{}](t.Context(), "", nil); err != nil {
+				t.Fatalf("a type of the caller's own: %v", err)
+			}
+		})
 	})
 
 	t.Run("GetModule", func(t *testing.T) {
@@ -166,6 +219,23 @@ func TestClient_Error(t *testing.T) {
 				t.Fatalf("got: %T, want: *api.DecodingError", err)
 			} else if _, ok := errors.AsType[*jsontext.SyntacticError](decErr.Err); !ok {
 				t.Fatalf("got: %T, want: *jsontext.SyntacticError", decErr.Err)
+			}
+		})
+
+		t.Run("unknown member", func(t *testing.T) {
+			c, err := NewClient(WithBaseURL(newBodyServer(t, http.StatusOK, "application/json", withUnknownMember(t, Module{}))))
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			if _, err := c.GetModule(t.Context(), "", nil); err == nil {
+				t.Fatal("the package's own type accepted a member it does not declare")
+			} else if _, ok := errors.AsType[*api.DecodingError](err); !ok {
+				t.Fatalf("got: %T, want: *api.DecodingError", err)
+			}
+
+			if _, err := c.GetModuleWithResult[struct{}](t.Context(), "", nil); err != nil {
+				t.Fatalf("a type of the caller's own: %v", err)
 			}
 		})
 	})
@@ -236,6 +306,23 @@ func TestClient_Error(t *testing.T) {
 				t.Fatalf("got: %T, want: *jsontext.SyntacticError", decErr.Err)
 			}
 		})
+
+		t.Run("unknown member", func(t *testing.T) {
+			c, err := NewClient(WithBaseURL(newBodyServer(t, http.StatusOK, "application/json", withUnknownMember(t, Package{}))))
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			if _, err := c.GetPackage(t.Context(), "", nil); err == nil {
+				t.Fatal("the package's own type accepted a member it does not declare")
+			} else if _, ok := errors.AsType[*api.DecodingError](err); !ok {
+				t.Fatalf("got: %T, want: *api.DecodingError", err)
+			}
+
+			if _, err := c.GetPackageWithResult[struct{}](t.Context(), "", nil); err != nil {
+				t.Fatalf("a type of the caller's own: %v", err)
+			}
+		})
 	})
 
 	t.Run("GetPackages", func(t *testing.T) {
@@ -302,6 +389,23 @@ func TestClient_Error(t *testing.T) {
 				t.Fatalf("got: %T, want: *api.DecodingError", err)
 			} else if _, ok := errors.AsType[*jsontext.SyntacticError](decErr.Err); !ok {
 				t.Fatalf("got: %T, want: *jsontext.SyntacticError", decErr.Err)
+			}
+		})
+
+		t.Run("unknown member", func(t *testing.T) {
+			c, err := NewClient(WithBaseURL(newBodyServer(t, http.StatusOK, "application/json", withUnknownMember(t, PackagesResponse{}))))
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			if _, err := c.GetPackages(t.Context(), "", nil); err == nil {
+				t.Fatal("the package's own type accepted a member it does not declare")
+			} else if _, ok := errors.AsType[*api.DecodingError](err); !ok {
+				t.Fatalf("got: %T, want: *api.DecodingError", err)
+			}
+
+			if _, err := c.GetPackagesWithResult[struct{}](t.Context(), "", nil); err != nil {
+				t.Fatalf("a type of the caller's own: %v", err)
 			}
 		})
 	})
@@ -372,6 +476,23 @@ func TestClient_Error(t *testing.T) {
 				t.Fatalf("got: %T, want: *jsontext.SyntacticError", decErr.Err)
 			}
 		})
+
+		t.Run("unknown member", func(t *testing.T) {
+			c, err := NewClient(WithBaseURL(newBodyServer(t, http.StatusOK, "application/json", withUnknownMember(t, PaginatedResponse_SearchResult{}))))
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			if _, err := c.GetSearch(t.Context(), nil); err == nil {
+				t.Fatal("the package's own type accepted a member it does not declare")
+			} else if _, ok := errors.AsType[*api.DecodingError](err); !ok {
+				t.Fatalf("got: %T, want: *api.DecodingError", err)
+			}
+
+			if _, err := c.GetSearchWithResult[struct{}](t.Context(), nil); err != nil {
+				t.Fatalf("a type of the caller's own: %v", err)
+			}
+		})
 	})
 
 	t.Run("GetSymbols", func(t *testing.T) {
@@ -438,6 +559,23 @@ func TestClient_Error(t *testing.T) {
 				t.Fatalf("got: %T, want: *api.DecodingError", err)
 			} else if _, ok := errors.AsType[*jsontext.SyntacticError](decErr.Err); !ok {
 				t.Fatalf("got: %T, want: *jsontext.SyntacticError", decErr.Err)
+			}
+		})
+
+		t.Run("unknown member", func(t *testing.T) {
+			c, err := NewClient(WithBaseURL(newBodyServer(t, http.StatusOK, "application/json", withUnknownMember(t, PackageSymbols{}))))
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			if _, err := c.GetSymbols(t.Context(), "", nil); err == nil {
+				t.Fatal("the package's own type accepted a member it does not declare")
+			} else if _, ok := errors.AsType[*api.DecodingError](err); !ok {
+				t.Fatalf("got: %T, want: *api.DecodingError", err)
+			}
+
+			if _, err := c.GetSymbolsWithResult[struct{}](t.Context(), "", nil); err != nil {
+				t.Fatalf("a type of the caller's own: %v", err)
 			}
 		})
 	})
@@ -508,6 +646,23 @@ func TestClient_Error(t *testing.T) {
 				t.Fatalf("got: %T, want: *jsontext.SyntacticError", decErr.Err)
 			}
 		})
+
+		t.Run("unknown member", func(t *testing.T) {
+			c, err := NewClient(WithBaseURL(newBodyServer(t, http.StatusOK, "application/json", withUnknownMember(t, PaginatedResponse_ModuleVersion{}))))
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			if _, err := c.GetVersions(t.Context(), "", nil); err == nil {
+				t.Fatal("the package's own type accepted a member it does not declare")
+			} else if _, ok := errors.AsType[*api.DecodingError](err); !ok {
+				t.Fatalf("got: %T, want: *api.DecodingError", err)
+			}
+
+			if _, err := c.GetVersionsWithResult[struct{}](t.Context(), "", nil); err != nil {
+				t.Fatalf("a type of the caller's own: %v", err)
+			}
+		})
 	})
 
 	t.Run("GetVulns", func(t *testing.T) {
@@ -576,6 +731,368 @@ func TestClient_Error(t *testing.T) {
 				t.Fatalf("got: %T, want: *jsontext.SyntacticError", decErr.Err)
 			}
 		})
+
+		t.Run("unknown member", func(t *testing.T) {
+			c, err := NewClient(WithBaseURL(newBodyServer(t, http.StatusOK, "application/json", withUnknownMember(t, PaginatedResponse_Vulnerability{}))))
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			if _, err := c.GetVulns(t.Context(), "", nil); err == nil {
+				t.Fatal("the package's own type accepted a member it does not declare")
+			} else if _, ok := errors.AsType[*api.DecodingError](err); !ok {
+				t.Fatalf("got: %T, want: *api.DecodingError", err)
+			}
+
+			if _, err := c.GetVulnsWithResult[struct{}](t.Context(), "", nil); err != nil {
+				t.Fatalf("a type of the caller's own: %v", err)
+			}
+		})
+	})
+}
+
+// TestClient_Params sets every parameter it can to a value other than its zero value, and finds each in the request,
+// under its name and written as the client must write it.
+func TestClient_Params(t *testing.T) {
+	t.Run("GetImportedBy", func(t *testing.T) {
+		var got *http.Request
+
+		c, err := NewClient(WithHTTPClient(&http.Client{Transport: roundTripFunc(
+			func(r *http.Request) (*http.Response, error) {
+				got = r
+
+				return &http.Response{StatusCode: http.StatusTeapot, Header: http.Header{}, Body: http.NoBody, Request: r}, nil
+			},
+		)}))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		_, _ = c.GetImportedBy(t.Context(), "", &GetImportedByParams{
+			Module:  "module",
+			Version: "version",
+			Limit:   4,
+			Token:   "token",
+			Filter:  "filter",
+		})
+
+		if got == nil {
+			t.Fatal("no request was sent")
+		}
+
+		if v := got.URL.Query().Get("module"); v != "module" {
+			t.Errorf("query %s: got %q, want %q", "module", v, "module")
+		}
+		if v := got.URL.Query().Get("version"); v != "version" {
+			t.Errorf("query %s: got %q, want %q", "version", v, "version")
+		}
+		if v := got.URL.Query().Get("limit"); v != "4" {
+			t.Errorf("query %s: got %q, want %q", "limit", v, "4")
+		}
+		if v := got.URL.Query().Get("token"); v != "token" {
+			t.Errorf("query %s: got %q, want %q", "token", v, "token")
+		}
+		if v := got.URL.Query().Get("filter"); v != "filter" {
+			t.Errorf("query %s: got %q, want %q", "filter", v, "filter")
+		}
+	})
+	t.Run("GetModule", func(t *testing.T) {
+		var got *http.Request
+
+		c, err := NewClient(WithHTTPClient(&http.Client{Transport: roundTripFunc(
+			func(r *http.Request) (*http.Response, error) {
+				got = r
+
+				return &http.Response{StatusCode: http.StatusTeapot, Header: http.Header{}, Body: http.NoBody, Request: r}, nil
+			},
+		)}))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		_, _ = c.GetModule(t.Context(), "", &GetModuleParams{
+			Version:  "version",
+			Licenses: true,
+			Readme:   true,
+		})
+
+		if got == nil {
+			t.Fatal("no request was sent")
+		}
+
+		if v := got.URL.Query().Get("version"); v != "version" {
+			t.Errorf("query %s: got %q, want %q", "version", v, "version")
+		}
+		if v := got.URL.Query().Get("licenses"); v != "true" {
+			t.Errorf("query %s: got %q, want %q", "licenses", v, "true")
+		}
+		if v := got.URL.Query().Get("readme"); v != "true" {
+			t.Errorf("query %s: got %q, want %q", "readme", v, "true")
+		}
+	})
+	t.Run("GetPackage", func(t *testing.T) {
+		var got *http.Request
+
+		c, err := NewClient(WithHTTPClient(&http.Client{Transport: roundTripFunc(
+			func(r *http.Request) (*http.Response, error) {
+				got = r
+
+				return &http.Response{StatusCode: http.StatusTeapot, Header: http.Header{}, Body: http.NoBody, Request: r}, nil
+			},
+		)}))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		_, _ = c.GetPackage(t.Context(), "", &GetPackageParams{
+			Module:   "module",
+			Version:  "version",
+			Goos:     "goos",
+			Goarch:   "goarch",
+			Doc:      "doc",
+			Examples: true,
+			Imports:  true,
+			Licenses: true,
+		})
+
+		if got == nil {
+			t.Fatal("no request was sent")
+		}
+
+		if v := got.URL.Query().Get("module"); v != "module" {
+			t.Errorf("query %s: got %q, want %q", "module", v, "module")
+		}
+		if v := got.URL.Query().Get("version"); v != "version" {
+			t.Errorf("query %s: got %q, want %q", "version", v, "version")
+		}
+		if v := got.URL.Query().Get("goos"); v != "goos" {
+			t.Errorf("query %s: got %q, want %q", "goos", v, "goos")
+		}
+		if v := got.URL.Query().Get("goarch"); v != "goarch" {
+			t.Errorf("query %s: got %q, want %q", "goarch", v, "goarch")
+		}
+		if v := got.URL.Query().Get("doc"); v != "doc" {
+			t.Errorf("query %s: got %q, want %q", "doc", v, "doc")
+		}
+		if v := got.URL.Query().Get("examples"); v != "true" {
+			t.Errorf("query %s: got %q, want %q", "examples", v, "true")
+		}
+		if v := got.URL.Query().Get("imports"); v != "true" {
+			t.Errorf("query %s: got %q, want %q", "imports", v, "true")
+		}
+		if v := got.URL.Query().Get("licenses"); v != "true" {
+			t.Errorf("query %s: got %q, want %q", "licenses", v, "true")
+		}
+	})
+	t.Run("GetPackages", func(t *testing.T) {
+		var got *http.Request
+
+		c, err := NewClient(WithHTTPClient(&http.Client{Transport: roundTripFunc(
+			func(r *http.Request) (*http.Response, error) {
+				got = r
+
+				return &http.Response{StatusCode: http.StatusTeapot, Header: http.Header{}, Body: http.NoBody, Request: r}, nil
+			},
+		)}))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		_, _ = c.GetPackages(t.Context(), "", &GetPackagesParams{
+			Version: "version",
+			Limit:   3,
+			Token:   "token",
+			Filter:  "filter",
+		})
+
+		if got == nil {
+			t.Fatal("no request was sent")
+		}
+
+		if v := got.URL.Query().Get("version"); v != "version" {
+			t.Errorf("query %s: got %q, want %q", "version", v, "version")
+		}
+		if v := got.URL.Query().Get("limit"); v != "3" {
+			t.Errorf("query %s: got %q, want %q", "limit", v, "3")
+		}
+		if v := got.URL.Query().Get("token"); v != "token" {
+			t.Errorf("query %s: got %q, want %q", "token", v, "token")
+		}
+		if v := got.URL.Query().Get("filter"); v != "filter" {
+			t.Errorf("query %s: got %q, want %q", "filter", v, "filter")
+		}
+	})
+	t.Run("GetSearch", func(t *testing.T) {
+		var got *http.Request
+
+		c, err := NewClient(WithHTTPClient(&http.Client{Transport: roundTripFunc(
+			func(r *http.Request) (*http.Response, error) {
+				got = r
+
+				return &http.Response{StatusCode: http.StatusTeapot, Header: http.Header{}, Body: http.NoBody, Request: r}, nil
+			},
+		)}))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		_, _ = c.GetSearch(t.Context(), &GetSearchParams{
+			Q:      "q",
+			Symbol: "symbol",
+			Limit:  4,
+			Token:  "token",
+			Filter: "filter",
+		})
+
+		if got == nil {
+			t.Fatal("no request was sent")
+		}
+
+		if v := got.URL.Query().Get("q"); v != "q" {
+			t.Errorf("query %s: got %q, want %q", "q", v, "q")
+		}
+		if v := got.URL.Query().Get("symbol"); v != "symbol" {
+			t.Errorf("query %s: got %q, want %q", "symbol", v, "symbol")
+		}
+		if v := got.URL.Query().Get("limit"); v != "4" {
+			t.Errorf("query %s: got %q, want %q", "limit", v, "4")
+		}
+		if v := got.URL.Query().Get("token"); v != "token" {
+			t.Errorf("query %s: got %q, want %q", "token", v, "token")
+		}
+		if v := got.URL.Query().Get("filter"); v != "filter" {
+			t.Errorf("query %s: got %q, want %q", "filter", v, "filter")
+		}
+	})
+	t.Run("GetSymbols", func(t *testing.T) {
+		var got *http.Request
+
+		c, err := NewClient(WithHTTPClient(&http.Client{Transport: roundTripFunc(
+			func(r *http.Request) (*http.Response, error) {
+				got = r
+
+				return &http.Response{StatusCode: http.StatusTeapot, Header: http.Header{}, Body: http.NoBody, Request: r}, nil
+			},
+		)}))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		_, _ = c.GetSymbols(t.Context(), "", &GetSymbolsParams{
+			Module:  "module",
+			Version: "version",
+			Goos:    "goos",
+			Goarch:  "goarch",
+			Limit:   6,
+			Token:   "token",
+			Filter:  "filter",
+		})
+
+		if got == nil {
+			t.Fatal("no request was sent")
+		}
+
+		if v := got.URL.Query().Get("module"); v != "module" {
+			t.Errorf("query %s: got %q, want %q", "module", v, "module")
+		}
+		if v := got.URL.Query().Get("version"); v != "version" {
+			t.Errorf("query %s: got %q, want %q", "version", v, "version")
+		}
+		if v := got.URL.Query().Get("goos"); v != "goos" {
+			t.Errorf("query %s: got %q, want %q", "goos", v, "goos")
+		}
+		if v := got.URL.Query().Get("goarch"); v != "goarch" {
+			t.Errorf("query %s: got %q, want %q", "goarch", v, "goarch")
+		}
+		if v := got.URL.Query().Get("limit"); v != "6" {
+			t.Errorf("query %s: got %q, want %q", "limit", v, "6")
+		}
+		if v := got.URL.Query().Get("token"); v != "token" {
+			t.Errorf("query %s: got %q, want %q", "token", v, "token")
+		}
+		if v := got.URL.Query().Get("filter"); v != "filter" {
+			t.Errorf("query %s: got %q, want %q", "filter", v, "filter")
+		}
+	})
+	t.Run("GetVersions", func(t *testing.T) {
+		var got *http.Request
+
+		c, err := NewClient(WithHTTPClient(&http.Client{Transport: roundTripFunc(
+			func(r *http.Request) (*http.Response, error) {
+				got = r
+
+				return &http.Response{StatusCode: http.StatusTeapot, Header: http.Header{}, Body: http.NoBody, Request: r}, nil
+			},
+		)}))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		_, _ = c.GetVersions(t.Context(), "", &GetVersionsParams{
+			Limit:  2,
+			Token:  "token",
+			Filter: "filter",
+			Pseudo: true,
+		})
+
+		if got == nil {
+			t.Fatal("no request was sent")
+		}
+
+		if v := got.URL.Query().Get("limit"); v != "2" {
+			t.Errorf("query %s: got %q, want %q", "limit", v, "2")
+		}
+		if v := got.URL.Query().Get("token"); v != "token" {
+			t.Errorf("query %s: got %q, want %q", "token", v, "token")
+		}
+		if v := got.URL.Query().Get("filter"); v != "filter" {
+			t.Errorf("query %s: got %q, want %q", "filter", v, "filter")
+		}
+		if v := got.URL.Query().Get("pseudo"); v != "true" {
+			t.Errorf("query %s: got %q, want %q", "pseudo", v, "true")
+		}
+	})
+	t.Run("GetVulns", func(t *testing.T) {
+		var got *http.Request
+
+		c, err := NewClient(WithHTTPClient(&http.Client{Transport: roundTripFunc(
+			func(r *http.Request) (*http.Response, error) {
+				got = r
+
+				return &http.Response{StatusCode: http.StatusTeapot, Header: http.Header{}, Body: http.NoBody, Request: r}, nil
+			},
+		)}))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		_, _ = c.GetVulns(t.Context(), "", &GetVulnsParams{
+			Module:  "module",
+			Version: "version",
+			Limit:   4,
+			Token:   "token",
+			Filter:  "filter",
+		})
+
+		if got == nil {
+			t.Fatal("no request was sent")
+		}
+
+		if v := got.URL.Query().Get("module"); v != "module" {
+			t.Errorf("query %s: got %q, want %q", "module", v, "module")
+		}
+		if v := got.URL.Query().Get("version"); v != "version" {
+			t.Errorf("query %s: got %q, want %q", "version", v, "version")
+		}
+		if v := got.URL.Query().Get("limit"); v != "4" {
+			t.Errorf("query %s: got %q, want %q", "limit", v, "4")
+		}
+		if v := got.URL.Query().Get("token"); v != "token" {
+			t.Errorf("query %s: got %q, want %q", "token", v, "token")
+		}
+		if v := got.URL.Query().Get("filter"); v != "filter" {
+			t.Errorf("query %s: got %q, want %q", "filter", v, "filter")
+		}
 	})
 }
 
