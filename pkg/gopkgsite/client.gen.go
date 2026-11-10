@@ -90,7 +90,7 @@ func (c *Client) GetImportedBy(ctx context.Context, path string, params *GetImpo
 //
 //	GET /imported-by/{path}
 func (c *Client) GetImportedByWithResult[R any](ctx context.Context, path string, params *GetImportedByParams) (*R, error) {
-	u := c.baseURL.JoinPath("imported-by", path)
+	u := c.baseURL.JoinPath("imported-by", escapePathSegments(path))
 	if params != nil {
 		q := make(url.Values, 5)
 
@@ -184,7 +184,7 @@ func (c *Client) GetModule(ctx context.Context, path string, params *GetModulePa
 //
 //	GET /module/{path}
 func (c *Client) GetModuleWithResult[R any](ctx context.Context, path string, params *GetModuleParams) (*R, error) {
-	u := c.baseURL.JoinPath("module", path)
+	u := c.baseURL.JoinPath("module", escapePathSegments(path))
 	if params != nil {
 		q := make(url.Values, 3)
 
@@ -270,7 +270,7 @@ func (c *Client) GetPackage(ctx context.Context, path string, params *GetPackage
 //
 //	GET /package/{path}
 func (c *Client) GetPackageWithResult[R any](ctx context.Context, path string, params *GetPackageParams) (*R, error) {
-	u := c.baseURL.JoinPath("package", path)
+	u := c.baseURL.JoinPath("package", escapePathSegments(path))
 	if params != nil {
 		q := make(url.Values, 8)
 
@@ -380,7 +380,7 @@ func (c *Client) GetPackages(ctx context.Context, path string, params *GetPackag
 //
 //	GET /packages/{path}
 func (c *Client) GetPackagesWithResult[R any](ctx context.Context, path string, params *GetPackagesParams) (*R, error) {
-	u := c.baseURL.JoinPath("packages", path)
+	u := c.baseURL.JoinPath("packages", escapePathSegments(path))
 	if params != nil {
 		q := make(url.Values, 4)
 
@@ -570,7 +570,7 @@ func (c *Client) GetSymbols(ctx context.Context, path string, params *GetSymbols
 //
 //	GET /symbols/{path}
 func (c *Client) GetSymbolsWithResult[R any](ctx context.Context, path string, params *GetSymbolsParams) (*R, error) {
-	u := c.baseURL.JoinPath("symbols", path)
+	u := c.baseURL.JoinPath("symbols", escapePathSegments(path))
 	if params != nil {
 		q := make(url.Values, 7)
 
@@ -682,7 +682,7 @@ func (c *Client) GetVersions(ctx context.Context, path string, params *GetVersio
 //
 //	GET /versions/{path}
 func (c *Client) GetVersionsWithResult[R any](ctx context.Context, path string, params *GetVersionsParams) (*R, error) {
-	u := c.baseURL.JoinPath("versions", path)
+	u := c.baseURL.JoinPath("versions", escapePathSegments(path))
 	if params != nil {
 		q := make(url.Values, 4)
 
@@ -776,7 +776,7 @@ func (c *Client) GetVulns(ctx context.Context, path string, params *GetVulnsPara
 //
 //	GET /vulns/{path}
 func (c *Client) GetVulnsWithResult[R any](ctx context.Context, path string, params *GetVulnsParams) (*R, error) {
-	u := c.baseURL.JoinPath("vulns", path)
+	u := c.baseURL.JoinPath("vulns", escapePathSegments(path))
 	if params != nil {
 		q := make(url.Values, 5)
 
@@ -856,4 +856,20 @@ func (c *Client) GetVulnsWithResult[R any](ctx context.Context, path string, par
 			return nil, api.NewErrUnknownContentType(rsp)
 		}
 	}
+}
+
+// escapePathSegments escapes s, a path parameter that is a path of its own, part by part: its slashes stay slashes,
+// and a part of . or .. is escaped too, so the client does not drop it, nor the part before it, from the path.
+func escapePathSegments(s string) string {
+	parts := strings.Split(s, "/")
+	for i, part := range parts {
+		switch part {
+		case ".", "..":
+			parts[i] = strings.ReplaceAll(part, ".", "%2E")
+		default:
+			parts[i] = url.PathEscape(part)
+		}
+	}
+
+	return strings.Join(parts, "/")
 }
