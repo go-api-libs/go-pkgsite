@@ -977,7 +977,8 @@
         "required": true,
         "schema": {
           "type": "string"
-        }
+        },
+        "x-allow-slashes": true
       },
       "packageInPath": {
         "name": "path",
@@ -986,7 +987,8 @@
         "required": true,
         "schema": {
           "type": "string"
-        }
+        },
+        "x-allow-slashes": true
       },
       "path": {
         "name": "path",
@@ -995,7 +997,8 @@
         "required": true,
         "schema": {
           "type": "string"
-        }
+        },
+        "x-allow-slashes": true
       },
       "pseudo": {
         "name": "pseudo",
