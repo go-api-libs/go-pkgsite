@@ -165,6 +165,19 @@ func (op Operation) NilParamsExpr() string {
 	return "nil"
 }
 
+// ServePattern is the path template as an [http.ServeMux] pattern: a path parameter that keeps its slashes, see
+// [Param.AllowSlashes], matches the rest of the path where it comes last, as {path...}. Elsewhere a pattern cannot hold
+// more than one segment of it.
+func (op Operation) ServePattern() string {
+	for _, p := range op.PathParams {
+		if placeholder := "{" + p.JSONName + "}"; p.AllowSlashes && strings.HasSuffix(op.PathTemplate, placeholder) {
+			return strings.TrimSuffix(op.PathTemplate, placeholder) + "{" + p.JSONName + "...}"
+		}
+	}
+
+	return op.PathTemplate
+}
+
 // JSPathTemplate returns the path template with {jsonName} placeholders replaced
 // by ${goName} JavaScript template-literal interpolations, and those of fixed
 // parameters by their value.
@@ -459,8 +472,12 @@ type Param struct {
 	IsUnix bool `json:"isUnix,omitzero"`
 	// IsDateBasic is true when Type is "civil.Date" but the schema is a string of format date-basic, such as
 	// "20260320", which FormatExpr writes and ParseExpr reads.
-	IsDateBasic bool   `json:"isDateBasic,omitzero"`
-	Description string `json:"description,omitzero"`
+	IsDateBasic bool `json:"isDateBasic,omitzero"`
+	// AllowSlashes is set for a path parameter marked x-allow-slashes, a path of its own, as pkg.go.dev's
+	// /package/{path} takes golang.org/x/time/rate: its slashes stay slashes, where any other path parameter's are
+	// escaped, as OpenAPI requires.
+	AllowSlashes bool   `json:"allowSlashes,omitzero"`
+	Description  string `json:"description,omitzero"`
 	// Item is one element of an array parameter, with v as its variable.
 	Item *Param `json:"item,omitzero"`
 	// Props are the members of an object parameter, each with the struct's field as its variable.
@@ -598,10 +615,35 @@ func (rs Responses) HasDefault() bool {
 	return slices.ContainsFunc(rs, func(r Response) bool { return r.StatusCode == "default" })
 }
 
+// InMatchOrder is the responses in the order a status code is matched against them: an exact code takes precedence
+// over the range it is in, so the ranges come after the codes.
+func (rs Responses) InMatchOrder() Responses {
+	out := slices.Clone(rs)
+	slices.SortStableFunc(out, func(a, b Response) int {
+		switch {
+		case a.IsRange == b.IsRange:
+			return 0
+		case a.IsRange:
+			return 1
+		default:
+			return -1
+		}
+	})
+
+	return out
+}
+
+// HasRange reports whether a response is for a range of codes, as 2XX, which a switch on the code alone cannot match.
+func (rs Responses) HasRange() bool {
+	return slices.ContainsFunc(rs, func(r Response) bool { return r.IsRange })
+}
+
 // Response represents one expected HTTP response from an operation.
 type Response struct {
-	StatusCode  string  `json:"statusCode,omitzero"`
-	GoConstant  string  `json:"goConstant,omitzero"`
+	StatusCode string `json:"statusCode,omitzero"`
+	GoConstant string `json:"goConstant,omitzero"`
+	// IsRange is true for a range of codes, as 2XX, whose GoConstant is the first code in it.
+	IsRange     bool    `json:"isRange,omitzero"`
 	Description string  `json:"description,omitzero"`
 	ContentType string  `json:"contentType,omitzero"`
 	GoType      *GoType `json:"goType,omitempty"`

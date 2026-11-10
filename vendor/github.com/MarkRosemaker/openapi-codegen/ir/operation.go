@@ -6,6 +6,7 @@ import (
 	"encoding/json/v2"
 	"fmt"
 	"net/http"
+	"net/url"
 	"slices"
 	"strconv"
 	"strings"
@@ -269,6 +270,7 @@ func fromParam(p *openapi.Parameter, apiTitle string) (Param, error) {
 	}
 
 	param.GoName = strcase.ToGoCamel(p.Name)
+	param.AllowSlashes = p.In == openapi.ParameterLocationPath && allowsSlashes(p)
 
 	param.FieldName = goPascal(p.Name)
 
@@ -444,7 +446,9 @@ func segmentExpr(seg string, params map[string]Param) string {
 
 		name := seg[open+1 : close]
 		if p, ok := params[name]; ok {
-			parts = append(parts, p.FormatExpr())
+			// JoinPath takes its elements as escaped path text, so a parameter is escaped, or a slash in it would
+			// separate segments and a percent sign start an escape
+			parts = append(parts, p.PathExpr())
 		} else {
 			parts = append(parts, strconv.Quote(name))
 		}
@@ -579,6 +583,80 @@ func (p Param) FormatExpr() string {
 	}
 }
 
+// PathExpr is the Go expression of the parameter in a path, escaped where its text can hold what a path reads as its
+// own: url.URL.JoinPath takes its elements as escaped path text, so a percent sign would make it drop the path, and a
+// slash would separate segments, as OpenAPI says a path parameter's never does. A parameter marked x-allow-slashes,
+// see [Param.AllowSlashes], keeps its slashes, and is escaped part by part. A fixed value is escaped as the code is
+// generated; a number, a UUID or a date never needs it.
+func (p Param) PathExpr() string {
+	expr := p.FormatExpr()
+
+	if p.Value != "" {
+		if v, err := strconv.Unquote(expr); err == nil {
+			if p.AllowSlashes {
+				return strconv.Quote(escapePathSegments(v))
+			}
+
+			return strconv.Quote(url.PathEscape(v))
+		}
+	}
+
+	tp := cmp.Or(p.BaseType, p.Type)
+	if p.Value == "" && p.GlobalType == "" {
+		switch tp {
+		case "bool", "int", "int32", "int64", "uint", "uint32", "uint64", "float32", "float64",
+			"uuid.UUID", "time.Duration", "civil.Date":
+			return expr
+		case "time.Time":
+			if p.IsUnix {
+				return expr
+			}
+		}
+	}
+
+	if p.AllowSlashes {
+		return "escapePathSegments(" + expr + ")"
+	}
+
+	return "url.PathEscape(" + expr + ")"
+}
+
+// escapePathSegments is what the generated function of that name makes of s, for a fixed value.
+func escapePathSegments(s string) string {
+	parts := strings.Split(s, "/")
+	for i, part := range parts {
+		switch part {
+		case ".", "..":
+			parts[i] = strings.ReplaceAll(part, ".", "%2E")
+		default:
+			parts[i] = url.PathEscape(part)
+		}
+	}
+
+	return strings.Join(parts, "/")
+}
+
+// allowsSlashes reports whether p is marked x-allow-slashes: true.
+func allowsSlashes(p *openapi.Parameter) bool {
+	if len(p.Extensions) == 0 {
+		return false
+	}
+
+	var ext struct {
+		AllowSlashes bool `json:"x-allow-slashes"`
+	}
+
+	return json.Unmarshal(p.Extensions, &ext) == nil && ext.AllowSlashes
+}
+
+// EscapesPathSegments reports whether a path parameter keeps its slashes, which the generated escapePathSegments
+// escapes around.
+func (doc Document) EscapesPathSegments() bool {
+	return slices.ContainsFunc(doc.Operations, func(op Operation) bool {
+		return slices.ContainsFunc(op.PathParams, func(p Param) bool { return p.AllowSlashes })
+	})
+}
+
 func fromRequestBody(rb *openapi.RequestBody) (*ReqBody, error) {
 	for mr, mt := range rb.Content.ByIndex() {
 		if mt.Schema == nil {
@@ -672,6 +750,7 @@ func fromResponses(responses openapi.OperationResponses) (Responses, *GoType, bo
 		result = append(result, Response{
 			StatusCode:  string(code),
 			GoConstant:  goConst,
+			IsRange:     isRange(code),
 			Description: cmp.Or(respRef.Description, r.Description),
 			ContentType: contentType,
 			GoType:      goType,
@@ -695,10 +774,44 @@ func fromResponses(responses openapi.OperationResponses) (Responses, *GoType, bo
 	return result, successReturn, rawBytesSuccess, streamSuccess, emptySuccess, nil
 }
 
+func isRange(code openapi.StatusCode) bool {
+	_, ok := statusRange(code)
+	return ok
+}
+
+// statusRange is the first code of a range such as 2XX, and whether code is one.
+func statusRange(code openapi.StatusCode) (int, bool) {
+	if len(code) != 3 || code[1] != 'X' || code[2] != 'X' || code[0] < '1' || code[0] > '5' {
+		return 0, false
+	}
+
+	return int(code[0]-'0') * 100, true
+}
+
+// Condition is the Go condition the status code of a response of r's code meets, as rsp.StatusCode == http.StatusOK
+// or, for a range, rsp.StatusCode >= 200 && rsp.StatusCode < 300. It is empty for the default.
+func (r Response) Condition() string {
+	code := openapi.StatusCode(r.StatusCode)
+	if code == openapi.StatusCodeDefault {
+		return ""
+	}
+
+	if lo, ok := statusRange(code); ok {
+		return fmt.Sprintf("rsp.StatusCode >= %d && rsp.StatusCode < %d", lo, lo+100)
+	}
+
+	return "rsp.StatusCode == " + r.GoConstant
+}
+
 // statusCodeToConst converts an OpenAPI status code to its net/http constant name.
 func statusCodeToConst(code openapi.StatusCode) string {
 	if code == openapi.StatusCodeDefault {
 		return "default"
+	}
+
+	// a range, as 2XX, is written as the first code in it, which the server answers with
+	if lo, ok := statusRange(code); ok {
+		return statusCodeToConst(openapi.StatusCode(strconv.Itoa(lo)))
 	}
 
 	n, err := strconv.Atoi(string(code))
