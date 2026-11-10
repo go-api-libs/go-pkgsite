@@ -148,10 +148,6 @@ func TestClient_Error(t *testing.T) {
 			} else if _, ok := errors.AsType[*api.DecodingError](err); !ok {
 				t.Fatalf("got: %T, want: *api.DecodingError", err)
 			}
-
-			if _, err := c.GetImportedByWithResult[struct{}](t.Context(), "", nil); err != nil {
-				t.Fatalf("a type of the caller's own: %v", err)
-			}
 		})
 	})
 
@@ -232,10 +228,6 @@ func TestClient_Error(t *testing.T) {
 				t.Fatal("the package's own type accepted a member it does not declare")
 			} else if _, ok := errors.AsType[*api.DecodingError](err); !ok {
 				t.Fatalf("got: %T, want: *api.DecodingError", err)
-			}
-
-			if _, err := c.GetModuleWithResult[struct{}](t.Context(), "", nil); err != nil {
-				t.Fatalf("a type of the caller's own: %v", err)
 			}
 		})
 	})
@@ -318,10 +310,6 @@ func TestClient_Error(t *testing.T) {
 			} else if _, ok := errors.AsType[*api.DecodingError](err); !ok {
 				t.Fatalf("got: %T, want: *api.DecodingError", err)
 			}
-
-			if _, err := c.GetPackageWithResult[struct{}](t.Context(), "", nil); err != nil {
-				t.Fatalf("a type of the caller's own: %v", err)
-			}
 		})
 	})
 
@@ -402,10 +390,6 @@ func TestClient_Error(t *testing.T) {
 				t.Fatal("the package's own type accepted a member it does not declare")
 			} else if _, ok := errors.AsType[*api.DecodingError](err); !ok {
 				t.Fatalf("got: %T, want: *api.DecodingError", err)
-			}
-
-			if _, err := c.GetPackagesWithResult[struct{}](t.Context(), "", nil); err != nil {
-				t.Fatalf("a type of the caller's own: %v", err)
 			}
 		})
 	})
@@ -488,10 +472,6 @@ func TestClient_Error(t *testing.T) {
 			} else if _, ok := errors.AsType[*api.DecodingError](err); !ok {
 				t.Fatalf("got: %T, want: *api.DecodingError", err)
 			}
-
-			if _, err := c.GetSearchWithResult[struct{}](t.Context(), nil); err != nil {
-				t.Fatalf("a type of the caller's own: %v", err)
-			}
 		})
 	})
 
@@ -572,10 +552,6 @@ func TestClient_Error(t *testing.T) {
 				t.Fatal("the package's own type accepted a member it does not declare")
 			} else if _, ok := errors.AsType[*api.DecodingError](err); !ok {
 				t.Fatalf("got: %T, want: *api.DecodingError", err)
-			}
-
-			if _, err := c.GetSymbolsWithResult[struct{}](t.Context(), "", nil); err != nil {
-				t.Fatalf("a type of the caller's own: %v", err)
 			}
 		})
 	})
@@ -658,10 +634,6 @@ func TestClient_Error(t *testing.T) {
 			} else if _, ok := errors.AsType[*api.DecodingError](err); !ok {
 				t.Fatalf("got: %T, want: *api.DecodingError", err)
 			}
-
-			if _, err := c.GetVersionsWithResult[struct{}](t.Context(), "", nil); err != nil {
-				t.Fatalf("a type of the caller's own: %v", err)
-			}
 		})
 	})
 
@@ -742,10 +714,6 @@ func TestClient_Error(t *testing.T) {
 				t.Fatal("the package's own type accepted a member it does not declare")
 			} else if _, ok := errors.AsType[*api.DecodingError](err); !ok {
 				t.Fatalf("got: %T, want: *api.DecodingError", err)
-			}
-
-			if _, err := c.GetVulnsWithResult[struct{}](t.Context(), "", nil); err != nil {
-				t.Fatalf("a type of the caller's own: %v", err)
 			}
 		})
 	})

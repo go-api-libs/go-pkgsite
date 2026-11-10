@@ -78,18 +78,6 @@ func NewClient(opts ...ClientOption) (*Client, error) {
 //
 //	GET /imported-by/{path}
 func (c *Client) GetImportedBy(ctx context.Context, path string, params *GetImportedByParams) (*PackageImportedBy, error) {
-	return c.GetImportedByWithResult[PackageImportedBy](ctx, path, params)
-}
-
-// Paths of packages importing the package at {path},
-// not including packages in the same module.
-// Filtering is applied to the list of paths in the response.
-// Only paths that match the filter query parameter are returned.
-// Within a filter, the variable `path` is set to the import path.
-// You can define a custom result to unmarshal the response into.
-//
-//	GET /imported-by/{path}
-func (c *Client) GetImportedByWithResult[R any](ctx context.Context, path string, params *GetImportedByParams) (*R, error) {
 	u := c.baseURL.JoinPath("imported-by", escapePathSegments(path))
 	if params != nil {
 		q := make(url.Values, 5)
@@ -140,15 +128,8 @@ func (c *Client) GetImportedByWithResult[R any](ctx context.Context, path string
 		// Successful response
 		switch mt, _, _ := strings.Cut(rsp.Header.Get("Content-Type"), ";"); mt {
 		case "application/json":
-			var out R
-
-			// a type of the caller's own declares only what it needs of the response, so it is decoded leniently
-			opts := jsonOptsLenient
-			if _, ok := any(&out).(*PackageImportedBy); ok {
-				opts = jsonOpts
-			}
-
-			if err := json.UnmarshalRead(rsp.Body, &out, opts); err != nil {
+			var out PackageImportedBy
+			if err := json.UnmarshalRead(rsp.Body, &out, jsonOpts); err != nil {
 				return nil, api.WrapDecodingError(rsp, err)
 			}
 
@@ -176,14 +157,6 @@ func (c *Client) GetImportedByWithResult[R any](ctx context.Context, path string
 //
 //	GET /module/{path}
 func (c *Client) GetModule(ctx context.Context, path string, params *GetModuleParams) (*Module, error) {
-	return c.GetModuleWithResult[Module](ctx, path, params)
-}
-
-// Information about the module at {path}.
-// You can define a custom result to unmarshal the response into.
-//
-//	GET /module/{path}
-func (c *Client) GetModuleWithResult[R any](ctx context.Context, path string, params *GetModuleParams) (*R, error) {
 	u := c.baseURL.JoinPath("module", escapePathSegments(path))
 	if params != nil {
 		q := make(url.Values, 3)
@@ -226,15 +199,8 @@ func (c *Client) GetModuleWithResult[R any](ctx context.Context, path string, pa
 		// Successful response
 		switch mt, _, _ := strings.Cut(rsp.Header.Get("Content-Type"), ";"); mt {
 		case "application/json":
-			var out R
-
-			// a type of the caller's own declares only what it needs of the response, so it is decoded leniently
-			opts := jsonOptsLenient
-			if _, ok := any(&out).(*Module); ok {
-				opts = jsonOpts
-			}
-
-			if err := json.UnmarshalRead(rsp.Body, &out, opts); err != nil {
+			var out Module
+			if err := json.UnmarshalRead(rsp.Body, &out, jsonOpts); err != nil {
 				return nil, api.WrapDecodingError(rsp, err)
 			}
 
@@ -262,14 +228,6 @@ func (c *Client) GetModuleWithResult[R any](ctx context.Context, path string, pa
 //
 //	GET /package/{path}
 func (c *Client) GetPackage(ctx context.Context, path string, params *GetPackageParams) (*Package, error) {
-	return c.GetPackageWithResult[Package](ctx, path, params)
-}
-
-// Information about the package at {path}.
-// You can define a custom result to unmarshal the response into.
-//
-//	GET /package/{path}
-func (c *Client) GetPackageWithResult[R any](ctx context.Context, path string, params *GetPackageParams) (*R, error) {
 	u := c.baseURL.JoinPath("package", escapePathSegments(path))
 	if params != nil {
 		q := make(url.Values, 8)
@@ -332,15 +290,8 @@ func (c *Client) GetPackageWithResult[R any](ctx context.Context, path string, p
 		// Successful response
 		switch mt, _, _ := strings.Cut(rsp.Header.Get("Content-Type"), ";"); mt {
 		case "application/json":
-			var out R
-
-			// a type of the caller's own declares only what it needs of the response, so it is decoded leniently
-			opts := jsonOptsLenient
-			if _, ok := any(&out).(*Package); ok {
-				opts = jsonOpts
-			}
-
-			if err := json.UnmarshalRead(rsp.Body, &out, opts); err != nil {
+			var out Package
+			if err := json.UnmarshalRead(rsp.Body, &out, jsonOpts); err != nil {
 				return nil, api.WrapDecodingError(rsp, err)
 			}
 
@@ -370,16 +321,6 @@ func (c *Client) GetPackageWithResult[R any](ctx context.Context, path string, p
 //
 //	GET /packages/{path}
 func (c *Client) GetPackages(ctx context.Context, path string, params *GetPackagesParams) (*PackagesResponse, error) {
-	return c.GetPackagesWithResult[PackagesResponse](ctx, path, params)
-}
-
-// Information about packages of the module at {path}.
-// Filtering is applied to the list of packages in the response.
-// Only packages that match the filter query parameter are returned.
-// You can define a custom result to unmarshal the response into.
-//
-//	GET /packages/{path}
-func (c *Client) GetPackagesWithResult[R any](ctx context.Context, path string, params *GetPackagesParams) (*R, error) {
 	u := c.baseURL.JoinPath("packages", escapePathSegments(path))
 	if params != nil {
 		q := make(url.Values, 4)
@@ -426,15 +367,8 @@ func (c *Client) GetPackagesWithResult[R any](ctx context.Context, path string, 
 		// Successful response
 		switch mt, _, _ := strings.Cut(rsp.Header.Get("Content-Type"), ";"); mt {
 		case "application/json":
-			var out R
-
-			// a type of the caller's own declares only what it needs of the response, so it is decoded leniently
-			opts := jsonOptsLenient
-			if _, ok := any(&out).(*PackagesResponse); ok {
-				opts = jsonOpts
-			}
-
-			if err := json.UnmarshalRead(rsp.Body, &out, opts); err != nil {
+			var out PackagesResponse
+			if err := json.UnmarshalRead(rsp.Body, &out, jsonOpts); err != nil {
 				return nil, api.WrapDecodingError(rsp, err)
 			}
 
@@ -463,15 +397,6 @@ func (c *Client) GetPackagesWithResult[R any](ctx context.Context, path string, 
 //
 //	GET /search
 func (c *Client) GetSearch(ctx context.Context, params *GetSearchParams) (*PaginatedResponse_SearchResult, error) {
-	return c.GetSearchWithResult[PaginatedResponse_SearchResult](ctx, params)
-}
-
-// Search results. Only results that match the filter query parameter are returned.
-// Results are sorted by how well the match the query, with the best match first.
-// You can define a custom result to unmarshal the response into.
-//
-//	GET /search
-func (c *Client) GetSearchWithResult[R any](ctx context.Context, params *GetSearchParams) (*R, error) {
 	u := c.baseURL.JoinPath("search")
 	if params != nil {
 		q := make(url.Values, 5)
@@ -522,15 +447,8 @@ func (c *Client) GetSearchWithResult[R any](ctx context.Context, params *GetSear
 		// Successful response
 		switch mt, _, _ := strings.Cut(rsp.Header.Get("Content-Type"), ";"); mt {
 		case "application/json":
-			var out R
-
-			// a type of the caller's own declares only what it needs of the response, so it is decoded leniently
-			opts := jsonOptsLenient
-			if _, ok := any(&out).(*PaginatedResponse_SearchResult); ok {
-				opts = jsonOpts
-			}
-
-			if err := json.UnmarshalRead(rsp.Body, &out, opts); err != nil {
+			var out PaginatedResponse_SearchResult
+			if err := json.UnmarshalRead(rsp.Body, &out, jsonOpts); err != nil {
 				return nil, api.WrapDecodingError(rsp, err)
 			}
 
@@ -560,16 +478,6 @@ func (c *Client) GetSearchWithResult[R any](ctx context.Context, params *GetSear
 //
 //	GET /symbols/{path}
 func (c *Client) GetSymbols(ctx context.Context, path string, params *GetSymbolsParams) (*PackageSymbols, error) {
-	return c.GetSymbolsWithResult[PackageSymbols](ctx, path, params)
-}
-
-// List of symbols for the package at {path}.
-// Filtering is applied to the list of symbols in the response.
-// Only symbols that match the filter query parameter are returned.
-// You can define a custom result to unmarshal the response into.
-//
-//	GET /symbols/{path}
-func (c *Client) GetSymbolsWithResult[R any](ctx context.Context, path string, params *GetSymbolsParams) (*R, error) {
 	u := c.baseURL.JoinPath("symbols", escapePathSegments(path))
 	if params != nil {
 		q := make(url.Values, 7)
@@ -628,15 +536,8 @@ func (c *Client) GetSymbolsWithResult[R any](ctx context.Context, path string, p
 		// Successful response
 		switch mt, _, _ := strings.Cut(rsp.Header.Get("Content-Type"), ";"); mt {
 		case "application/json":
-			var out R
-
-			// a type of the caller's own declares only what it needs of the response, so it is decoded leniently
-			opts := jsonOptsLenient
-			if _, ok := any(&out).(*PackageSymbols); ok {
-				opts = jsonOpts
-			}
-
-			if err := json.UnmarshalRead(rsp.Body, &out, opts); err != nil {
+			var out PackageSymbols
+			if err := json.UnmarshalRead(rsp.Body, &out, jsonOpts); err != nil {
 				return nil, api.WrapDecodingError(rsp, err)
 			}
 
@@ -669,19 +570,6 @@ func (c *Client) GetSymbolsWithResult[R any](ctx context.Context, path string, p
 //
 //	GET /versions/{path}
 func (c *Client) GetVersions(ctx context.Context, path string, params *GetVersionsParams) (*PaginatedResponse_ModuleVersion, error) {
-	return c.GetVersionsWithResult[PaginatedResponse_ModuleVersion](ctx, path, params)
-}
-
-// All versions of the module at {path}, including all major versions.
-// Versions are listed in descending order, with incompatible versions last.
-// Only tagged versions are returned, unless the pseudo query parameter is true.
-// In addition, only results that match the filter query parameter are returned.
-// The total in the response is -1 to indicate that the total number of results is unknown,
-// unless all results fit on a single page.
-// You can define a custom result to unmarshal the response into.
-//
-//	GET /versions/{path}
-func (c *Client) GetVersionsWithResult[R any](ctx context.Context, path string, params *GetVersionsParams) (*R, error) {
 	u := c.baseURL.JoinPath("versions", escapePathSegments(path))
 	if params != nil {
 		q := make(url.Values, 4)
@@ -728,15 +616,8 @@ func (c *Client) GetVersionsWithResult[R any](ctx context.Context, path string, 
 		// Successful response
 		switch mt, _, _ := strings.Cut(rsp.Header.Get("Content-Type"), ";"); mt {
 		case "application/json":
-			var out R
-
-			// a type of the caller's own declares only what it needs of the response, so it is decoded leniently
-			opts := jsonOptsLenient
-			if _, ok := any(&out).(*PaginatedResponse_ModuleVersion); ok {
-				opts = jsonOpts
-			}
-
-			if err := json.UnmarshalRead(rsp.Body, &out, opts); err != nil {
+			var out PaginatedResponse_ModuleVersion
+			if err := json.UnmarshalRead(rsp.Body, &out, jsonOpts); err != nil {
 				return nil, api.WrapDecodingError(rsp, err)
 			}
 
@@ -766,16 +647,6 @@ func (c *Client) GetVersionsWithResult[R any](ctx context.Context, path string, 
 //
 //	GET /vulns/{path}
 func (c *Client) GetVulns(ctx context.Context, path string, params *GetVulnsParams) (*PaginatedResponse_Vulnerability, error) {
-	return c.GetVulnsWithResult[PaginatedResponse_Vulnerability](ctx, path, params)
-}
-
-// Vulnerabilities of the module or package at {path}.
-// Data comes from the Go vulnerability database (https://vuln.go.dev).
-// Only results that match the filter query parameter are returned.
-// You can define a custom result to unmarshal the response into.
-//
-//	GET /vulns/{path}
-func (c *Client) GetVulnsWithResult[R any](ctx context.Context, path string, params *GetVulnsParams) (*R, error) {
 	u := c.baseURL.JoinPath("vulns", escapePathSegments(path))
 	if params != nil {
 		q := make(url.Values, 5)
@@ -826,15 +697,8 @@ func (c *Client) GetVulnsWithResult[R any](ctx context.Context, path string, par
 		// Successful response
 		switch mt, _, _ := strings.Cut(rsp.Header.Get("Content-Type"), ";"); mt {
 		case "application/json":
-			var out R
-
-			// a type of the caller's own declares only what it needs of the response, so it is decoded leniently
-			opts := jsonOptsLenient
-			if _, ok := any(&out).(*PaginatedResponse_Vulnerability); ok {
-				opts = jsonOpts
-			}
-
-			if err := json.UnmarshalRead(rsp.Body, &out, opts); err != nil {
+			var out PaginatedResponse_Vulnerability
+			if err := json.UnmarshalRead(rsp.Body, &out, jsonOpts); err != nil {
 				return nil, api.WrapDecodingError(rsp, err)
 			}
 
