@@ -107,7 +107,6 @@ func (c *Client) GetImportedBy(ctx context.Context, path string, params *GetImpo
 
 	req := (&http.Request{
 		Header: http.Header{
-			"Accept":     []string{"application/json"},
 			"User-Agent": []string{c.userAgent},
 		},
 		Host:       u.Host,
@@ -179,7 +178,6 @@ func (c *Client) GetModule(ctx context.Context, path string, params *GetModulePa
 
 	req := (&http.Request{
 		Header: http.Header{
-			"Accept":     []string{"application/json"},
 			"User-Agent": []string{c.userAgent},
 		},
 		Host:       u.Host,
@@ -271,7 +269,6 @@ func (c *Client) GetPackage(ctx context.Context, path string, params *GetPackage
 
 	req := (&http.Request{
 		Header: http.Header{
-			"Accept":     []string{"application/json"},
 			"User-Agent": []string{c.userAgent},
 		},
 		Host:       u.Host,
@@ -349,7 +346,6 @@ func (c *Client) GetPackages(ctx context.Context, path string, params *GetPackag
 
 	req := (&http.Request{
 		Header: http.Header{
-			"Accept":     []string{"application/json"},
 			"User-Agent": []string{c.userAgent},
 		},
 		Host:       u.Host,
@@ -430,7 +426,6 @@ func (c *Client) GetSearch(ctx context.Context, params *GetSearchParams) (*Pagin
 
 	req := (&http.Request{
 		Header: http.Header{
-			"Accept":     []string{"application/json"},
 			"User-Agent": []string{c.userAgent},
 		},
 		Host:       u.Host,
@@ -520,7 +515,6 @@ func (c *Client) GetSymbols(ctx context.Context, path string, params *GetSymbols
 
 	req := (&http.Request{
 		Header: http.Header{
-			"Accept":     []string{"application/json"},
 			"User-Agent": []string{c.userAgent},
 		},
 		Host:       u.Host,
@@ -601,7 +595,6 @@ func (c *Client) GetVersions(ctx context.Context, path string, params *GetVersio
 
 	req := (&http.Request{
 		Header: http.Header{
-			"Accept":     []string{"application/json"},
 			"User-Agent": []string{c.userAgent},
 		},
 		Host:       u.Host,
@@ -683,7 +676,6 @@ func (c *Client) GetVulns(ctx context.Context, path string, params *GetVulnsPara
 
 	req := (&http.Request{
 		Header: http.Header{
-			"Accept":     []string{"application/json"},
 			"User-Agent": []string{c.userAgent},
 		},
 		Host:       u.Host,
